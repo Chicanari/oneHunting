@@ -18,19 +18,18 @@ import javax.servlet.http.HttpServletResponse;
  * 
  */
 
-@WebServlet("/chat")
-public class ChatServlet extends HttpServlet {
+@WebServlet("/search")
+public class UserSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		doPost(request, response);
 	
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//チャット画面にフォワードさせる
+		//全体チャットにフォワードさせる ※search_resultに飛ばすように後々変更要
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
 		dispatcher.forward(request, response);
 		

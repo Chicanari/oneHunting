@@ -7,7 +7,20 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>柚香光</h1>
+<h1>ログイン</h1>
+<p>ログインを押したらチャット画面に飛びます</p>
+
+<form action="login" method="post">
+	
+	<p>ID:<input type="text" name="id"></p>
+	<p>PW:<input type="password" name="pw"></p>
+	
+	<p><input type="submit" value="ログイン"></p>
+	
+</form>
+
+<a href="signup.jsp">新規登録</a>
+
 
 </body>
 </html>

@@ -7,7 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>柚香光</h1>
+<h1>登録完了</h1>
+
+<form action="chat" method="post"><input type="submit" value="メインチャットに戻る"></form>
 
 </body>
 </html>
