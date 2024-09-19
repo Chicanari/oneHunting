@@ -37,7 +37,6 @@ public class SignupServlet extends HttpServlet {
 		//TODO: ユーザーのPWの入力値を７２文字までとする
 		//TODO: DBに登録するのは60文字　CHAR(60)
 		
-		
 		//パラメータの取得
 		String name = request.getParameter("name");
 		String id = request.getParameter("id");
@@ -45,18 +44,22 @@ public class SignupServlet extends HttpServlet {
 		String mail = request.getParameter("mail");
 		String ken = request.getParameter("ken");
 		
-		//入力値チェック
+		//入力値チェック(重複以外)
 		ProfileErr profileErr = new ProfileErr();
-		profileErr.account_InputValueCheck(name,id,pw,mail,ken);
+		String message = profileErr.account_InputValueCheck(name,id,pw,mail,ken);
 		
 		//DAOの接続
 		AccountDAO accountDAO = new AccountDAO();
-		//登録完了・失敗メッセージの表示
-		String message = accountDAO.userSignup(name,id,pw,mail,ken);
+		//ユーザ登録に合わせて、重複があった場合は重複メッセージを追加する
+		message += accountDAO.userSignup(name,id,pw,mail,ken);
+		
+		//メッセージが空の場合、空文字で上書き
+		if(message.isEmpty()) message = "";
 		
 		//リクエストスコープに格納する
 		request.setAttribute("message", message);
 		
+		//messageが空の場合は
 		if(message.equals("")) {
 			//登録完了にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/signup-complete.jsp");
