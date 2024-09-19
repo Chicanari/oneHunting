@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.postgresql.util.PSQLException;
+
 import model.PwHash;
 
 
@@ -118,8 +120,43 @@ public class AccountDAO {
     /**
      * アカウントをDBに追加するDAOメソッド
      */
-    public void userSignup() {
+    public String userSignup(String id, String pw) {
     	
+    	
+		
+		//pwをハッシュ化
+		PwHash ph = new PwHash();
+		String hashPw = ph.changePwHash(pw);
+		
+		//sql文
+		String sql = "INSERT INTO kmUser ";	
+		sql += "VALUES ";
+		sql += "(?,?);";
+		
+		//SQL文の実行
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(sql);				){
+			
+			//プレースホルダを設定
+			ps.setString(1, id );
+			ps.setString(2, hashPw );
+			
+			//INSERT文の実行
+			int rowsAffected = ps.executeUpdate();
+			if (rowsAffected > 0) {
+				return "";  // 追加できたら成功
+	        }
+			
+			
+		} catch (PSQLException e) {
+			// TODO 自動生成された catch ブロック
+			return "このIDは既に使用されています。";
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		} 
+		
+		return "登録に失敗しました";
     }
     
     /**
@@ -207,6 +244,12 @@ public class AccountDAO {
     public void like_delete() {
     	
     }
+
+
+	public String userSignup(String name, String id, String pw, String mail, String ken) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
     
 
 }

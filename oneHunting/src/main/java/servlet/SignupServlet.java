@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.AccountDAO;
+import model.ProfileErr;
+
 /*
  * 
  * request.setCharacterEncoding("UTF-8");
@@ -31,9 +34,39 @@ public class SignupServlet extends HttpServlet {
 		
 		//ログイン処理も一緒に行う
 		
-		//全体チャットにフォワードさせる
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/register_view.jsp");
-		dispatcher.forward(request, response);
+		//TODO: ユーザーのPWの入力値を７２文字までとする
+		//TODO: DBに登録するのは60文字　CHAR(60)
+		
+		
+		//パラメータの取得
+		String name = request.getParameter("name");
+		String id = request.getParameter("id");
+		String pw = request.getParameter("pw");
+		String mail = request.getParameter("mail");
+		String ken = request.getParameter("ken");
+		
+		//入力値チェック
+		ProfileErr profileErr = new ProfileErr();
+		profileErr.account_InputValueCheck(name,id,pw,mail,ken);
+		
+		//DAOの接続
+		AccountDAO accountDAO = new AccountDAO();
+		//登録完了・失敗メッセージの表示
+		String message = accountDAO.userSignup(name,id,pw,mail,ken);
+		
+		//リクエストスコープに格納する
+		request.setAttribute("message", message);
+		
+		if(message.equals("")) {
+			//登録完了にフォワードさせる
+			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/signup-complete.jsp");
+			dispatcher.forward(request, response);
+		}else {
+			//新規登録画面にフォワードさせる
+			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/signup.jsp");
+			dispatcher.forward(request, response);
+		}
+		
 		
 	}
 
