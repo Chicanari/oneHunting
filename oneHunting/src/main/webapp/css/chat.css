@@ -11,7 +11,7 @@ header
 ================================================================= */
 /* .nav.active表示 */
 .nav.active {
-    transform: translateX(0);
+    transform: translateX(-100%);
 }
 
 .header__btn {
@@ -35,11 +35,11 @@ nav {
     height: 50px;
 }
 /* ヘッダー固定 */
-nav.fixed {
-    position: fixed;/*fixedで固定*/
-    right: 0;
-    top: 0;
-}
+/*nav.fixed {*/
+/*    position: fixed;fixedで固定*/
+/*    right: 0;*/
+/*    top: 0;*/
+/*}*/
 
 .wrapper {
     margin:auto;
@@ -48,15 +48,20 @@ nav.fixed {
 
 /* .nav初期表示 */
 .nav {
-    background: rgb(var(--primary-greenR), 0.97);
-    width: 100%;
+    width: 27%;
     height: 100vh;
+	padding: 24px 6.4%;
     position: fixed;
     top: 0;
-    left: 0;
+    right: -55%;
     z-index: 100;
-    transform: translate(-100%);
+/*	transform: translateX(-100%);*/
     transition: transform 0.4s;
+}
+
+.nav_header {
+	display: flex;
+	justify-content: space-between;
 }
 
 /* ===============================================================

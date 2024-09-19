@@ -28,11 +28,11 @@
 			<nav class="nav">
                 <div class="nav__header">
                     <img class="nav__btn" src="image/batten-close.png" alt="">
-                </div>
                 <ul class="nav__list">
                     <li class="nav__item"><a href="#">プロフィール</a></li>
-                    <li class="nav__item"><a href="#">ログアウト</a></li>
+                    <li class="nav__item"><a href="index.jsp">ログアウト</a></li>
                 </ul>
+                </div>
             </nav>
 		</nav>
 		<div class="maindisplay">
@@ -68,11 +68,10 @@
 				<input type="submit" value="送信">
 			</div>
 		 </footer>
-	
-		<!-- body直前でjQueryと自作のJSファイルの読み込み  -->
-		<script>src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-		<!-- JSファイル  -->
-		<script src="js/chat.js"></script>
 	</div>
+	<!-- body直前でjQueryと自作のJSファイルの読み込み  -->
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="js/chat.js"></script>
 </body>
 </html>
