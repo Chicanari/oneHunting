@@ -38,7 +38,7 @@ import model.PwHash;
  * 
  */
 
-public class AccountDAO {x
+public class AccountDAO {
 	
 	
 	//接続情報
