@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.postgresql.util.PSQLException;
@@ -254,11 +255,12 @@ public class AccountDAO {
     /**
      * ユーザー検索機能
      */
+    //あいまい検索で必要なaccountIdとaccountNameを仮引数に指定
     public List<UserRecordDTO> userSearch(String accountId,String accountName) {
     	Connection con = null;
     	PreparedStatement ps = null;
-    	
-    	//後ほど作成で
+    	//後ほど作成する検索結果をリスト化するResultSet
+    	ResultSet rs = null;
     	List<UserRecordDTO> userRecord = null;
     	
     	try {
@@ -267,14 +269,47 @@ public class AccountDAO {
     		System.out.println("DBアクセスにエラーが発生しました。");
     		e.printStackTrace();
     	}finally {
-    		
+    		//DB切断用if文
+    		if(con != null) {
+    			try {
+    				con.close();
+    			}catch(Exception e) {
+    				;
+    			}
+    		}
+    		if(ps != null) {
+    			try {
+    				ps.close();
+    			}catch(Exception e) {
+    				;
+    			}
+    		}
+    		if(rs != null) {
+    			try {
+    				rs.close();
+    			}catch(Exception e){
+    				;
+    			}
+    		}
     		
     		return userRecord;
     	}
     	
     }
     
-    //検索結果
+    //検索結果をリスト化するArrayList<>のメソッドを作成
+    public ArrayList<UserRecordDTO> searchResults(ResultSet rs) throws Exception{
+    	ArrayList<UserRecordDTO> userRecords = new ArrayList<UserRecordDTO>();
+//    	while(rs.next()) {
+//    		//結果表示
+//    		String accountId = rs.getString("account_icon");
+//    		String accountName = rs.getString("account_name");
+//    		String accountKen = rs.getString("account_ken");
+//    	}
+//    	 = new UserResordDTO();
+    	
+    	return userRecords;
+    }
     
     /**
      * 仮：いいねを追加するメソッド
