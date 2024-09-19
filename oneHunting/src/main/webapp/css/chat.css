@@ -1,0 +1,107 @@
+@charset "UTF-8";
+body{
+		margin: 0;
+	    padding: 0;
+	    height: 100%;
+	    overflow: hidden;
+}
+
+/* ===============================================================
+header
+================================================================= */
+/* .nav.active表示 */
+.nav.active {
+    transform: translateX(0);
+}
+
+.header__btn {
+	height: 50px;
+	width: 50px;
+	display: block;	
+	position: absolute; /* 子要素はabsoluteを指定 */
+	top: 0; /* 上を基準 */
+	right: 0;  
+}
+
+.nav__btn {
+	height: 30px;
+	width: 30px;
+}
+
+nav {
+	display: flex;
+    background: #c0c0c0;
+    width: 100%;
+    height: 50px;
+}
+/* ヘッダー固定 */
+nav.fixed {
+    position: fixed;/*fixedで固定*/
+    right: 0;
+    top: 0;
+}
+
+.wrapper {
+    margin:auto;
+    max-width: 100%;
+}
+
+/* .nav初期表示 */
+.nav {
+    background: rgb(var(--primary-greenR), 0.97);
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    transform: translate(-100%);
+    transition: transform 0.4s;
+}
+
+/* ===============================================================
+main
+================================================================= */
+.chat-container {
+	height: 100vh;
+	display: flex;
+    flex-direction: column;
+}
+
+section{
+    background-color: #ffff;
+}
+
+section .wrapper{
+	max-width: 800px;
+	display: inline-block;
+}
+
+.side-column{
+	display: inline-block;
+	background-color: #c0c0c0;
+	height: 100vh;
+	width: 300px;
+}
+
+.maindisplay{
+	display: flex;
+	margin-left: 0;
+}
+
+
+/* ===============================================================
+footer
+============================================================ */
+
+.footer {
+	text-align: center;
+	background-color: #c0c0c0;
+	padding: 1em;
+
+    justify-content: space-around;
+    position: fixed;
+    bottom: 0;
+    margin: 0;
+    width: 100%;
+}
