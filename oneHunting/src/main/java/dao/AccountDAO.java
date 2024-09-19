@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import model.PwHash;
+
 
 /*
  * 
@@ -52,7 +54,6 @@ public class AccountDAO {
         } catch (ClassNotFoundException e) {
             throw new IllegalStateException("JDBCドライバを読み込めませんでした");
         }
-        
         
     }
     
@@ -124,7 +125,49 @@ public class AccountDAO {
     /**
      * ログイン機能
      */
-    public void userLogin() {
+    public String userLogin(String id, String pw) {
+    	
+    	//ID,PWがnullまたは空白だったときはエラーメッセージを返す
+		String errmessage = "";	
+		if (id == null || id.equals("")) errmessage += "IDが入力されていません。<br>";
+		if (pw == null || pw.equals("")) errmessage += "PWが入力されていません。<br>";
+		if(!errmessage.isEmpty()) 	return errmessage;
+		
+		//SQLでPWを取得
+		String sql = "SELECT pw FROM kmUser WHERE user_id = ?;";
+		
+		//戻り値のリストの宣言
+		String db_pw = null;
+		
+		//SQL文の実行
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(sql);				){
+			
+			//プレースホルダを設定
+			ps.setString(1, id );
+			
+			//SELECT文の実行
+			try (ResultSet rs = ps.executeQuery()) {
+				//ResultSetの結果のPWを取得する
+				while(rs.next()) {
+					db_pw = rs.getString("pw");
+				}
+            }
+			
+			//PWの一致を調べる
+			PwHash ph = new PwHash();
+			if(ph.matchingPW(pw,db_pw)) {
+				return "LOGIN OK";
+			}else {
+				return "パスワードが違います。";
+			}
+			
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		
+		return errmessage;
     	
     }
     
