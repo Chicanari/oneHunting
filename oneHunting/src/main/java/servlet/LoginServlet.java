@@ -8,6 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import dao.AccountDAO;
 
 /*
  * 
@@ -30,10 +33,37 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		//パラメータの取得
+		String id = request.getParameter("id");
+		String pw = request.getParameter("pw");
+		
+		//DAOの接続
+		AccountDAO accountDAO = new AccountDAO();
+		
+		//ログイン完了・失敗メッセージの表示
+		String message = accountDAO.userLogin(id,pw);
+		request.setAttribute("message", message);
+		
+		if(message.equals("LOGIN OK")) {
+			
+			//セッションにログイン状態であることを保存する
+			HttpSession session = request.getSession();
+			session.setAttribute("loginID", id);
+			session.setAttribute("login", true);
+			
+			//登録完了にフォワードさせる
+			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/generalChat.jsp");
+			dispatcher.forward(request, response);
+			
+		}else {
+			//ログイン画面にフォワードさせる
+			RequestDispatcher dispatcher = request.getRequestDispatcher("");
+			dispatcher.forward(request, response);
+		}
+		
 		//全体チャットにフォワードさせる
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
 		dispatcher.forward(request, response);
-		
 		
 	}
 

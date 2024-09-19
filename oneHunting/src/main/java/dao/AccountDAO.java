@@ -8,7 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.postgresql.util.PSQLException;
+
 import dto.UserRecordDTO;
+import model.PwHash;
+
 
 /*
  * 
@@ -54,7 +58,6 @@ public class AccountDAO {
         } catch (ClassNotFoundException e) {
             throw new IllegalStateException("JDBCドライバを読み込めませんでした");
         }
-        
         
     }
     
@@ -119,14 +122,118 @@ public class AccountDAO {
     /**
      * アカウントをDBに追加するDAOメソッド
      */
-    public void userSignup() {
+    public String userSignup(String name, String id, String pw, String mail, String ken) {
     	
+    	//既に登録があるか判定するためのString
+    	String isRegistered = "";
+		
+		//pwをハッシュ化
+		PwHash ph = new PwHash();
+		String hashPw = ph.changePwHash(pw);
+		
+		//sql文 項目９つ
+		String sql = "INSERT INTO Account (";
+		
+		/*1*/ sql += "account_id";
+		/*2*/ sql += ",account_password";
+		/*3*/ sql += ",account_name";
+		/*4*/ sql += ",account_mail";
+		/*5*/ sql += ",account_ken";
+		
+		/*6*/ sql += ",account_icon,";
+		/*7*/ sql += ",account_introduction,";
+		/*8*/ sql += ",account_good_point,";
+		/*9*/ sql += ",account_good_id";
+		
+		sql += ") VALUES ";
+		sql += "(?,?,?,?,?,?,?,?,?);";
+		
+		//SQL文の実行
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(sql);				){
+			
+			//プレースホルダを設定
+			ps.setString(1, id );
+			ps.setString(2, hashPw );
+			ps.setString(3, name );
+			ps.setString(4, mail );
+			ps.setString(5, ken );
+			
+			ps.setString(6, null );	//icon.pngをデフォルト設定
+			ps.setString(7, null ); //よろしくお願いします。をデフォルト設定
+			ps.setInt(8, 0 );
+			ps.setString(9, null );
+			
+			//INSERT文の実行
+			int rowsAffected = ps.executeUpdate();
+			if (rowsAffected > 0) {
+				return "";  // 追加できたら成功
+	        }
+			
+		} catch (PSQLException e) {
+			isRegistered = "false";
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		
+		//登録に失敗した場合、IDかメールアドレスが重複している
+		if(isRegistered.equals("failse")) {
+			
+			//　SELECT account_id FROM account WHERE account_id
+			
+		}
+		
+		return "登録に失敗しました";
     }
     
     /**
      * ログイン機能
      */
-    public void userLogin() {
+    public String userLogin(String id, String pw) {
+    	
+    	//TODO ：　登録チェックが必要
+    	
+    	//ID,PWがnullまたは空白だったときはエラーメッセージを返す
+		String errmessage = "";	
+		if (id == null || id.equals("")) errmessage += "IDが入力されていません。<br>";
+		if (pw == null || pw.equals("")) errmessage += "PWが入力されていません。<br>";
+		if(!errmessage.isEmpty()) 	return errmessage;
+		
+		//SQLでPWを取得
+		String sql = "SELECT pw FROM kmUser WHERE user_id = ?;";
+		
+		//戻り値のリストの宣言
+		String db_pw = null;
+		
+		//SQL文の実行
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(sql);				){
+			
+			//プレースホルダを設定
+			ps.setString(1, id );
+			
+			//SELECT文の実行
+			try (ResultSet rs = ps.executeQuery()) {
+				//ResultSetの結果のPWを取得する
+				while(rs.next()) {
+					db_pw = rs.getString("pw");
+				}
+            }
+			
+			//PWの一致を調べる
+			PwHash ph = new PwHash();
+			if(ph.matchingPW(pw,db_pw)) {
+				return "LOGIN OK";
+			}else {
+				return "パスワードが違います。";
+			}
+			
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		
+		return errmessage;
     	
     }
     
@@ -183,6 +290,6 @@ public class AccountDAO {
     public void like_delete() {
     	
     }
-    
+
 
 }
