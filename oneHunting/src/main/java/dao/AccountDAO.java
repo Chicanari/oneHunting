@@ -6,7 +6,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
+import dto.UserRecordDTO;
 
 /*
  * 
@@ -145,10 +147,27 @@ public class AccountDAO {
     /**
      * ユーザー検索機能
      */
-    public void userSearch() {
+    public List<UserRecordDTO> userSearch(String accountId,String accountName) {
+    	Connection con = null;
+    	PreparedStatement ps = null;
+    	
+    	//後ほど作成で
+    	List<UserRecordDTO> userRecord = null;
+    	
+    	try {
+    		con = DriverManager.getConnection(url,user,password);
+    	}catch(Exception e) {
+    		System.out.println("DBアクセスにエラーが発生しました。");
+    		e.printStackTrace();
+    	}finally {
+    		
+    		
+    		return userRecord;
+    	}
     	
     }
     
+    //検索結果
     
     /**
      * 仮：いいねを追加するメソッド
