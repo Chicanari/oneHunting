@@ -120,31 +120,18 @@ public class AccountDAO {
     /**
      * アカウントをDBに追加するDAOメソッド
      */
-    public String userSignup(String name, String id, String pw, String mail, String ken) {
+    public String userSignup(String id, String pw) {
     	
-    	//既に登録があるか判定するためのString
-    	String isRegistered = "";
+    	
 		
 		//pwをハッシュ化
 		PwHash ph = new PwHash();
 		String hashPw = ph.changePwHash(pw);
 		
-		//sql文 項目９つ
-		String sql = "INSERT INTO Account (";
-		
-		/*1*/ sql += "account_id";
-		/*2*/ sql += ",account_password";
-		/*3*/ sql += ",account_name";
-		/*4*/ sql += ",account_mail";
-		/*5*/ sql += ",account_ken";
-		
-		/*6*/ sql += ",account_icon,";
-		/*7*/ sql += ",account_introduction,";
-		/*8*/ sql += ",account_good_point,";
-		/*9*/ sql += ",account_good_id";
-		
-		sql += ") VALUES ";
-		sql += "(?,?,?,?,?,?,?,?,?);";
+		//sql文
+		String sql = "INSERT INTO kmUser ";	
+		sql += "VALUES ";
+		sql += "(?,?);";
 		
 		//SQL文の実行
 		try(Connection con = DriverManager.getConnection(url,user,password);
@@ -153,14 +140,6 @@ public class AccountDAO {
 			//プレースホルダを設定
 			ps.setString(1, id );
 			ps.setString(2, hashPw );
-			ps.setString(3, name );
-			ps.setString(4, mail );
-			ps.setString(5, ken );
-			
-			ps.setString(6, null );	//icon.pngをデフォルト設定
-			ps.setString(7, null ); //よろしくお願いします。をデフォルト設定
-			ps.setInt(8, 0 );
-			ps.setString(9, null );
 			
 			//INSERT文の実行
 			int rowsAffected = ps.executeUpdate();
@@ -168,18 +147,14 @@ public class AccountDAO {
 				return "";  // 追加できたら成功
 	        }
 			
+			
 		} catch (PSQLException e) {
-			isRegistered = "false";
+			// TODO 自動生成された catch ブロック
+			return "このIDは既に使用されています。";
 		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		} 
-		
-		//登録に失敗した場合、IDかメールアドレスが重複している
-		if(isRegistered.equals("failse")) {
-			
-			//　SELECT account_id FROM account WHERE account_id
-			
-		}
 		
 		return "登録に失敗しました";
     }
@@ -188,8 +163,6 @@ public class AccountDAO {
      * ログイン機能
      */
     public String userLogin(String id, String pw) {
-    	
-    	//TODO ：　登録チェックが必要
     	
     	//ID,PWがnullまたは空白だったときはエラーメッセージを返す
 		String errmessage = "";	
@@ -272,5 +245,11 @@ public class AccountDAO {
     	
     }
 
+
+	public String userSignup(String name, String id, String pw, String mail, String ken) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
+    
 
 }
