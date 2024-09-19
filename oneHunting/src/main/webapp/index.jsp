@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 <h1>ログイン</h1>
 <p>ログインを押したらチャット画面に飛びます</p>
 
@@ -19,7 +20,7 @@
 	
 </form>
 
-<a href="signup.jsp">新規登録</a>
+<form action="signup" method="get"><input type="submit" value="新規登録"></form>
 
 
 </body>
