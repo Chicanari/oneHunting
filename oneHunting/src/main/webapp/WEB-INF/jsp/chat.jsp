@@ -1,9 +1,15 @@
+<%-- チャットレコードの呼び出し --%>
+<%@page import="model.ChatRecord"%>
+
+<%-- リストの使用定義 --%>
+<%@page import="java.util.List"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%-- イメージファイル名の受け取り ※テスト投稿用 --%>
+<%-- チャット画面をリクエストスコープから取得 --%>
 <%
-	String imageName = (String)request.getAttribute("imageName");
+	List<ChatRecord> chatList = (List<ChatRecord>)request.getAttribute("chatList");
 %>
 
 <%-- エラーメッセージ用変数読み込み --%>
@@ -33,8 +39,24 @@
 <input type="submit" value="検索">
 </form>
 
-<%-- ※テスト表示用 --%>
-<img src="/oneHunting/image/<%= imageName %>">
+<%-- ※チャット本体 --%>
+<%-- chatListとChatRecordを使用予定 --%>
+<%-- ※視認性の為にtable仮にtable内に表示 --%>
+ <table> 
+	<% if(chatList != null){ %>
+		<% for(ChatRecord chat : chatList) {%>
+		<tr>
+			<td><%= chat.getPostId() %></td>  <%-- アカウントID --%> 
+			<td><%= chat.getAccountId() %></td>  <%-- 名前 --%>
+			<td><%= chat.getAccountName() %></td>  <%-- アイコンファイル名 --%>
+			<td><%= chat.getIcon() %></td>  <%-- チャット本文 --%>
+			<td><%= chat.getTime() %></td>  <%-- 投稿日時--%>
+			<td><%= chat.getText() %></td>  <%-- いいねの総数 --%>
+			<td><%= chat.getImage() %></td>  <%-- 投稿画像のファイル名 --%>
+		</tr>
+		<% } %>
+	<% } %>
+ </table>
 
 <%-- 画像投稿用の仮説form ※書き込みformと統合予定 --%>
 <form action="chat" method="post" enctype="multipart/form-data">
