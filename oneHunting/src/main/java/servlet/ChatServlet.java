@@ -36,10 +36,6 @@ public class ChatServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//※下記で実行したいがエラーが発生し、現状回避がうまくできていない。
-		//仮対応としてgetメソッド内を入力してる
-		//doPst(request,response);
-		
 		/**
 		 * imageで取得する画像のファイル名を取得するための変数宣言 
 		 */

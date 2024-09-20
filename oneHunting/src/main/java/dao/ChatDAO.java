@@ -73,7 +73,7 @@ public class ChatDAO {
     		con = DriverManager.getConnection(url,user,password);
     		
     		//SQL文(チャットテーブルの呼び出し)
-    		String sql = "SELECT * FROM chat_" + chatType + " ORDER BY chat_"+ chatType + "_account_id";
+    		String sql = "SELECT * FROM chat_" + chatType + " ORDER BY chat_"+ chatType + "_account_id;";
     		
     		//呼び出したチャットテーブルの格納
     		ps = con.prepareStatement(sql);
