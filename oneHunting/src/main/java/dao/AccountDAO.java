@@ -261,10 +261,25 @@ public class AccountDAO {
     	PreparedStatement ps = null;
     	//後ほど作成する検索結果をリスト化するResultSet
     	ResultSet rs = null;
-    	List<UserRecordDTO> userRecord = null;
+    	List<UserRecordDTO> userRecords = null;
     	
+    	//tryでSQL文で操作
     	try {
     		con = DriverManager.getConnection(url,user,password);
+    		//SQL文で表示結果を操作
+    		String sql = "SELECT account_icon, account_name, account_ken ";
+    		sql += "FROM account ";
+    		//あいまい検索
+    		sql += "WHERE account_id LIKE ? ";
+    		sql += "AND account_name LIKE ? ";
+    		sql += "ORDER BY account_name, account_id";
+    		
+    		ps = con.prepareStatement(sql);
+    		ps.setString(1,"%" + accountId + "%");
+    		ps.setString(2,"%" + accountName + "%");
+    		rs = ps.executeQuery();
+    		userRecords = searchResults(rs);
+    		
     	}catch(Exception e) {
     		System.out.println("DBアクセスにエラーが発生しました。");
     		e.printStackTrace();
@@ -277,6 +292,7 @@ public class AccountDAO {
     				;
     			}
     		}
+    		
     		if(ps != null) {
     			try {
     				ps.close();
@@ -292,7 +308,7 @@ public class AccountDAO {
     			}
     		}
     		
-    		return userRecord;
+    		return userRecords;
     	}
     	
     }
@@ -300,13 +316,16 @@ public class AccountDAO {
     //検索結果をリスト化するArrayList<>のメソッドを作成
     public ArrayList<UserRecordDTO> searchResults(ResultSet rs) throws Exception{
     	ArrayList<UserRecordDTO> userRecords = new ArrayList<UserRecordDTO>();
-//    	while(rs.next()) {
-//    		//結果表示
-//    		String accountId = rs.getString("account_icon");
-//    		String accountName = rs.getString("account_name");
-//    		String accountKen = rs.getString("account_ken");
-//    	}
-//    	 = new UserResordDTO();
+    	//検索結果を取得しUserRecordDTOへ格納し、ArrayListへ格納する
+    	while(rs.next()) {
+    		//結果表示
+    		String accountIcon = rs.getString("account_icon");
+    		String accountName = rs.getString("account_name");
+    		String accountKen = rs.getString("account_ken");
+    		UserRecordDTO userRecord = 
+    				new UserRecordDTO(accountIcon,accountName,accountKen);
+    		userRecords.add(userRecord);
+    	}
     	
     	return userRecords;
     }
