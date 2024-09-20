@@ -37,18 +37,13 @@ public class UserSearchServlet extends HttpServlet {
 		AccountDAO accountDAO = new AccountDAO();
 		HttpSession session = request.getSession();
 		
-		request.setCharacterEncoding("UTF-8");
-		
-		//仮入力/jspのname属性に合わせること
-		String account_id = request.getParameter("accountid");
-		String account_name = request.getParameter("accountmei");
-		
-		
-		List<UserRecordDTO> sRecord = accountDAO.userSearch(account_id,account_name);
+		//パラメータはname属性とあわせること
+		String searchQuery = request.getParameter("kensaku");
+		List<UserRecordDTO> sRecord = accountDAO.userSearch(searchQuery);
 		
 		
 		//セッションスコープへ格納
-		session.setAttribute("shohin_t", sRecord);
+		session.setAttribute("search_result", sRecord);
 		
 		//全体チャットにフォワードさせる ※search_resultに飛ばすように後々変更要
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");

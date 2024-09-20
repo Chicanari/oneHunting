@@ -256,7 +256,7 @@ public class AccountDAO {
      * ユーザー検索機能
      */
     //あいまい検索で必要なaccountIdとaccountNameを仮引数に指定
-    public List<UserRecordDTO> userSearch(String accountId,String accountName) {
+    public List<UserRecordDTO> userSearch(String searchQuery) {
     	Connection con = null;
     	PreparedStatement ps = null;
     	//後ほど作成する検索結果をリスト化するResultSet
@@ -270,13 +270,15 @@ public class AccountDAO {
     		String sql = "SELECT account_icon, account_name, account_ken ";
     		sql += "FROM account ";
     		sql += "WHERE account_id LIKE ? ";
-    		sql += "AND account_name LIKE ? ";
+    		sql += "OR account_name LIKE ? ";
     		sql += "ORDER BY account_name, account_id";
     		
     		ps = con.prepareStatement(sql);
     		//ID・名前であいまい検索し実行
-    		ps.setString(1,"%" + accountId + "%");
-    		ps.setString(2,"%" + accountName + "%");
+    		String ambiguousQuery = "%" + searchQuery + "%";
+    		ps.setString(1, ambiguousQuery);
+    		ps.setString(2, ambiguousQuery); 
+    		
     		rs = ps.executeQuery();
     		userRecords = searchResults(rs);
     		
