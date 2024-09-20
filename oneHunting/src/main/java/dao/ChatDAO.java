@@ -22,7 +22,7 @@ public class ChatDAO {
 	
 	
 	//接続情報
-	private final String url = "jdbc:postgresql://localhost:5432/oneHunting";
+	private final String url = "jdbc:postgresql://localhost:5432/onehunting";
 	private final String user = "postgres";
 	private final String password = "root";
 		
@@ -36,7 +36,6 @@ public class ChatDAO {
         } catch (ClassNotFoundException e) {
             throw new IllegalStateException("JDBCドライバを読み込めませんでした");
         }
-        
         
     }
     
