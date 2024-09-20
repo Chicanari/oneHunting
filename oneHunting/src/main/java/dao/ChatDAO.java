@@ -16,7 +16,13 @@
  */
 package dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 
+import model.ChatRecord;
 
 public class ChatDAO {
 	
@@ -50,9 +56,84 @@ public class ChatDAO {
     
     /**
      * 表示するコメントを取得するDAOメソッド
+     * chatTypeで呼び出すチャットを判別する
+     * 
      */
-    public void comment_view() {
+    public ArrayList<ChatRecord> comment_view(String chatType) throws Exception {
     	
+		ArrayList<ChatRecord> chatRecords = new ArrayList<ChatRecord>();
+    	
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+    	try {
+    		
+    		//PostgresSQLへの接続
+    		con = DriverManager.getConnection(url,user,password);
+    		
+    		//SQL文(チャットテーブルの呼び出し)
+    		String sql = "SELECT * FROM chat_" + chatType + " ORDER BY chat_"+ chatType + "_account_id";
+    		
+    		//呼び出したチャットテーブルの格納
+    		ps = con.prepareStatement(sql);
+    		
+    		//SELECTの実行
+    		rs = ps.executeQuery();
+    		
+    		
+    		while(rs.next()) {	
+    			/**
+    			 * ※メモ用
+    			 * chat_『main』_account_id
+    			 * この部分に引数を渡して読み込み先を変える？
+    			 * 
+    			 * 一旦、mainで実装
+    			 */
+    			//1レコード分のデータを取得
+    			String postId = rs.getString("chat_" + chatType+ "_post_id");
+    			String accountId = rs.getString("chat_" + chatType+ "_account_id");
+    			String accountName = rs.getString("chat_" + chatType + "_account_name");
+				String icon = rs.getString("chat_" + chatType + "_icon	");
+				String time = rs.getString("chat_" + chatType + "_time");
+				String text = rs.getString("chat_" + chatType + "_text");
+				String image = rs.getString("chat_" + chatType + "_image");
+				String goodCount = rs.getString("chat_" + chatType + "_good_count");
+				
+				//1レコード分のデータを格納するインスタンスの生成
+				ChatRecord cRecord = new ChatRecord(postId,accountId,accountName,icon,time,text,image,goodCount);
+				
+				//取得したデータを格納
+				chatRecords.add(cRecord);
+    		}
+    	}catch(Exception e) {
+			System.out.println("DBアクセスにエラーが発生しました");
+			e.printStackTrace();
+    	}finally{
+			//PostgreSQLの切断
+			if(rs != null) {
+				try {
+					rs.close();
+				}catch(Exception e) {
+					;
+				}
+			}			
+			if(ps != null) {
+				try {
+					ps.close();
+				}catch(Exception e) {
+					;
+				}
+			}			
+			if(con != null) {
+				try{
+					con.close();
+				}catch(Exception e) {
+					;
+				}
+			}
+    	}
+    	return chatRecords;    	  
     }
     
     /**

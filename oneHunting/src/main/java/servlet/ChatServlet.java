@@ -3,6 +3,7 @@ package servlet;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+
+import dao.ChatDAO;
+import model.ChatRecord;
 
 /*
  * 
@@ -32,39 +36,65 @@ public class ChatServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		/**
-		 * imageで取得する画像のファイル名を取得するための変数宣言
-		 */
-		String imageName = "default_image.png";
+		//※下記で実行したいがエラーが発生し、現状回避がうまくできていない。
+		//仮対応としてgetメソッド内を入力してる
+		//doPst(request,response);
 		
 		/**
-		 * imageで取得する画像ファイルをセット(image.pngを表示)
+		 * imageで取得する画像のファイル名を取得するための変数宣言 
 		 */
-    	request.setAttribute("imageName", imageName);
+		String imageName = null;
     	
 		/**
 		* エラーメッセージ用の変数宣言
 		*/
 		String msg = "";
 		
+        /**
+         * chatDAOのインスタンス生成
+         */
+		ChatDAO cDAO = new ChatDAO();
+				
+        /**
+         * chatDAOから表示用のメソッド呼び出し
+         * 
+         * ※テスト用に引数に"main"を挿入
+         */
+		String chatType = "main";
+		List<ChatRecord> chatList;
+		
 		/**
-		* エラーメッセージのセット
-		*/
-		request.setAttribute("msg", msg);
-        
-		//チャット画面にフォワードさせる
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
-		dispatcher.forward(request, response);
-	
+		 * チャットリストを取得
+		 */
+		try {
+			chatList = cDAO.comment_view(chatType);
+			
+			/**
+			 * チャットリストをリクエストスコープに保存
+			 */
+			request.setAttribute("chatList", chatList); 
+					
+			
+			/**
+			* エラーメッセージをリクエストスコープに保存
+			*/
+			request.setAttribute("msg", msg);
+	        
+			//チャット画面にフォワードさせる
+			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
+			dispatcher.forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
+	
 		/**
-		* name属性がimageのファイルをPartオブジェクトとして取得
-		*/
-		Part part = request.getPart("image");
+		 * imageで取得する画像のファイル名を取得するための変数宣言
+		 */
+		String imageName = null;
+		
 		
 		/**
 		* エラーメッセージ用の変数宣言
@@ -72,51 +102,71 @@ public class ChatServlet extends HttpServlet {
 		String msg = "";
 		
 		/**
-		 * imageで取得する画像のファイル名を取得するための変数宣言
-		 */
-		String imageName = "default_image.png";
-				
-	    /**
-	     *  画像ファイルかどうかをチェック
-	     */
-	    if (!model.ProfileErr.isImageFile(part)) {
-	    	msg += "不正なファイルです。";
-	        request.setAttribute("msg",msg);
-	        request.setAttribute("imageName", imageName);//テスト用ファイルネーム
-	        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
-	        dispatcher.forward(request, response);
-	        return;
-	    }
-        
-		/**
-		 * imageで取得する画像のファイル名を取得
-		 */
-		imageName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-		
-		/**
-		* アップロードするフォルダを指定
+		* name属性がimageのファイルをPartオブジェクトとして取得
 		*/
-		String path = getServletContext().getRealPath("/image");
+		Part part = request.getPart("image");
+		
+        /**
+         * chatDAOのインスタンス生成
+         */
+		ChatDAO cDAO = new ChatDAO();
 				
-		/**
-		 * ファイルを指定されたフォルダに保存する
-		 */
-		part.write(path + File.separator + imageName);
-		
-		
-		/**
-		 * アプロード確認用のファイル名セット ※テスト用
-		 */
-		request.setAttribute("imageName", imageName);
+        /**
+         * chatDAOから表示用のメソッド呼び出し
+         * 
+         * ※テスト用に引数に"main"を挿入
+         */
+		String chatType = "main";
+		List<ChatRecord> chatList;
+		try {
+			/**
+			 * チャットリストを取得
+			 */
+			chatList = cDAO.comment_view(chatType); 
 			
-		/**
-		* エラーメッセージのセット
-		*/
-		request.setAttribute("msg", msg);
-		
-		//チャット画面にフォワードさせる
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
-		dispatcher.forward(request, response);
+			/**
+			 * チャットリストをリクエストスコープに保存
+			 */
+			request.setAttribute("chatList", chatList); 
+					
+		    /**
+		     *  画像ファイルかどうかをチェック
+		     */
+		    if (!model.ProfileErr.isImageFile(part)) {
+		    	msg += "不正なファイルです。";
+		        request.setAttribute("msg",msg);
+		        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
+		        dispatcher.forward(request, response);
+		        return;
+		    }
+	        
+			/**
+			 * imageで取得する画像のファイル名を取得
+			 */
+			imageName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+			
+			/**
+			* アップロードするフォルダを指定
+			*/
+			String path = getServletContext().getRealPath("/image");
+					
+			/**
+			 * ファイルを指定されたフォルダに保存する
+			 */
+			part.write(path + File.separator + imageName);
+				
+			/**
+			* エラーメッセージをリクエストスコープに保存
+			*/
+			request.setAttribute("msg", msg);
+			
+			//チャット画面にフォワードさせる
+			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
+			dispatcher.forward(request, response);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
