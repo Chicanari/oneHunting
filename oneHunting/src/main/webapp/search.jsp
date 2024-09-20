@@ -27,18 +27,12 @@ if (searchResults == null) {
         <table border="1">
             <thead>
                 <tr>
-                    <td>選択</td>
                     <td>アイコン</td>
                     <td>名前</td>
                     <td>県</td>
                 </tr>
             </thead>
             <tbody>
-                <% if (searchResults.isEmpty()) { %>
-       			 <tr>
- 				 <td colspan="4">結果が見つかりませんでした。</td>
-				 </tr>
-				<% } else { %>
                     <% for (UserRecordDTO user : searchResults) { %>
                         <tr>
                             <td><img src="<%= user.getAccountIcon() %>" ></td>
@@ -46,7 +40,6 @@ if (searchResults == null) {
                             <td><%= user.getAccountKen() %></td>
                         </tr>
                     <% } %>
-                 <% } %>
             </tbody>
         </table>
 

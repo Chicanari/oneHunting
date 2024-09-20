@@ -46,7 +46,7 @@ public class UserSearchServlet extends HttpServlet {
 		session.setAttribute("search_result", sRecord);
 		
 		//全体チャットにフォワードさせる ※search_resultに飛ばすように後々変更要
-		RequestDispatcher dispatcher = request.getRequestDispatcher("search.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/search.jsp");
 		dispatcher.forward(request, response);
 		
 	}
