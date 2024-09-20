@@ -46,6 +46,7 @@ if( loginID == null || login == false ) {
 </head>
 <body>
 <h1>チャット画面</h1>
+
 	<form action="search" method="post">
 	
 	
@@ -159,6 +160,8 @@ if( loginID == null || login == false ) {
 			fileData.readAsDataURL(hoge.files[0]);
 		}
 	</script>
+	
+	
 
 </body>
 </html>
