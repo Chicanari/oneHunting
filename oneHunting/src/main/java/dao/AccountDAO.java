@@ -261,7 +261,7 @@ public class AccountDAO {
     	PreparedStatement ps = null;
     	//後ほど作成する検索結果をリスト化するResultSet
     	ResultSet rs = null;
-    	List<UserRecordDTO> userRecords = null;
+    	List<UserRecordDTO> userRecords = new ArrayList<>();
     	
     	//tryでSQL文で操作
     	try {
@@ -269,12 +269,12 @@ public class AccountDAO {
     		//SQL文で表示結果を操作
     		String sql = "SELECT account_icon, account_name, account_ken ";
     		sql += "FROM account ";
-    		//あいまい検索
     		sql += "WHERE account_id LIKE ? ";
     		sql += "AND account_name LIKE ? ";
     		sql += "ORDER BY account_name, account_id";
     		
     		ps = con.prepareStatement(sql);
+    		//ID・名前であいまい検索し実行
     		ps.setString(1,"%" + accountId + "%");
     		ps.setString(2,"%" + accountName + "%");
     		rs = ps.executeQuery();
@@ -308,9 +308,9 @@ public class AccountDAO {
     			}
     		}
     		
-    		return userRecords;
+    		
     	}
-    	
+    	return userRecords;
     }
     
     //検索結果をリスト化するArrayList<>のメソッドを作成
