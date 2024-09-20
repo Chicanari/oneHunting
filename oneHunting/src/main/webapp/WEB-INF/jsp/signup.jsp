@@ -44,7 +44,7 @@ if(message == null){
 	
 </form>
 
-<a href="">戻る</a>
+<a href="/oneHunting">戻る</a>
 
 </body>
 </html>
