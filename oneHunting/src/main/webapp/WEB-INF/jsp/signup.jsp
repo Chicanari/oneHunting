@@ -22,6 +22,8 @@ if(message == null){
 <%= message %>
 <form action="signup" method="post">
 
+	<img src="icon/default_icon.png" width="100">
+
 	<p>名前<br><input type="text" name="name"></p>
 	<p>ID<br><input type="text" name="id"></p>
 	<p>PW<br><input type="password" name="pw"></p>
@@ -37,14 +39,13 @@ if(message == null){
 	<input type="radio" name="ken" value="宮崎県">宮崎県　
 	<input type="radio" name="ken" value="鹿児島県">鹿児島県　
 	<input type="radio" name="ken" value="沖縄県">沖縄県　
-	
 	</p>
 	
 	<p><input type="submit" value="登録"></p>
 	
 </form>
 
-<a href="">戻る</a>
+<a href="/oneHunting">戻る</a>
 
 </body>
 </html>
