@@ -9,7 +9,6 @@
 <body>
 
 <h1>ログイン</h1>
-<p>ログインを押したらチャット画面に飛びます</p>
 
 <form action="login" method="post">
 	
