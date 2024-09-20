@@ -185,7 +185,6 @@ public class AccountDAO {
     
     private String mailID_tyoufukuCheck(String id, String mail) {
     	
-    	
     	//戻り値のメッセージ
     	String errMessage = "";
     	
@@ -251,16 +250,11 @@ public class AccountDAO {
      */
     public String userLogin(String id, String pw) {
     	
-    	//TODO ：　登録チェックが必要
+    	//エラーメッセージ（戻り値）を格納する変数
+    	String errmessage = "";	
     	
-    	//ID,PWがnullまたは空白だったときはエラーメッセージを返す
-		String errmessage = "";	
-		if (id == null || id.equals("")) errmessage += "IDが入力されていません。<br>";
-		if (pw == null || pw.equals("")) errmessage += "PWが入力されていません。<br>";
-		if(!errmessage.isEmpty()) 	return errmessage;
-		
 		//SQLでPWを取得
-		String sql = "SELECT pw FROM kmUser WHERE user_id = ?;";
+		String sql = "SELECT account_password FROM account WHERE account_id = ?;";
 		
 		//戻り値のリストの宣言
 		String db_pw = null;
@@ -275,16 +269,23 @@ public class AccountDAO {
 			//SELECT文の実行
 			try (ResultSet rs = ps.executeQuery()) {
 				//ResultSetの結果のPWを取得する
-				while(rs.next()) {
-					db_pw = rs.getString("pw");
+				if(rs.next()) {
+					//idで検索し、一致するPWがあった場合はdb_pwにPWを格納し、下記【PWの一致を調べる】でPWが合っているか調べる
+					db_pw = rs.getString("account_password");
+				}else {
+					//一致するidがなかった場合はエラーメッセージを返す
+					System.out.println("登録がありません。");
+					return "登録がありません。";
 				}
             }
 			
 			//PWの一致を調べる
 			PwHash ph = new PwHash();
 			if(ph.matchingPW(pw,db_pw)) {
+				System.out.println("LOGIN OK");
 				return "LOGIN OK";
 			}else {
+				System.out.println("パスワードが違います。");
 				return "パスワードが違います。";
 			}
 			
@@ -292,6 +293,7 @@ public class AccountDAO {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
+		
 		
 		return errmessage;
     	

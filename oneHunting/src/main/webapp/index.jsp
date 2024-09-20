@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+
+request.setCharacterEncoding("UTF-8");
+String message = (String)request.getAttribute("message");
+
+if(message == null){
+	message = "";
+}
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +19,7 @@
 <body>
 
 <h1>ログイン</h1>
-
+<%= message %>
 <form action="login" method="post">
 	
 	<p>ID:<input type="text" name="id"></p>

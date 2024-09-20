@@ -52,17 +52,30 @@ public class LoginServlet extends HttpServlet {
 		String id = request.getParameter("id");
 		String pw = request.getParameter("pw");
 		
-		//入力値チェック
+		/*
+		 * 入力値チェック（入力があるか）
+		 */
 		LoginErr loginErr = new LoginErr();
-		String errMessage = loginErr.account_InputValueCheck(id, pw);
+		String message = loginErr.login_InputValueCheck(id, pw);
+		
+		if(!message.equals("")) {
+			//エラーメッセージがある場合、ログイン画面にフォワードさせる
+			request.setAttribute("message", message);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("");
+			dispatcher.forward(request, response);
+		}
+		
+		
+		/*
+		 * ログイン完了・失敗メッセージの表示（IDの登録があるか、PWが一致するか）
+		 */
 		
 		//DAOの接続
 		AccountDAO accountDAO = new AccountDAO();
-		
-		//ログイン完了・失敗メッセージの表示
-		String message = accountDAO.userLogin(id,pw);
+		message = accountDAO.userLogin(id,pw);
 		request.setAttribute("message", message);
 		
+		//LOGIN OKが返って来た場合、セッションに情報を格納し、ログイン状態にする
 		if(message.equals("LOGIN OK")) {
 			
 			//セッションにログイン状態であることを保存する
@@ -71,18 +84,15 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("login", true);
 			
 			//登録完了にフォワードさせる
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/generalChat.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
 			dispatcher.forward(request, response);
 			
 		}else {
-			//ログイン画面にフォワードさせる
+			//LOGIN OKが返ってこなかったばあいはログイン画面にフォワードさせる
+			request.setAttribute("message", message);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("");
 			dispatcher.forward(request, response);
 		}
-		
-		//全体チャットにフォワードさせる
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
-		dispatcher.forward(request, response);
 		
 	}
 
