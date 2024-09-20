@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.AccountDAO;
+import model.LoginErr;
 
 /*
  * 
@@ -27,7 +28,21 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		doPost(request, response);
+		//直接アクセスされたときにログイン済か、セッションの中身を調べる
+		HttpSession session = request.getSession();
+		String loginID = (String)session.getAttribute("loginID");
+		Boolean login = (Boolean)session.getAttribute("login");
+		
+		//ログインIDが入っているか、ログインがtrueの時ログインしていると判断する
+		if( loginID != null || login == true ) {
+			//ログイン状態の時は、全体チャットに移動する
+			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
+			dispatcher.forward(request, response);
+		} else {
+			//ログアウト状態の時は、ログイン画面にリダイレクトさせる
+			response.sendRedirect("/oneHunting");
+			
+		}
 	
 	}
 
@@ -36,6 +51,10 @@ public class LoginServlet extends HttpServlet {
 		//パラメータの取得
 		String id = request.getParameter("id");
 		String pw = request.getParameter("pw");
+		
+		//入力値チェック
+		LoginErr loginErr = new LoginErr();
+		String errMessage = loginErr.account_InputValueCheck(id, pw);
 		
 		//DAOの接続
 		AccountDAO accountDAO = new AccountDAO();

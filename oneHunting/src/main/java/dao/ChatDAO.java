@@ -37,7 +37,6 @@ public class ChatDAO {
             throw new IllegalStateException("JDBCドライバを読み込めませんでした");
         }
         
-        
     }
     
     
