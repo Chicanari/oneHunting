@@ -5,6 +5,23 @@
 
 
 %>
+
+<%-- ログイン情報の取得　※ログインしてない場合はログイン画面へ移動する --%>
+<%
+
+String loginID = (String)session.getAttribute("loginID");
+Boolean login = (Boolean)session.getAttribute("login");
+
+//nullチェック
+if(login == null)	login = false;
+
+//ログインIDが入っているか、ログインがtrueの時ログインしていると判断する
+if( loginID == null || login == false ) {
+	//ログアウト状態の時は、ログイン画面に移動する
+	response.sendRedirect("/oneHunting");
+}
+
+%>
     
 <%-- エラーメッセージ用変数読み込み --%>
 <%
