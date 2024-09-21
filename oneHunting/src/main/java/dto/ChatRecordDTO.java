@@ -1,6 +1,6 @@
-package model;
+package dto;
 
-public class ChatRecord {
+public class ChatRecordDTO {
 	
 	//フィールド宣言
 	private String postId; //投稿ID
@@ -10,12 +10,12 @@ public class ChatRecord {
 	private String time; //投稿時間
 	private String text; //チャット本文
 	private String image; //投稿画像のファイル名
-	private String goodCount; //いいねの数
+	private Integer goodCount; //いいねの数
 	//private String goodId; //いいねされた人のID
 	
 	//フィールド8つに対しての代入処理を行うコンストラクタ(仮引数)
-	public ChatRecord(String postId,String accountId,String accountName,
-			String icon,String time,String text,String image,String goodCount) {
+	public ChatRecordDTO(String postId,String accountId,String accountName,
+			String icon,String time,String text,String image,Integer goodCount) {
 		this.postId = postId;
 		this.accountId = accountId;
 		this.accountName = accountName;
@@ -69,10 +69,10 @@ public class ChatRecord {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	public String getGoodCount() {
+	public Integer getGoodCount() {
 		return goodCount;
 	}
-	public void setGoodCount(String goodCount) {
+	public void setGoodCount(Integer goodCount) {
 		this.goodCount = goodCount;
 	}
 

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import dao.ChatDAO;
-import model.ChatRecord;
+import dto.ChatRecordDTO;
 
 /*
  * 
@@ -35,6 +35,23 @@ public class ChatServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		
+		/**
+		 * 
+		 * 自動遷移時、メインチャットを表示する
+		 * 
+		 */
+		
+		String chatType = request.getParameter("chatType");
+		if(chatType == null)  chatType = "chat_main";
+		
+		
+		/**
+		 * 
+		 * 左カラムチャットより遷移するチャットを取得し返却する
+		 * 
+		 */
 		
 		/**
 		 * imageで取得する画像のファイル名を取得するための変数宣言 
@@ -57,20 +74,19 @@ public class ChatServlet extends HttpServlet {
          * ※テスト用に引数に"main"を挿入
          */
 		//chatページの左カラムから、遷移するチャットのテーブル名を取得する
-		String chatType = request.getParameter("chatType");
-		List<ChatRecord> chatList;
+		
+		System.out.println(chatType);
 		
 		/**
 		 * チャットリストを取得
 		 */
 		try {
-			chatList = cDAO.comment_view(chatType);
+			List<ChatRecordDTO> chatList = cDAO.comment_view(chatType);
 			
 			/**
 			 * チャットリストをリクエストスコープに保存
 			 */
 			request.setAttribute("chatList", chatList); 
-					
 			
 			/**
 			* エラーメッセージをリクエストスコープに保存
@@ -83,6 +99,8 @@ public class ChatServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
+		
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -114,7 +132,7 @@ public class ChatServlet extends HttpServlet {
          * ※テスト用に引数に"main"を挿入
          */
 		String chatType = "main";
-		List<ChatRecord> chatList;
+		List<ChatRecordDTO> chatList;
 		try {
 			/**
 			 * チャットリストを取得
