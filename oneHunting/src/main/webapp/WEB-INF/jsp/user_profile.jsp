@@ -49,7 +49,7 @@ if( loginID == null || login == false ) {
 
 <p>獲得ポイント</p>
 
-<form action="chat" method="post"><input type="submit" value="戻る"></form>
+<form action="chat" method="get"><input type="submit" value="戻る"></form>
 
 </body>
 </html>

@@ -36,7 +36,6 @@ public class ChatServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
 		/**
 		 * 
 		 * 自動遷移時、メインチャットを表示する
@@ -54,11 +53,6 @@ public class ChatServlet extends HttpServlet {
 		 */
 		
 		/**
-		 * imageで取得する画像のファイル名を取得するための変数宣言 
-		 */
-		String imageName = null;
-    	
-		/**
 		* エラーメッセージ用の変数宣言
 		*/
 		String msg = "";
@@ -70,19 +64,15 @@ public class ChatServlet extends HttpServlet {
 				
         /**
          * chatDAOから表示用のメソッド呼び出し
-         * 
-         * ※テスト用に引数に"main"を挿入
          */
-		//chatページの左カラムから、遷移するチャットのテーブル名を取得する
-		
-		System.out.println(chatType);
 		
 		/**
 		 * チャットリストを取得
 		 */
+		List<ChatRecordDTO> chatList;
 		try {
-			List<ChatRecordDTO> chatList = cDAO.comment_view(chatType);
-			
+			chatList = cDAO.comment_view(chatType);
+		
 			/**
 			 * チャットリストをリクエストスコープに保存
 			 */
@@ -96,9 +86,11 @@ public class ChatServlet extends HttpServlet {
 			//チャット画面にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
 			dispatcher.forward(request, response);
+		
 		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
-		} 
+		}
 		
 		
 	}
