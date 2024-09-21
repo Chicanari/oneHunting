@@ -70,8 +70,8 @@
 		<div class="maindisplay">
 		<section id="side-column">
 			<div class="side-column">
-			<form action="profile_view" method="post">
-				<button type='submit' value="chat_fukuoka">福岡</button><br/>
+			<form action="chat" method="post">
+				<button type='submit' name="chatType" value="chat_fukuoka">福岡</button><br/>
 				<a href="#">佐賀</a><br/>
 				<a href="#">大分</a><br/>
 				<a href="#">長崎</a><br/>

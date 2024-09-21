@@ -56,7 +56,8 @@ public class ChatServlet extends HttpServlet {
          * 
          * ※テスト用に引数に"main"を挿入
          */
-		String chatType = "main";
+		//chatページの左カラムから、遷移するチャットのテーブル名を取得する
+		String chatType = request.getParameter("chatType");
 		List<ChatRecord> chatList;
 		
 		/**
