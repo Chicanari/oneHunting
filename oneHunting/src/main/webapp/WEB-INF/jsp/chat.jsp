@@ -1,20 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%-- チャットレコードの呼び出し --%>
-<%@page import="dto.ChatRecordDTO"%>
-<%-- リストの使用定義 --%>
-<%@page import="java.util.List"%>
+<%-- ChatRecordDTO,Listの呼び出し --%>
+<%@
 
+page import="dto.ChatRecordDTO,java.util.List"
 
-<%-- チャット画面をリクエストスコープから取得 --%>
-<%
+%>
+
+<%-- チャット画面に関する情報の取得 --%>
+<% 
+
+//チャット画面に表示する情報（ChatRecordDTO）をリクエストスコープから取得
 List<ChatRecordDTO> chatList = (List<ChatRecordDTO>)request.getAttribute("chatList");
 
+//エラーメッセージ用変数読み込み
+String msg = (String)request.getAttribute("msg");
+
 %>
-<%-- エラーメッセージ用変数読み込み --%>
-<%
-	String msg = (String)request.getAttribute("msg");
-%>
+
 <%-- ログイン情報の取得　※ログインしてない場合はログイン画面へ移動する --%>
 <%
 
@@ -34,14 +37,15 @@ if( loginID == null || login == false ) {
 
 
 <!DOCTYPE html>
+
 <%-- 言語を日本語に指定 --%>
 <html lang="ja">
+<head>
 <meta charset="UTF-8">
 <%-- javascript使用の為のmetaタグ --%>
 <meta name="viewport" content = "width=device-width, initial-scale=1.0">
 
 
-<head>
 <!-- CSSファイル  -->
 <link rel="stylesheet" type="text/css" href="css/chat.css"
 	<title>
@@ -55,6 +59,7 @@ if( loginID == null || login == false ) {
 
 <%-- 山﨑画面レイアウトマークアップ --%>
 	<div class="chat-container">
+	
 		<!-- ヘッダー-->
 		<nav>
 			<div class="wrapper">
@@ -70,12 +75,17 @@ if( loginID == null || login == false ) {
                 <div class="nav__header">
                     <img class="nav__btn" src="image/batten-close.png" alt="">
                 <ul class="nav__list">
-                    <li class="nav__item"><a href="#">プロフィール</a></li>
-                    <li class="nav__item"><a href="index.jsp">ログアウト</a></li>
+                	<form action="profile_view" method="post">
+					<input type="submit" value="プロフィール">
+					</form>
+					<form action="logout" method="post">
+						<input type="submit" value="ログアウト">
+					</form>
                 </ul>
                 </div>
             </nav>
 		</nav>
+		
 		<div class="maindisplay">
 		<!-- 左カラム -->
 		<section id="side-column">
@@ -97,6 +107,7 @@ if( loginID == null || login == false ) {
 			
 			</div>
 		</section>	
+		
 		<main>
 		<!-- チャット本体部分 -->
 		<section id="main">
@@ -119,6 +130,7 @@ if( loginID == null || login == false ) {
 			</div>
 		</section>
 		</main>
+		
 		</div>
 		<!-- フッター -->
 		<footer>
@@ -136,10 +148,7 @@ if( loginID == null || login == false ) {
 	
 
 <%-- 沼田さん画像機能設定　--%>
-		<%-- name適宜変更お願いします。 --%>
-		<input type="text" name="kensaku">
-		 <input type="submit" value="検索">
-	
+<%-- name適宜変更お願いします。 --%>
 
 	<%-- ※テスト表示用 --%>
 	<%-- <img src="/oneHunting/image/<%=imageName%>"> --%>
@@ -163,15 +172,9 @@ if( loginID == null || login == false ) {
 		<img id="preview">
 	</form>
 
+	<%-- エラーの表示 --%>
 	<%=msg%>
 
-
-	<form action="profile_view" method="post">
-		<input type="submit" value="プロフィール">
-	</form>
-	<form action="logout" method="post">
-		<input type="submit" value="ログアウト">
-	</form>
 
 
 	<%-- 画像プレビューを表示するためのスクリプト構文 --%>
