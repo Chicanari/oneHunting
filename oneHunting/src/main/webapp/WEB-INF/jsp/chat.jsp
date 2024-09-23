@@ -11,7 +11,7 @@ page import="dto.ChatRecordDTO,java.util.List"
 <% 
 
 //チャット画面に表示する情報（ChatRecordDTO）をリクエストスコープから取得
-List<ChatRecordDTO> chatList = (List<ChatRecordDTO>)request.getAttribute("chatList");
+List<ChatRecordDTO> chatList = (List<ChatRecordDTO>)session.getAttribute("chatList");
 
 //エラーメッセージ用変数読み込み
 String msg = (String)request.getAttribute("msg");
@@ -32,6 +32,11 @@ if( loginID == null || login == false ) {
 	//ログアウト状態の時は、ログイン画面に移動する
 	response.sendRedirect("/oneHunting");
 }
+
+%>
+
+<%-- いいねしている投稿IDを取得する --%>
+<%
 
 %>
 
@@ -115,6 +120,7 @@ if( loginID == null || login == false ) {
 			<div class="wrapper">
 				<p>
 				
+				<form action="like" method="post">
 				<% for(ChatRecordDTO record :chatList){ %>
 				
 				投稿ID:<%= record.getPostId() %><br>
@@ -123,9 +129,19 @@ if( loginID == null || login == false ) {
 				投稿日時：<%= record.getTime() %><br>
 				投稿内容：<%= record.getText() %><br>
 				いいね数：<%= record.getGoodCount() %><br>
-				<br>
 				
+				<%-- 投稿IDを渡す --%>
+				<input type="hidden" id="postId" name="postId" value="<%= record.getPostId() %>" />
+				
+				<%-- TODO:いいねしてるかしていないか分岐を実装する --%>
+					<% if(true){ %>
+						 <button type="submit" name="like" value="plus">♡</button><br>
+					<% } else { %>
+						<button type="submit" name="like" value="minus">♥</button><br>
+					<% } %>
+				<br>
 				<% } %>
+				</form>
 				
 				</p>
 			</div>

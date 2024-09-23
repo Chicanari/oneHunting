@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import dao.ChatDAO;
@@ -38,12 +39,26 @@ public class ChatServlet extends HttpServlet {
 		
 		/**
 		 * 
+		 * 最後に見ていたチャットを表示する
 		 * 自動遷移時、メインチャットを表示する
 		 * 
 		 */
+		HttpSession session = request.getSession();
 		
+		//左カラムから送られてきたチャット名を取得する
 		String chatType = request.getParameter("chatType");
-		if(chatType == null)  chatType = "chat_main";
+		//上記がnullだった場合
+		if(chatType == null) {
+			
+			//セッションにチャットタイプが保存されている（既に遷移済みでないか）確認する
+			chatType = (String)session.getAttribute("chatType");
+			
+			//入っていない場合はメインチャットへ遷移させる
+			if(chatType == null) {
+				chatType = "chat_main";
+			}
+			
+		}
 		
 		
 		/**
@@ -74,9 +89,11 @@ public class ChatServlet extends HttpServlet {
 			chatList = cDAO.comment_view(chatType);
 		
 			/**
-			 * チャットリストをリクエストスコープに保存
+			 * チャットのコメント一覧と名前をセッションスコープに保存
 			 */
-			request.setAttribute("chatList", chatList); 
+			
+			session.setAttribute("chatType", chatType);
+			session.setAttribute("chatList", chatList); 
 			
 			/**
 			* エラーメッセージをリクエストスコープに保存

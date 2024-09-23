@@ -20,7 +20,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import org.postgresql.util.PSQLException;
 
 import dto.ChatRecordDTO;
 
@@ -136,17 +139,94 @@ public class ChatDAO {
     }
     
     /**
-     * 仮：いいねを追加するメソッド
+     * いいねを追加するメソッド
      */
-    public void like_add() {
+    public void like_add(String chatType,String postId) {
+    	
+    	/**
+    	 * 投稿からJSON形式のいいね一覧を取得する 例：{"goodID": ["id1", "id2", "id3"]}
+    	 */
+    	/*1*/String JsonSql = "SELECT ?_good_id  FROM ";
+    	/*2*/JsonSql += "? ";
+    	/*3*/JsonSql += "WHERE ?_post_id = ";
+    	/*4*/JsonSql += "?;";
+    	System.out.println(JsonSql);
+    	
+    	//SELECT文の結果を受け取る変数
+    	String goodIds = "";
+    	
+    	//SQL文の実行
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(JsonSql);			){
+			
+			//プレースホルダを設定
+			ps.setString(1, chatType );
+			ps.setString(2, chatType );
+			ps.setString(3, chatType );
+			ps.setString(4, postId );
+			
+			//SELECT文の実行
+			try (ResultSet rs = ps.executeQuery()) {
+				if(rs.next()) {
+					goodIds = rs.getString("chat_main_good_id");
+				}
+            }
+	    	
+
+		} catch (SQLException e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+		}
+    			
+    	
+    	
+    	
+    	/**
+    	 *  一致するIDのいいねの数を１増やし、JSONファイルのいいねアカウント一覧を更新する
+    	 */
+    	/*1*/String UpdateSql = "UPDATE ? SET ";
+    	/*2*/ UpdateSql += "?_good_count = ";
+		/*3*/ UpdateSql += "?_good_count+1 ";
+		/*4*/ UpdateSql += ",?_good_id = " + goodIds +" ";
+		/*5*/ UpdateSql += "WHERE ?_post_id = ";
+		/*6*/ UpdateSql += "? ;";
+		
+		System.out.println(UpdateSql);
+    	
+		
+		//SQL文の実行
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(UpdateSql);			){
+			
+			//プレースホルダを設定
+			ps.setString(1, chatType );
+			ps.setString(2, chatType );
+			ps.setString(3, chatType );
+			ps.setString(4, chatType );
+			ps.setString(5, chatType );
+			ps.setString(6, postId );
+			
+			
+			//INSERT文の実行
+			int rowsAffected = ps.executeUpdate();
+			if (rowsAffected > 0) {
+	        }
+			
+		} catch (PSQLException e) {
+			System.err.println("SQLエラー: " + e.getMessage()); // 詳細なエラー情報を表示
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
     	
     }
     
     
     /**
-     * 仮：いいねを削除するメソッド
+     * いいねを削除するメソッド
+     * @param chatType 
+     * @param postId 
      */
-    public void like_delete() {
+    public void like_delete(String chatType, String postId) {
     	
     }
     
