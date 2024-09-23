@@ -70,6 +70,7 @@ if( loginID == null || login == false ) {
             	<img class="header__btn" src="image/hamburgermenu.png" alt="">
             	</form>
 			</div>
+		
 			
 			<nav class="nav">
                 <div class="nav__header">
@@ -83,7 +84,7 @@ if( loginID == null || login == false ) {
 					</form>
                 </ul>
                 </div>
-            </nav>
+        	</nav>
 		</nav>
 		
 		<div class="maindisplay">
