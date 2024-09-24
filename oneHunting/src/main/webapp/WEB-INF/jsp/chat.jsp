@@ -51,8 +51,9 @@ if( loginID == null || login == false ) {
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <!-- CSSファイル  -->
 <link rel="stylesheet" type="text/css" href="css/chat.css"
-<body>	
+</head>
 
+<body>	
 <%-- 山﨑画面レイアウトマークアップ --%>
 	<div class="chat-container">
 		<!-- ヘッダー-->
