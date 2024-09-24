@@ -51,10 +51,7 @@ public class ProfileViewServlet extends HttpServlet {
 		String accountId = request.getParameter("");
 		
 
-		//
-		 UserProfileDTO userProfile = accountDAO.profileView(accountId);
-		 session.setAttribute("profile", userProfile);
-
+		
 		/*
 		 * Q：なにをしてるかコメント書いてみて
 		 */
