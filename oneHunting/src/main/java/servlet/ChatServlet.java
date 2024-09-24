@@ -45,6 +45,8 @@ public class ChatServlet extends HttpServlet {
 		String chatType = request.getParameter("chatType");
 		if(chatType == null)  chatType = "chat_main";
 		
+		System.out.println("ChatServlet chatType:"+chatType);
+		
 		
 		/**
 		 * 

@@ -1,15 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
 <%-- ChatRecordDTO,Listの呼び出し --%>
-<%@ page import="dto.ChatRecordDTO,java.util.List"%>
+<%@
+
+page import="dto.ChatRecordDTO,java.util.List"
+
+%>
 
 <%-- チャット画面に関する情報の取得 --%>
 <% 
+
 //チャット画面に表示する情報（ChatRecordDTO）をリクエストスコープから取得
 List<ChatRecordDTO> chatList = (List<ChatRecordDTO>)request.getAttribute("chatList");
+
 //エラーメッセージ用変数読み込み
 String msg = (String)request.getAttribute("msg");
+
 %>
 
 <%-- ログイン情報の取得　※ログインしてない場合はログイン画面へ移動する --%>
@@ -38,71 +44,55 @@ if( loginID == null || login == false ) {
 <meta charset="UTF-8">
 <%-- javascript使用の為のmetaタグ --%>
 <meta name="viewport" content = "width=device-width, initial-scale=1.0">
-
-
 <!-- CSSファイル  -->
 <link rel="stylesheet" type="text/css" href="css/chat.css"
 	<title>
 	<!-- TODO アイコン設置 -->
 	</title>
 </head>
-
-<body>
-
-
-
+<body>	
 <%-- 山﨑画面レイアウトマークアップ --%>
 	<div class="chat-container">
 	
 		<!-- ヘッダー-->
-		<nav>
-			<div class="wrapper">
-				<form action="search" method="post">
-				<input type="text" name="kensaku">
-				<input type="submit" value="検索">
-				<!-- .header__btn -->
-            	<img class="header__btn" src="image/hamburgermenu.png" alt="">
-            	</form>
-			</div>
-			
-			<nav class="nav">
-                <div class="nav__header">
-                    <img class="nav__btn" src="image/batten-close.png" alt="">
-                <ul class="nav__list">
-                	<form action="profile_view" method="post">
-					<input type="submit" value="プロフィール">
-					</form>
-					<form action="logout" method="post">
-						<input type="submit" value="ログアウト">
-					</form>
-                </ul>
-                </div>
-            </nav>
-		</nav>
-		
+		<form action="nav" method="get">
+			<nav>
+				<img class="logo" src="image/logo_white.png" alt="oneHuntingのロゴ">
+				<div class="wrapper">
+					<input type="text" name="kensaku"> <input type="submit"
+						value="検索">
+					<!-- ハンバーガーメニュー -->
+					<img class="header__btn" src="image/hamburgermenu.png" alt="">
+				</div>
+
+				<nav class="nav">
+					<div class="nav__header">
+						<img class="nav__btn" src="image/batten-close.png" alt="">
+						<ul class="nav__list">
+							<li class="nav__item"><a href="/oneHunting/profile_view">プロフィール</a></li>
+							<li class="nav__item"><a href="/oneHunting/logout">ログアウト</a></li>
+						</ul>
+					</div>
+				</nav>
+			</nav>
+		</form>
 		<div class="maindisplay">
 		<!-- 左カラム -->
-		<section id="side-column">
+		<form action="chat" method="get">
 			<div class="side-column">
-			
-			<form action="chat" method="get">
 			<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
 			<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
 			<button type="submit" name="chatType" value="chat_oita">大分</button><br/>
 			<button type="submit" name="chatType" value="chat_nagasaki">長崎</button><br/>
 			<button type="submit" name="chatType" value="chat_kumamoto">熊本</button><br/>
-			<button type="submit" name="chatType" value="chat_miyazaki">宮崎</button><br/>
 			<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
 			<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
-			
 			<button type="submit" name="chatType" value="chat_main">雑談</button><br/>
 			<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
 			<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
-			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>
-			</form>
-			
+			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>	
 			</div>
-		</section>	
+		</form>	
 		
 		<main>
 		<!-- チャット本体部分 -->
@@ -142,9 +132,7 @@ if( loginID == null || login == false ) {
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="js/chat.js"></script>
 	
-
 <%-- 沼田さん画像機能設定　--%>
-<%-- name適宜変更お願いします。 --%>
 
 	<%-- ※テスト表示用 --%>
 	<%-- <img src="/oneHunting/image/<%=imageName%>"> --%>
