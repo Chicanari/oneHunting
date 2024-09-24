@@ -344,6 +344,10 @@ public class AccountDAO {
     		//結果を実行
     		rs = ps.executeQuery();
     		
+    		/*
+    		 * Q:なぜ１行のみだったらifが適切なのでしょうか？
+    		 */
+    		
     		//プロフィール表示に必要な情報を変数へrs格納
     		//結果が1行のみならif文が適切とのことなので
     		if(rs.next()) {
@@ -395,6 +399,12 @@ public class AccountDAO {
     			}
     		}
     	}
+    	
+    	/*
+    	 * Q:下記のコメントが矛盾しています　書き直してください
+    	 * 　また、「while(rs.next())の処理」ではなく、具体的になにを返してるのか書いてください。
+    	 */
+    	
     	//while(rs.next())の処理を結果として返す
     	return userProfile;
     }
