@@ -26,7 +26,11 @@ import java.util.ArrayList;
 
 import org.postgresql.util.PSQLException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import dto.ChatRecordDTO;
+import json.GoodID;
 
 public class ChatDAO {
 	
@@ -173,13 +177,7 @@ public class ChatDAO {
     		
     		
     		while(rs.next()) {	
-    			/**
-    			 * ※メモ用
-    			 * chat_『main』_account_id
-    			 * この部分に引数を渡して読み込み先を変える？
-    			 * 
-    			 * 一旦、mainで実装
-    			 */
+    			
     			//1レコード分のデータを取得
     			String postId = rs.getString(chatType+ "_post_id");
     			String accountId = rs.getString(chatType+ "_account_id");
@@ -189,6 +187,7 @@ public class ChatDAO {
 				String text = rs.getString(chatType + "_text");
 				String image = rs.getString(chatType + "_image");
 				Integer goodCount = ((Integer)rs.getInt(chatType + "_good_count")).equals(null) ? 0 : rs.getInt(chatType + "_good_count") ;
+				
 				
 				//1レコード分のデータを格納するインスタンスの生成
 				ChatRecordDTO cRecord = new ChatRecordDTO(postId,accountId,accountName,icon,time,text,image,goodCount);
@@ -228,72 +227,84 @@ public class ChatDAO {
     
     /**
      * いいねを追加するメソッド
+     * @param loginID 
+     * @throws JsonProcessingException 
      */
-    public void like_add(String chatType,String postId) {
+    public void like_add(String chatType,String postId, String loginID) throws JsonProcessingException {
     	
     	/**
     	 * 投稿からJSON形式のいいね一覧を取得する 例：{"goodID": ["id1", "id2", "id3"]}
     	 */
-    	/*1*/String JsonSql = "SELECT ?_good_id  FROM ";
-    	/*2*/JsonSql += "? ";
-    	/*3*/JsonSql += "WHERE ?_post_id = ";
-    	/*4*/JsonSql += "?;";
-    	System.out.println(JsonSql);
+    	String JsonSql = "SELECT " +chatType+ "_good_id  FROM "+ chatType + " WHERE " +chatType+ "_post_id = ?;";
     	
-    	//SELECT文の結果を受け取る変数
-    	String goodIds = "";
+    	//SQL文でJSONファイルをStringで受け取るための変数
+    	String goodId_Json = "";
+	    
+	    // DBに格納されたJSON形式のデータを扱うためのJSONクラス
+    	GoodID goodId = new GoodID();
+    	
+    	// ObjectMapperを初期化
+	    ObjectMapper objectMapper = new ObjectMapper();
+    	
     	
     	//SQL文の実行
 		try(Connection con = DriverManager.getConnection(url,user,password);
 			PreparedStatement ps = con.prepareStatement(JsonSql);			){
 			
 			//プレースホルダを設定
-			ps.setString(1, chatType );
-			ps.setString(2, chatType );
-			ps.setString(3, chatType );
-			ps.setString(4, postId );
+			ps.setString(1, postId );
 			
 			//SELECT文の実行
 			try (ResultSet rs = ps.executeQuery()) {
 				if(rs.next()) {
-					goodIds = rs.getString("chat_main_good_id");
+					//JSONファイルが存在しない場合はnull、存在する場合はStringを返す
+					goodId_Json = rs.getString(chatType+"_good_id");
 				}
             }
+			
+			
+			/**
+			 *  いいねをしたaccount_idを、****_good_idに追加する
+			 */
+	    	
+			if(goodId_Json == null) {
+				//goodIdsがnullの場合は、新しくJSONファイルを作成する
+		        goodId.addIds(loginID);
+			}else {
+				//goodIdsがnullでない場合は、JSONファイルにuserIDを追加する
+				
+				//JSON形式のStringをGoodIDオブジェクトに変換
+			    goodId = objectMapper.readValue(goodId_Json, GoodID.class);
+			    
+			    //IDを追加する
+			    goodId.addIds(loginID);
+			}
 	    	
 
 		} catch (SQLException e1) {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
 		}
-    			
-    	
-    	
-    	
+		
+		//StringのJSONファイルに変換する
+		String jsonString = objectMapper.writeValueAsString(goodId);
+
+		
     	/**
     	 *  一致するIDのいいねの数を１増やし、JSONファイルのいいねアカウント一覧を更新する
     	 */
-    	/*1*/String UpdateSql = "UPDATE ? SET ";
-    	/*2*/ UpdateSql += "?_good_count = ";
-		/*3*/ UpdateSql += "?_good_count+1 ";
-		/*4*/ UpdateSql += ",?_good_id = " + goodIds +" ";
-		/*5*/ UpdateSql += "WHERE ?_post_id = ";
-		/*6*/ UpdateSql += "? ;";
+    	String UpdateSql = "UPDATE " +chatType+ " SET "+ chatType + "_good_count = ";
+    	/*1*/UpdateSql += chatType + "_good_count+1 ,"+ chatType + "_good_id = ?::json ";
+    	/*2*/UpdateSql += "WHERE " + chatType + "_post_id = ? ;";
 		
-		System.out.println(UpdateSql);
-    	
 		
 		//SQL文の実行
 		try(Connection con = DriverManager.getConnection(url,user,password);
 			PreparedStatement ps = con.prepareStatement(UpdateSql);			){
 			
 			//プレースホルダを設定
-			ps.setString(1, chatType );
-			ps.setString(2, chatType );
-			ps.setString(3, chatType );
-			ps.setString(4, chatType );
-			ps.setString(5, chatType );
-			ps.setString(6, postId );
-			
+			ps.setString(1, jsonString );
+			ps.setString(2, postId );
 			
 			//INSERT文の実行
 			int rowsAffected = ps.executeUpdate();
@@ -313,8 +324,9 @@ public class ChatDAO {
      * いいねを削除するメソッド
      * @param chatType 
      * @param postId 
+     * @param loginID 
      */
-    public void like_delete(String chatType, String postId) {
+    public void like_delete(String chatType, String postId, String loginID) {
     	
     }
     

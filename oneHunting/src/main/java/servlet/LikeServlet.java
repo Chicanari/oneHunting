@@ -37,11 +37,12 @@ public class LikeServlet extends HttpServlet {
 		//パラメータの取得
 		String like = request.getParameter("like");
 		String postId = request.getParameter("postId");
-		System.out.println(like);
+		System.out.println(like + " " + postId);
 		
 		//現在のチャットタイプの取得
 		HttpSession session = request.getSession();
 		String chatType =  (String)session.getAttribute("chatType");
+		String loginID =  (String)session.getAttribute("loginID");
 		
 		//DAOの接続
 		ChatDAO chatDAO = new ChatDAO();
@@ -50,17 +51,13 @@ public class LikeServlet extends HttpServlet {
 		//plus　→いいねの増加　minus　→いいねの減少
 		if(like.equals("plus")) {
 			
-			//チャットのいいね数・いいねしたアカウント一覧を増やし、いいね数を返却する
-			chatDAO.like_add(chatType, postId);
-			
-			//アカウントテーブルのいいねポイントの増加・いいね一覧に投稿IDを追加し、
-			//chat画面にいいねをした投稿一覧を返す
-			//戻り値：リスト＜配列？JSON?＞
+			//チャットのいいね数・いいねしたアカウント一覧を増やす
+			chatDAO.like_add(chatType, postId,loginID);
 			accountDAO.like_add();
 			
 		}else if(like.equals("minus")) {
 			
-			chatDAO.like_delete(chatType, postId);
+			chatDAO.like_delete(chatType, postId,loginID);
 			accountDAO.like_delete();
 			
 		}

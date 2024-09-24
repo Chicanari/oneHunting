@@ -44,6 +44,8 @@ if( loginID == null || login == false ) {
 <%-- いいねしている投稿IDを取得する --%>
 <%
 
+
+
 %>
 
 
@@ -97,6 +99,35 @@ if( loginID == null || login == false ) {
 		</header-menu>
 		<div class="maindisplay">
 		<!-- 左カラム -->
+		<p>
+			
+			
+			<% for(ChatRecordDTO record :chatList){ %>
+			<form action="like" method="post">
+			
+			投稿ID:<%= record.getPostId() %><br>
+			アカウントID：<%= record.getAccountId() %><br>
+			アカウント名：<%= record.getAccountName() %><br>
+			投稿日時：<%= record.getTime() %><br>
+			投稿内容：<%= record.getText() %><br>
+			いいね数：<%= record.getGoodCount() %><br>
+			
+			<%-- 投稿IDを渡す --%>
+			<input type="hidden" id="postId" name="postId" value="<%= record.getPostId() %>" />
+			
+			<%-- TODO:いいねしてるかしていないか分岐を実装する --%>
+				<% if(true){ %>
+					 <button type="submit" name="like" value="plus">♡</button><br>
+				<% } else { %>
+					<button type="submit" name="like" value="minus">♥</button><br>
+				<% } %>
+			<br>
+			</form>
+			<% } %>
+			
+			
+		</p>
+		
 		<form action="chat" method="get">
 			<div class="side-column">
 			<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
