@@ -42,52 +42,50 @@ if( loginID == null || login == false ) {
 <%-- CSSファイル --%>
 <link rel="stylesheet" type="text/css" href="css/chat.css">
 
-<title>Insert title here</title>
+<title>チャット画面</title>
 </head>
-<body>
-<h1>チャット画面</h1>
-
-	<form action="search" method="post">
-	
-	
+<body>	
 <%-- 山﨑画面レイアウトマークアップ --%>
 	<div class="chat-container">
 		<!-- ヘッダー-->
-		<nav>
-			<div class="wrapper">
-				<input type="text" name="kensaku">
-				<input type="submit" value="検索">
-				<!-- .header__btn -->
-            	<img class="header__btn" src="image/hamburgermenu.png" alt="">
-			</div>
-			
-			<nav class="nav">
-                <div class="nav__header">
-                    <img class="nav__btn" src="image/batten-close.png" alt="">
-                <ul class="nav__list">
-                    <li class="nav__item"><a href="#">プロフィール</a></li>
-                    <li class="nav__item"><a href="index.jsp">ログアウト</a></li>
-                </ul>
-                </div>
-            </nav>
-		</nav>
+		<form action="nav" method="get">
+			<nav>
+				<img class="logo" src="image/logo_white.png" alt="oneHuntingのロゴ">
+				<div class="wrapper">
+					<input type="text" name="kensaku"> <input type="submit"
+						value="検索">
+					<!-- ハンバーガーメニュー -->
+					<img class="header__btn" src="image/hamburgermenu.png" alt="">
+				</div>
+
+				<nav class="nav">
+					<div class="nav__header">
+						<img class="nav__btn" src="image/batten-close.png" alt="">
+						<ul class="nav__list">
+							<li class="nav__item"><a href="/oneHunting/profile_view">プロフィール</a></li>
+							<li class="nav__item"><a href="/oneHunting/logout">ログアウト</a></li>
+						</ul>
+					</div>
+				</nav>
+			</nav>
+		</form>
 		<div class="maindisplay">
 		<!-- 左カラム -->
-		<section id="side-column">
+		<from action="chat" method="get">
 			<div class="side-column">
-			<a href="#">福岡</a><br/>
-			<a href="#">佐賀</a><br/>
-			<a href="#">大分</a><br/>
-			<a href="#">長崎</a><br/>
-			<a href="#">熊本</a><br/>
-			<a href="#">鹿児島</a><br/>
-			<a href="#">沖縄</a><br/>
-			<a href="#">雑談</a><br/>
-			<a href="#">狩猟資格</a><br/>
-			<a href="#">成果報告</a><br/>
-			<a href="#">おすすめアイテム</a><br/>	
+			<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
+			<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
+			<button type="submit" name="chatType" value="chat_oita">大分</button><br/>
+			<button type="submit" name="chatType" value="chat_nagasaki">長崎</button><br/>
+			<button type="submit" name="chatType" value="chat_kumamoto">熊本</button><br/>
+			<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
+			<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
+			<button type="submit" name="chatType" value="chat_main">雑談</button><br/>
+			<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
+			<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
+			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>	
 			</div>
-		</section>	
+		</from>	
 		<main>
 		<!-- チャット本体部分 -->
 		<section id="main">
@@ -110,12 +108,7 @@ if( loginID == null || login == false ) {
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="js/chat.js"></script>
 	
-
 <%-- 沼田さん画像機能設定　--%>
-		<%-- name適宜変更お願いします。 --%>
-		<input type="text" name="kensaku"> <input type="submit"
-			value="検索">
-	</form>
 
 	<%-- ※テスト表示用 --%>
 	<img src="/oneHunting/image/<%=imageName%>">

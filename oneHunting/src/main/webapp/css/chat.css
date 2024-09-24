@@ -9,6 +9,13 @@ body{
 /* ===============================================================
 header
 ================================================================= */
+.logo {
+	height: 80px;
+	width: 80px;
+	margin-top: 5px;
+	display: block;
+}
+
 /* .nav.active表示 */
 .nav.active {
     transform: translateX(-100%);
@@ -30,9 +37,9 @@ header
 
 nav {
 	display: flex;
-    background: #c0c0c0;
+    background: #A39584;
     width: 100%;
-    height: 50px;
+    height: 90px;
 }
 /* ヘッダー固定 */
 /*nav.fixed {*/
@@ -74,7 +81,7 @@ main
 }
 
 section{
-    background-color: #ffff;
+    background-color: #FFFF;
 }
 
 section .wrapper{
@@ -84,7 +91,7 @@ section .wrapper{
 
 .side-column{
 	display: inline-block;
-	background-color: #c0c0c0;
+	background-color: #FFEDE9;
 	height: 100vh;
 	width: 300px;
 }
@@ -101,7 +108,7 @@ footer
 
 .footer {
 	text-align: center;
-	background-color: #c0c0c0;
+	background-color: #A39584;
 	padding: 1em;
 
     justify-content: space-around;
