@@ -78,7 +78,7 @@ if( loginID == null || login == false ) {
 		</form>
 		<div class="maindisplay">
 		<!-- 左カラム -->
-		<from action="chat" method="get">
+		<form action="chat" method="get">
 			<div class="side-column">
 			<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
 			<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
@@ -92,7 +92,7 @@ if( loginID == null || login == false ) {
 			<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
 			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>	
 			</div>
-		</from>	
+		</form>	
 		
 		<main>
 		<!-- チャット本体部分 -->
