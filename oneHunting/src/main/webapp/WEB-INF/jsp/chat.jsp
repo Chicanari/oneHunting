@@ -1,5 +1,5 @@
 <%-- チャットレコードの呼び出し --%>
-<%@page import="model.ChatRecord"%>
+<%@page import="dto.ChatRecordDTO"%>
 
 <%-- リストの使用定義 --%>
 <%@page import="java.util.List"%>
@@ -9,12 +9,12 @@
 
 <%-- チャット画面をリクエストスコープから取得 --%>
 <%
-	List<ChatRecord> chatList = (List<ChatRecord>)request.getAttribute("chatList");
+List<ChatRecordDTO> chatList = (List<ChatRecordDTO>)request.getAttribute("chatList");
 %>
 
 <%-- エラーメッセージ用変数読み込み --%>
 <%
-	String msg = (String)request.getAttribute("msg");
+String msg = (String)request.getAttribute("msg");
 %>
 
 <!DOCTYPE html>
@@ -43,8 +43,12 @@
 <%-- chatListとChatRecordを使用予定 --%>
 <%-- ※視認性の為にtable仮にtable内に表示 --%>
  <table> 
-	<% if(chatList != null){ %>
-		<% for(ChatRecord chat : chatList) {%>
+	<%
+ 	if(chatList != null){
+ 	%>
+		<%
+		for(ChatRecordDTO chat : chatList) {
+		%>
 		<tr>
 			<td><%= chat.getPostId() %></td>  <%-- アカウントID --%> 
 			<td><%= chat.getAccountId() %></td>  <%-- 名前 --%>
@@ -52,7 +56,6 @@
 			<td><%= chat.getIcon() %></td>  <%-- チャット本文 --%>
 			<td><%= chat.getTime() %></td>  <%-- 投稿日時--%>
 			<td><%= chat.getText() %></td>  <%-- いいねの総数 --%>
-			<td><%= chat.getImage() %></td>  <%-- 投稿画像のファイル名 --%>
 		</tr>
 		<% } %>
 	<% } %>

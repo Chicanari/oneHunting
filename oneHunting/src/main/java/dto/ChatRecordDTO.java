@@ -1,6 +1,6 @@
-package model;
+package dto;
 
-public class ChatRecord {
+public class ChatRecordDTO {
 	
 	//フィールド宣言
 	private String postId; //投稿ID
@@ -14,7 +14,7 @@ public class ChatRecord {
 	//private String goodId; //いいねされた人のID
 	
 	//フィールド8つに対しての代入処理を行うコンストラクタ(仮引数)
-	public ChatRecord(String postId,String accountId,String accountName,
+	public ChatRecordDTO(String postId,String accountId,String accountName,
 			String icon,String time,String text,String image,String goodCount) {
 		this.postId = postId;
 		this.accountId = accountId;

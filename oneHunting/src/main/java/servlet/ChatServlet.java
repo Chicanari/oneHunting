@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import dao.ChatDAO;
-import model.ChatRecord;
+import dto.ChatRecordDTO;
 
 /*
  * 
@@ -57,7 +57,7 @@ public class ChatServlet extends HttpServlet {
          * ※テスト用に引数に"main"を挿入
          */
 		String chatType = "main";
-		List<ChatRecord> chatList;
+		List<ChatRecordDTO> chatList;
 		
 		/**
 		 * チャットリストを取得
@@ -113,7 +113,7 @@ public class ChatServlet extends HttpServlet {
          * ※テスト用に引数に"main"を挿入
          */
 		String chatType = "main";
-		List<ChatRecord> chatList;
+		List<ChatRecordDTO> chatList;
 		try {
 			/**
 			 * チャットリストを取得

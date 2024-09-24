@@ -22,13 +22,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import model.ChatRecord;
+import dto.ChatRecordDTO;
 
 public class ChatDAO {
 	
 	
 	//接続情報
-	private final String url = "jdbc:postgresql://localhost:5432/oneHunting";
+	private final String url = "jdbc:postgresql://localhost:5432/onehunting";
 	private final String user = "postgres";
 	private final String password = "root";
 		
@@ -59,9 +59,9 @@ public class ChatDAO {
      * chatTypeで呼び出すチャットを判別する
      * 
      */
-    public ArrayList<ChatRecord> comment_view(String chatType) throws Exception {
+    public ArrayList<ChatRecordDTO> comment_view(String chatType) throws Exception {
     	
-		ArrayList<ChatRecord> chatRecords = new ArrayList<ChatRecord>();
+		ArrayList<ChatRecordDTO> chatRecords = new ArrayList<ChatRecordDTO>();
     	
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -101,7 +101,7 @@ public class ChatDAO {
 				String goodCount = rs.getString("chat_" + chatType + "_good_count");
 				
 				//1レコード分のデータを格納するインスタンスの生成
-				ChatRecord cRecord = new ChatRecord(postId,accountId,accountName,icon,time,text,image,goodCount);
+				ChatRecordDTO cRecord = new ChatRecordDTO(postId,accountId,accountName,icon,time,text,image,goodCount);
 				
 				//取得したデータを格納
 				chatRecords.add(cRecord);
