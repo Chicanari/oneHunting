@@ -33,12 +33,13 @@ public class ProfileViewServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		//AccountDAOの実装とセッションスコープの作成
+		
 		
 		/**
 		 * プロフィール表示の検索（SQL）に使う要素はなに？　１つ「　　」
 		 */
-		
+		//テーブルに登録しているaccount_id
+		//AccountDAOの実装とセッションスコープの作成
 		//アカウントDAOの接続
 		AccountDAO accountDAO = new AccountDAO();
 		//セッションスコープの接続
@@ -47,7 +48,8 @@ public class ProfileViewServlet extends HttpServlet {
 		/*
 		 * Q：これはどこからなにを取るためのgetParameter？？
 		 */
-		//name属性記述
+		//HTTPリクエストから送られてくるパラメータ(formの入力フィールドやURLのクエリパラメータ)
+		//jspで記述したname属性を記述すること
 		String accountId = request.getParameter("");
 		
 
@@ -55,7 +57,10 @@ public class ProfileViewServlet extends HttpServlet {
 		/*
 		 * Q：なにをしてるかコメント書いてみて
 		 */
+		//request.getParameterを格納しているaccountIdを、profileViewの引数として使用
+		//→アカウントIDを使用してプロフィールを表示
 		UserProfileDTO userProfile = accountDAO.profileView(accountId);
+		//上記変数をセッションスコープへ格納
 		session.setAttribute("profile", userProfile);
 		
 		//ログイン画面にフォワードさせる
