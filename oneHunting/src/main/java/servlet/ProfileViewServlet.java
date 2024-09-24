@@ -8,6 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import dao.AccountDAO;
+import dto.UserProfileDTO;
 
 /*
  * 
@@ -28,7 +32,14 @@ public class ProfileViewServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		AccountDAO accountDAO = new AccountDAO();
+		HttpSession session = request.getSession();
 		
+		//name属性記述
+		String accountId = request.getParameter("");
+		
+		 UserProfileDTO userProfile = accountDAO.profileView(accountId);
+		 session.setAttribute("profile", userProfile);
 		//ログイン画面にフォワードさせる
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/user_profile.jsp");
 		dispatcher.forward(request, response);

@@ -313,7 +313,7 @@ public class AccountDAO {
     /**
      * プロフィール表示機能
      */
-    public void profileView(String accountId) {
+    public UserProfileDTO profileView(String accountId) {
     	Connection con = null;
     	PreparedStatement ps = null;
     	ResultSet rs = null;
@@ -321,6 +321,8 @@ public class AccountDAO {
     	
     	//SQL文の操作
     	try {
+    		con = DriverManager.getConnection(url,user,password);
+    		
     		String sql = "SELECT account_icon, account_name, account_id, account_ken, account_introduction, account_good_point ";
     		sql += "FROM account ";
     		sql += "WHERE account_id = ? ";
@@ -346,8 +348,31 @@ public class AccountDAO {
     		
     	}catch(Exception e) {
     		e.printStackTrace();
+    	}finally {
+    		if(con != null) {
+    			try {
+    				con.close();
+    			}catch(Exception e) {
+    				;
+    			}
+    		}
+    		
+    		if(ps != null) {
+    			try {
+    				ps.close();
+    			}catch(Exception e) {
+    				;
+    			}
+    		}
+    		if(rs != null) {
+    			try {
+    				rs.close();
+    			}catch(Exception e){
+    				;
+    			}
+    		}
     	}
-    	
+    	return userProfile;
     }
     
     /**
