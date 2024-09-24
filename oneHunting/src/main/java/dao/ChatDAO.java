@@ -52,6 +52,7 @@ public class ChatDAO {
      */
     public void comment_insert() {
     	
+    	
     }
     
     /**
