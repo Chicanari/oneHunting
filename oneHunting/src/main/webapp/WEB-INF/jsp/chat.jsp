@@ -40,38 +40,30 @@ if( loginID == null || login == false ) {
 
 <%-- 言語を日本語に指定 --%>
 <html lang="ja">
+<title>チャット画面</title>
 <head>
 <meta charset="UTF-8">
 <%-- javascript使用の為のmetaタグ --%>
 <meta name="viewport" content = "width=device-width, initial-scale=1.0">
-
-
 <!-- CSSファイル  -->
 <link rel="stylesheet" type="text/css" href="css/chat.css"
-	<title>
-	<!-- TODO アイコン設置 -->
-	</title>
-
-<title>チャット画面</title>
-
 <body>	
 
 <%-- 山﨑画面レイアウトマークアップ --%>
 	<div class="chat-container">
-	
 		<!-- ヘッダー-->
 		<nav>
 			<div class="wrapper">
 				<form action="search" method="post">
-				<input type="text" name="kensaku">
-				<input type="submit" value="検索">
+				<img class="logo" src="image/logo_white.png" alt="oneHuntingのロゴ">
+					<input type="text" name="kensaku">
+					<input type="submit" value="検索">
 				<!-- .header__btn -->
             	<img class="header__btn" src="image/hamburgermenu.png" alt="">
             	</form>
 			</div>
 			
 			<nav class="nav">
-				<img class="logo" src="image/logo_white.png" alt="oneHuntingのロゴ">
                 <div class="nav__header">
                     <img class="nav__btn" src="image/batten-close.png" alt="">
                 <ul class="nav__list">
@@ -87,7 +79,7 @@ if( loginID == null || login == false ) {
 		</nav>
 		<div class="maindisplay">
 		<!-- 左カラム -->
-		<from action="chat" method="get">
+		<form action="chat" method="get">
 			<div class="side-column">
 			<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
 			<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
@@ -99,16 +91,14 @@ if( loginID == null || login == false ) {
 			<button type="submit" name="chatType" value="chat_main">雑談</button><br/>
 			<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
 			<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
-			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>	
+			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>
 			</div>		
 		</from>	
-
 		<main>
 		<!-- チャット本体部分 -->
 		<section id="main">
 			<div class="wrapper">
 				<p>
-				
 				<% for(ChatRecordDTO record :chatList){ %>
 				
 				投稿ID:<%= record.getPostId() %><br>
@@ -118,9 +108,7 @@ if( loginID == null || login == false ) {
 				投稿内容：<%= record.getText() %><br>
 				いいね数：<%= record.getGoodCount() %><br>
 				<br>
-				
 				<% } %>
-				
 				</p>
 			</div>
 		</section>
