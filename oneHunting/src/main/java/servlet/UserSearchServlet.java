@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -39,11 +40,14 @@ public class UserSearchServlet extends HttpServlet {
 		
 		//パラメータはname属性とあわせること
 		String searchQuery = request.getParameter("kensaku");
+		//空白の際、表示なし
+		if (searchQuery == null || searchQuery.trim().isEmpty()) {
+			session.setAttribute("search_result", new ArrayList<UserRecordDTO>());
+		}else {
 		List<UserRecordDTO> sRecord = accountDAO.userSearch(searchQuery);
-		
-		
 		//セッションスコープへ格納
 		session.setAttribute("search_result", sRecord);
+		}
 		
 		//全体チャットにフォワードさせる ※search_resultに飛ばすように後々変更要
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/search.jsp");

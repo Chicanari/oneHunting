@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="dto.UserRecordDTO, java.util.ArrayList" %>
+<%@ page import="dto.UserRecordDTO" %>
+<%@ page import="java.util.ArrayList" %>
 
 <%
 ArrayList<UserRecordDTO> searchResults = (ArrayList<UserRecordDTO>) session.getAttribute("search_result");
