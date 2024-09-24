@@ -58,7 +58,7 @@ header
 	margin-left: 142px;
 }
 
-.wrapper {
+.header-wrapper {
 /*    margin:auto;*/
     max-width: 100%;
     height: 90px;
@@ -103,33 +103,20 @@ header
 /* ===============================================================
 main
 ================================================================= */
-.chat-container {
-	height: 100vh;
-	display: flex;
-    flex-direction: column;
-}
-
 section{
     background-color: #FFFF;
 }
 
-section .wrapper{
-	max-width: 800px;
-	display: inline-block;
-}
+/*ここが投稿を隠している*/
+/*.side-column{*/
+/*	background-color: #FFEDE9;*/
+/*	height: 100vh;*/
+/*	width: 300px;*/
+/*}*/
 
-.side-column{
-	display: inline-block;
-	background-color: #FFEDE9;
-	height: 100vh;
-	width: 300px;
-}
-
-.maindisplay{
+.maindisplay {
 	display: flex;
-	margin-left: 0;
 }
-
 
 /* ===============================================================
 footer

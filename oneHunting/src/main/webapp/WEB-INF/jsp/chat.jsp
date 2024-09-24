@@ -57,7 +57,7 @@ if( loginID == null || login == false ) {
 	<div class="chat-container">
 		<!-- ヘッダー-->
 		<header-menu>
-			<div class="wrapper">
+			<div class="header-wrapper">
 				<form action="search" method="post">
 				<img class="logo" src="image/logo_white.png" alt="oneHuntingのロゴ">
 				<div class="search">
@@ -102,9 +102,7 @@ if( loginID == null || login == false ) {
 		</from>	
 		<main>
 		<!-- チャット本体部分 -->
-		<section id="main">
 			<div class="wrapper">
-				<p>
 				<% for(ChatRecordDTO record :chatList){ %>
 				
 				投稿ID:<%= record.getPostId() %><br>
@@ -115,11 +113,8 @@ if( loginID == null || login == false ) {
 				いいね数：<%= record.getGoodCount() %><br>
 				<br>
 				<% } %>
-				</p>
 			</div>
-		</section>
 		</main>
-		
 		</div>
 		<!-- フッター -->
 		<footer>
