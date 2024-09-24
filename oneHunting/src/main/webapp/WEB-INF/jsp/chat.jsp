@@ -45,6 +45,10 @@ if( loginID == null || login == false ) {
 <meta charset="UTF-8">
 <%-- javascript使用の為のmetaタグ --%>
 <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+<%-- webフォント --%>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <!-- CSSファイル  -->
 <link rel="stylesheet" type="text/css" href="css/chat.css"
 <body>	
@@ -52,31 +56,33 @@ if( loginID == null || login == false ) {
 <%-- 山﨑画面レイアウトマークアップ --%>
 	<div class="chat-container">
 		<!-- ヘッダー-->
-		<nav>
+		<header-menu>
 			<div class="wrapper">
 				<form action="search" method="post">
 				<img class="logo" src="image/logo_white.png" alt="oneHuntingのロゴ">
+				<div class="search">
 					<input type="text" name="kensaku">
 					<input type="submit" value="検索">
+				</div>
 				<!-- .header__btn -->
             	<img class="header__btn" src="image/hamburgermenu.png" alt="">
             	</form>
 			</div>
 			
-		<nav class="nav">
+			<nav class="nav">
                 <div class="nav__header">
                     <img class="nav__btn" src="image/batten-close.png" alt="">
-                <ul class="nav__list">
+                <ul>
                 	<form action="profile_view" method="post">
-					<input type="submit" value="プロフィール">
+					<input type="submit" value="プロフィール" class="profile_view">
 					</form>
 					<form action="logout" method="post">
-						<input type="submit" value="ログアウト">
+						<input type="submit" value="ログアウト" class="logout">
 					</form>
                 </ul>
                 </div>
             </nav>
-		</nav>
+		</header-menu>
 		<div class="maindisplay">
 		<!-- 左カラム -->
 		<form action="chat" method="get">
