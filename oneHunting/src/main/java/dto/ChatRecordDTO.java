@@ -17,7 +17,7 @@ public class ChatRecordDTO {
 	
 	//フィールド8つに対しての代入処理を行うコンストラクタ(仮引数)
 	public ChatRecordDTO(String postId,String accountId,String accountName,
-			String icon,String time,String text,String image,Integer goodCount) {
+			String icon,String time,String text,String image,Integer goodCount,Set<String> goodId) {
 		this.postId = postId;
 		this.accountId = accountId;
 		this.accountName = accountName;
@@ -26,6 +26,7 @@ public class ChatRecordDTO {
 		this.text = text;
 		this.image = image;
 		this.goodCount = goodCount;
+		this.goodId = goodId;
 	}
 	
 	//getter＆setterの宣言

@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Set;
 
 import org.postgresql.util.PSQLException;
 
@@ -187,10 +188,22 @@ public class ChatDAO {
 				String text = rs.getString(chatType + "_text");
 				String image = rs.getString(chatType + "_image");
 				Integer goodCount = ((Integer)rs.getInt(chatType + "_good_count")).equals(null) ? 0 : rs.getInt(chatType + "_good_count") ;
+				String goodIdList = rs.getString(chatType + "_good_id");
 				
+				/*
+				 * goodIdListをsetにする
+				 */
+				// DBに格納されたJSON形式のデータを扱うためのJSONクラス
+		    	GoodID goodId = new GoodID();
+		    	// ObjectMapperを初期化
+			    ObjectMapper objectMapper = new ObjectMapper();
+			    //StringのJSON形式のファイルを、goodIdクラスの構造体に格納する
+			    if(goodIdList != null) 	goodId = objectMapper.readValue(goodIdList, GoodID.class);
+			    //goodIdのオブジェクトからアカウントリスト（Set）を取得
+				Set<String> goodIdSet = goodId.getIds();
 				
 				//1レコード分のデータを格納するインスタンスの生成
-				ChatRecordDTO cRecord = new ChatRecordDTO(postId,accountId,accountName,icon,time,text,image,goodCount);
+				ChatRecordDTO cRecord = new ChatRecordDTO(postId,accountId,accountName,icon,time,text,image,goodCount,goodIdSet);
 				
 				//取得したデータを格納
 				chatRecords.add(cRecord);
@@ -226,14 +239,24 @@ public class ChatDAO {
     }
     
     /**
-     * いいねを追加するメソッド
-     * @param loginID 
-     * @throws JsonProcessingException 
+     * チャットテーブルのいいね数を１増加させ、いいねしたアカウントを追加するメソッド
      */
     public void like_add(String chatType,String postId, String loginID) throws JsonProcessingException {
     	
     	/**
-    	 * 投稿からJSON形式のいいね一覧を取得する 例：{"goodID": ["id1", "id2", "id3"]}
+    	 * このメソッドでは下記の順番・方法でいいね増加を実現しています。
+    	 * 
+    	 * ①チャットテーブルをpostId（投稿ID）で検索し、****_good_idに格納されているJSONファイルを取得する。
+    	 * ②取得したJSONファイルがnullの場合は新規JSONファイルを作成する。
+    	 * ③取得したJSONファイルがnullではない場合は、jsonパッケージのGoodIDクラスを使用する。
+    	 * ④２、３、いずれかのＪＳＯＮファイルに、ログインＩＤを追加する。
+    	 * ⑤ＤＢにＪＳＯＮファイルを格納し、いいね数を増加させる。
+    	 * 
+    	 */
+    	
+    	
+    	/**
+    	 * ①投稿からJSON形式のいいね一覧を取得する 例：{"goodID": ["id1", "id2", "id3"]}
     	 */
     	String JsonSql = "SELECT " +chatType+ "_good_id  FROM "+ chatType + " WHERE " +chatType+ "_post_id = ?;";
     	
@@ -268,15 +291,15 @@ public class ChatDAO {
 			 */
 	    	
 			if(goodId_Json == null) {
-				//goodIdsがnullの場合は、新しくJSONファイルを作成する
+				//②④goodIdsがnullの場合は、新しくJSONファイルを作成し、追加する
 		        goodId.addIds(loginID);
 			}else {
-				//goodIdsがnullでない場合は、JSONファイルにuserIDを追加する
+				//③goodIdsがnullでない場合は、JSONファイルにuserIDを追加する
 				
 				//JSON形式のStringをGoodIDオブジェクトに変換
 			    goodId = objectMapper.readValue(goodId_Json, GoodID.class);
 			    
-			    //IDを追加する
+			    //④IDを追加する
 			    goodId.addIds(loginID);
 			}
 	    	
@@ -291,7 +314,7 @@ public class ChatDAO {
 
 		
     	/**
-    	 *  一致するIDのいいねの数を１増やし、JSONファイルのいいねアカウント一覧を更新する
+    	 *  ⑤一致するIDのいいねの数を１増やし、JSONファイルのいいねアカウント一覧を更新する
     	 */
     	String UpdateSql = "UPDATE " +chatType+ " SET "+ chatType + "_good_count = ";
     	/*1*/UpdateSql += chatType + "_good_count+1 ,"+ chatType + "_good_id = ?::json ";

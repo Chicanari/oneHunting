@@ -41,14 +41,6 @@ if( loginID == null || login == false ) {
 
 %>
 
-<%-- いいねしている投稿IDを取得する --%>
-<%
-
-
-
-%>
-
-
 <!DOCTYPE html>
 
 <%-- 言語を日本語に指定 --%>
@@ -116,10 +108,18 @@ if( loginID == null || login == false ) {
 			<input type="hidden" id="postId" name="postId" value="<%= record.getPostId() %>" />
 			
 			<%-- TODO:いいねしてるかしていないか分岐を実装する --%>
-				<% if(true){ %>
-					 <button type="submit" name="like" value="plus">♡</button><br>
-				<% } else { %>
+
+				<%
+				//この投稿IDのいいねアカウント一覧に、ログインアカウントが含まれているか確認する
+				boolean isLike = false;
+				if(record.getGoodId() != null){
+					isLike = record.getGoodId().contains(loginID);
+				}
+				
+				if(isLike){ %>
 					<button type="submit" name="like" value="minus">♥</button><br>
+				<% } else { %>
+					<button type="submit" name="like" value="plus">♡</button><br>
 				<% } %>
 			<br>
 			</form>
