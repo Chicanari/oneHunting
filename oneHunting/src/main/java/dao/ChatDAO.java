@@ -43,7 +43,6 @@ public class ChatDAO {
             throw new IllegalStateException("JDBCドライバを読み込めませんでした");
         }
         
-        
     }
     
     
@@ -74,7 +73,7 @@ public class ChatDAO {
     		con = DriverManager.getConnection(url,user,password);
     		
     		//SQL文(チャットテーブルの呼び出し)
-    		String sql = "SELECT * FROM chat_" + chatType + " ORDER BY chat_"+ chatType + "_account_id;";
+    		String sql = "SELECT * FROM " + chatType + " ORDER BY "+ chatType + "_time;";
     		
     		//呼び出したチャットテーブルの格納
     		ps = con.prepareStatement(sql);
@@ -92,14 +91,14 @@ public class ChatDAO {
     			 * 一旦、mainで実装
     			 */
     			//1レコード分のデータを取得
-    			String postId = rs.getString("chat_" + chatType+ "_post_id");
-    			String accountId = rs.getString("chat_" + chatType+ "_account_id");
-    			String accountName = rs.getString("chat_" + chatType + "_account_name");
-				String icon = rs.getString("chat_" + chatType + "_icon	");
-				String time = rs.getString("chat_" + chatType + "_time");
-				String text = rs.getString("chat_" + chatType + "_text");
-				String image = rs.getString("chat_" + chatType + "_image");
-				String goodCount = rs.getString("chat_" + chatType + "_good_count");
+    			String postId = rs.getString(chatType+ "_post_id");
+    			String accountId = rs.getString(chatType+ "_account_id");
+    			String accountName = rs.getString(chatType + "_account_name");
+				String icon = rs.getString(chatType + "_icon");
+				String time = rs.getString(chatType + "_time");
+				String text = rs.getString(chatType + "_text");
+				String image = rs.getString(chatType + "_image");
+				Integer goodCount = ((Integer)rs.getInt(chatType + "_good_count")).equals(null) ? 0 : rs.getInt(chatType + "_good_count") ;
 				
 				//1レコード分のデータを格納するインスタンスの生成
 				ChatRecordDTO cRecord = new ChatRecordDTO(postId,accountId,accountName,icon,time,text,image,goodCount);
