@@ -49,7 +49,7 @@ public class ProfileViewServlet extends HttpServlet {
 		 * Q：これはどこからなにを取るためのgetParameter？？
 		 */
 		//HTTPリクエストから送られてくるパラメータ(formの入力フィールドやURLのクエリパラメータ)
-		//jspで記述したname属性を記述すること
+		//jspで記述したname属性を記述すること。jsp作成時に記述
 		String accountId = request.getParameter("");
 		
 
