@@ -102,8 +102,7 @@ public class ChatServlet extends HttpServlet {
 		/**
 		 * imageで取得する画像のファイル名を取得するための変数宣言
 		 */
-		String imageName = null;
-		
+		String imageName = null;		
 		
 		/**
 		* エラーメッセージ用の変数宣言
@@ -123,10 +122,11 @@ public class ChatServlet extends HttpServlet {
         /**
          * chatDAOから表示用のメソッド呼び出し
          * 
-         * ※テスト用に引数に"main"を挿入
          */
-		String chatType = "main";
+		String chatType = request.getParameter("chatType");
 		List<ChatRecordDTO> chatList;
+		if(chatType == null)  chatType = "chat_main";
+		
 		try {
 			/**
 			 * チャットリストを取得
@@ -142,8 +142,16 @@ public class ChatServlet extends HttpServlet {
 		     *  画像ファイルかどうかをチェック
 		     */
 		    if (!model.ProfileErr.isImageFile(part)) {
+		        //チャットリストをリクエストスコープに保存
+				request.setAttribute("chatList", chatList);
+				
+				//エラーメッセージの追加
 		    	msg += "不正なファイルです。";
+		    	
+		    	//エラーメッセージをリクエストスコープに保存
 		        request.setAttribute("msg",msg);
+		        
+		        //チャット画面にフォワード
 		        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
 		        dispatcher.forward(request, response);
 		        return;
@@ -155,6 +163,53 @@ public class ChatServlet extends HttpServlet {
 			imageName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 			
 			/**
+			 * リクエストパラメータからチャット投稿情報の取得
+			 */
+			String accountId = request.getParameter("accountId");
+			String accountName = request.getParameter("accountName");
+			String icon = request.getParameter("icon");
+			String text = request.getParameter("text");
+			
+			/**
+			 * textが200字より多いの場合と0の場合にエラーを返す
+			 */
+			if(text == null || text.trim().isEmpty()) {
+		        //チャットリストをリクエストスコープに保存
+				request.setAttribute("chatList", chatList);
+				
+				//エラーメッセージの追加
+		    	msg += "文字が入力されていません。";
+		    	
+		    	//エラーメッセージをリクエストスコープに保存
+		        request.setAttribute("msg",msg);
+		        
+		        //チャット画面にフォワード
+		        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
+		        dispatcher.forward(request, response);
+		        return;
+			}else if(text.length() > 200) {
+		        //チャットリストをリクエストスコープに保存
+				request.setAttribute("chatList", chatList);
+				
+				//エラーメッセージの追加
+		    	msg += "200字以内で入力してください。";
+		    	
+		    	//エラーメッセージをリクエストスコープに保存
+		        request.setAttribute("msg",msg);
+		        
+		        //チャット画面にフォワード
+		        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
+		        dispatcher.forward(request, response);
+		        return;
+			}
+			
+	        /**
+	         * chatDAOからチャット投稿用のメソッド呼び出し
+	         * 入力された情報をDBに書き込む。
+	         */
+			int inCunt = cDAO.comment_insert(chatType,accountId,accountName,icon,text,imageName);			
+			
+			/**
 			* アップロードするフォルダを指定
 			*/
 			String path = getServletContext().getRealPath("/image");
@@ -163,7 +218,12 @@ public class ChatServlet extends HttpServlet {
 			 * ファイルを指定されたフォルダに保存する
 			 */
 			part.write(path + File.separator + imageName);
-				
+			
+			/**
+			* チャトリストをリクエストスコープに保存
+			*/
+			request.setAttribute("chatList", chatList); 
+			
 			/**
 			* エラーメッセージをリクエストスコープに保存
 			*/

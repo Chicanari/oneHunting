@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%-- ChatRecordDTO,Listの呼び出し --%>
 <%@
-
 page import="dto.ChatRecordDTO,java.util.List"
-
 %>
 
 <%-- チャット画面に関する情報の取得 --%>
@@ -133,9 +132,6 @@ if( loginID == null || login == false ) {
     <script src="js/chat.js"></script>
 	
 <%-- 沼田さん画像機能設定　--%>
-
-	<%-- ※テスト表示用 --%>
-	<%-- <img src="/oneHunting/image/<%=imageName%>"> --%>
 
 	<%-- 画像投稿用の仮説form ※書き込みformと統合予定 --%>
 	<form action="chat" method="post" enctype="multipart/form-data">
