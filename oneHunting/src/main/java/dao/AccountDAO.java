@@ -6,6 +6,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.postgresql.util.PSQLException;
+
+import dto.UserProfileDTO;
+import dto.UserRecordDTO;
+import model.PwHash;
 
 
 /*
@@ -38,7 +46,7 @@ public class AccountDAO {
 	
 	
 	//接続情報
-	private final String url = "jdbc:postgresql://localhost:5432/oneHunting";
+	private final String url = "jdbc:postgresql://localhost:5432/onehunting";
 	private final String user = "postgres";
 	private final String password = "root";
 		
@@ -52,7 +60,6 @@ public class AccountDAO {
         } catch (ClassNotFoundException e) {
             throw new IllegalStateException("JDBCドライバを読み込めませんでした");
         }
-        
         
     }
     
@@ -117,14 +124,182 @@ public class AccountDAO {
     /**
      * アカウントをDBに追加するDAOメソッド
      */
-    public void userSignup() {
+    public String userSignup(String name, String id, String pw, String mail, String ken) {
+    	
+    	//既に登録があるか判定するためのString
+    	String isRegistered = "";
+		
+		//pwをハッシュ化
+		PwHash ph = new PwHash();
+		String hashPw = ph.changePwHash(pw);
+		
+		//sql文 項目7つ
+		String sql = "INSERT INTO Account (";
+		
+		/*1*/ sql += "account_id";
+		/*2*/ sql += ",account_password";
+		/*3*/ sql += ",account_name";
+		/*4*/ sql += ",account_mail";
+		/*5*/ sql += ",account_ken";
+		
+		/*6*/ sql += ",account_good_point";
+		/*7*/ sql += ",account_good_id";
+		
+		sql += ") VALUES ";
+		sql += "(?,?,?,?,?,?,?);";
+		
+		
+		//SQL文の実行
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(sql);				){
+			
+			//プレースホルダを設定
+			ps.setString(1, id );
+			ps.setString(2, hashPw );
+			ps.setString(3, name );
+			ps.setString(4, mail );
+			ps.setString(5, ken );
+			
+			ps.setInt(6, 0 );
+			ps.setString(7, null );
+			
+			//INSERT文の実行
+			int rowsAffected = ps.executeUpdate();
+			if (rowsAffected > 0) {
+				return "";  // 追加できたら成功
+	        }
+			
+		} catch (PSQLException e) {
+			System.err.println("SQLエラー: " + e.getMessage()); // 詳細なエラー情報を表示
+			isRegistered = "false";
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		
+		//登録に失敗した場合、IDかメールアドレスが重複している
+		if(isRegistered.equals("false")) {
+			
+			return mailID_tyoufukuCheck(id,mail);
+			
+		}
+		
+		System.out.println("userSignup:登録に失敗しました");
+		return "";
+    }
+    
+    private String mailID_tyoufukuCheck(String id, String mail) {
+    	
+    	//戻り値のメッセージ
+    	String errMessage = "";
+    	
+    	/*
+    	 * idの重複の確認 
+    	 */
+    	String idSQL = "SELECT account_id FROM Account WHERE account_id = ?;";
+    	//SQL文の実行
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(idSQL);				){
+			
+			//プレースホルダを設定
+			ps.setString(1, id );
+			
+			//SELECT文の実行
+			try (ResultSet rs = ps.executeQuery()) {
+				
+				//リザルトセットの中にデータがある場合
+		        if (rs.next()) {
+		            // データが存在する場合の処理
+		            errMessage += "IDが既に存在します。<br>";
+		        }
+				
+            }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		
+		
+		/*
+    	 * account_mailの重複の確認 
+    	 */
+    	String mailSQL = "SELECT account_id FROM Account WHERE account_mail = ?;";
+    	//SQL文の実行
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(mailSQL);				){
+			
+			//プレースホルダを設定
+			ps.setString(1, mail );
+			
+			//SELECT文の実行
+			try (ResultSet rs = ps.executeQuery()) {
+				
+				//リザルトセットの中にデータがある場合
+		        if (rs.next()) {
+		            // データが存在する場合の処理
+		            errMessage += "メールアドレスが既に存在します。<br>";
+		        }
+				
+            }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		
+		return errMessage;
     	
     }
     
     /**
      * ログイン機能
      */
-    public void userLogin() {
+    public String userLogin(String id, String pw) {
+    	
+    	//エラーメッセージ（戻り値）を格納する変数
+    	String errmessage = "";	
+    	
+		//SQLでPWを取得
+		String sql = "SELECT account_password FROM account WHERE account_id = ?;";
+		
+		//戻り値のリストの宣言
+		String db_pw = null;
+		
+		//SQL文の実行
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(sql);				){
+			
+			//プレースホルダを設定
+			ps.setString(1, id );
+			
+			//SELECT文の実行
+			try (ResultSet rs = ps.executeQuery()) {
+				//ResultSetの結果のPWを取得する
+				if(rs.next()) {
+					//idで検索し、一致するPWがあった場合はdb_pwにPWを格納し、下記【PWの一致を調べる】でPWが合っているか調べる
+					db_pw = rs.getString("account_password");
+				}else {
+					//一致するidがなかった場合はエラーメッセージを返す
+					System.out.println("登録がありません。");
+					return "登録がありません。";
+				}
+            }
+			
+			//PWの一致を調べる
+			PwHash ph = new PwHash();
+			if(ph.matchingPW(pw,db_pw)) {
+				System.out.println("LOGIN OK");
+				return "LOGIN OK";
+			}else {
+				System.out.println("パスワードが違います。");
+				return "パスワードが違います。";
+			}
+			
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		
+		
+		return errmessage;
     	
     }
     
@@ -138,17 +313,170 @@ public class AccountDAO {
     /**
      * プロフィール表示機能
      */
-    public void profileView() {
+    public UserProfileDTO profileView(String accountId) {
     	
+    	/*
+    	 * Q:コメントをつけてください
+    	 */
+    	
+    	//以下3つDB関連の変数
+    	//データベースへの接続や操作するオブジェクト
+    	Connection con = null;
+    	//プレースホルダーを含むsql文を実行するオブジェクト
+    	PreparedStatement ps = null;
+    	//実行結果を表すオブジェクト
+    	ResultSet rs = null;
+    	//結果を返す用の変数
+    	UserProfileDTO userProfile = null;
+    	
+    	//SQL文の操作
+    	try {
+    		con = DriverManager.getConnection(url,user,password);
+    		//sql文の操作
+    		String sql = "SELECT account_icon, account_name, account_id, account_ken, account_introduction, account_good_point ";
+    		sql += "FROM account ";
+    		//セキュリティ対策のためaccountIdをプレースホルダー化
+    		sql += "WHERE account_id = ? ";
+    		//実行前にコンパイル処理
+    		ps = con.prepareStatement(sql);
+    		//プレースホルダーへ仮引数accountIdを格納
+    		ps.setString(1,accountId);
+    		//結果を実行
+    		rs = ps.executeQuery();
+    		
+    		//プロフィール表示に必要な情報を変数へrs格納
+    		//結果が1行のみならif文が適切とのことなので
+    		if(rs.next()) {
+    			//以下変数へ各カラム名を格納
+    			//account_iconを格納
+    			String accountIcon = rs.getString("account_icon");
+    			//account_nameを格納
+    			String accountName = rs.getString("account_name");
+    			//AccountIdは重複のためresultを追加、account_idを格納
+    			String resultAccountId = rs.getString("account_id");
+    			//account_kenを格納
+    			String accountKen = rs.getString("account_ken");
+    			//account_introductionを格納
+    			String accountIntroduction = rs.getString("account_introduction");
+    			//account_good_pointを格納
+    			String accountGoodPoint = rs.getString("account_good_point");
+    			//上記変数を、DTOをインスタンス化する際に代入
+    			userProfile = new UserProfileDTO(accountIcon,accountName,resultAccountId,
+    											accountKen,accountIntroduction,accountGoodPoint);
+    		}
+    		
+    		
+    	//エラーメッセージを表示
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    		//後ほどtry-with-resourcesで省略すること
+    		//Connection、PreparedStatement、ResultSetの変数３つを閉じる(切断する)処理
+    	}finally {
+    		if(con != null) {
+    			try {
+    				con.close();
+    			}catch(Exception e) {
+    				;
+    			}
+    		}
+    		
+    		if(ps != null) {
+    			try {
+    				ps.close();
+    			}catch(Exception e) {
+    				;
+    			}
+    		}
+    		if(rs != null) {
+    			try {
+    				rs.close();
+    			}catch(Exception e){
+    				;
+    			}
+    		}
+    	}
+    	//while(rs.next())の処理を結果として返す
+    	return userProfile;
     }
     
     /**
      * ユーザー検索機能
      */
-    public void userSearch() {
+    //あいまい検索で必要なaccountIdとaccountNameを仮引数searchQueryに指定
+    public List<UserRecordDTO> userSearch(String searchQuery) {
+    	Connection con = null;
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+    	List<UserRecordDTO> userRecords = new ArrayList<>();
     	
+    	//tryでSQL文で操作
+    	try {
+    		con = DriverManager.getConnection(url,user,password);
+    		//SQL文で表示結果を操作
+    		String sql = "SELECT account_icon, account_name, account_ken ";
+    		sql += "FROM account ";
+    		sql += "WHERE account_id LIKE ? ";
+    		sql += "OR account_name LIKE ? ";
+    		sql += "ORDER BY account_name, account_id";
+    		
+    		ps = con.prepareStatement(sql);
+    		//ID・名前であいまい検索し実行
+    		String ambiguousQuery = "%" + searchQuery + "%";
+    		ps.setString(1, ambiguousQuery);
+    		ps.setString(2, ambiguousQuery);
+    		
+    		rs = ps.executeQuery();
+    		userRecords = searchResults(rs);
+    		
+    	}catch(Exception e) {
+    		System.out.println("DBアクセスにエラーが発生しました。");
+    		e.printStackTrace();
+    	}finally {
+    		//DB切断用if文
+    		if(con != null) {
+    			try {
+    				con.close();
+    			}catch(Exception e) {
+    				;
+    			}
+    		}
+    		
+    		if(ps != null) {
+    			try {
+    				ps.close();
+    			}catch(Exception e) {
+    				;
+    			}
+    		}
+    		if(rs != null) {
+    			try {
+    				rs.close();
+    			}catch(Exception e){
+    				;
+    			}
+    		}
+    		
+    		
+    	}
+    	return userRecords;
     }
     
+    //検索結果をリスト化するArrayList<>のメソッドを作成
+    public ArrayList<UserRecordDTO> searchResults(ResultSet rs) throws Exception{
+    	ArrayList<UserRecordDTO> userRecords = new ArrayList<UserRecordDTO>();
+    	//検索結果を取得しUserRecordDTOへ格納し、ArrayListへ格納する
+    	while(rs.next()) {
+    		//結果表示
+    		String accountIcon = rs.getString("account_icon");
+    		String accountName = rs.getString("account_name");
+    		String accountKen = rs.getString("account_ken");
+    		UserRecordDTO userRecord = 
+    				new UserRecordDTO(accountIcon,accountName,accountKen);
+    		userRecords.add(userRecord);
+    	}
+    	
+    	return userRecords;
+    }
     
     /**
      * 仮：いいねを追加するメソッド
@@ -164,6 +492,6 @@ public class AccountDAO {
     public void like_delete() {
     	
     }
-    
+
 
 }
