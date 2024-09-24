@@ -63,7 +63,7 @@ if( loginID == null || login == false ) {
             	</form>
 			</div>
 			
-			<nav class="nav">
+		<nav class="nav">
                 <div class="nav__header">
                     <img class="nav__btn" src="image/batten-close.png" alt="">
                 <ul class="nav__list">
