@@ -28,26 +28,42 @@ if( loginID != null || login == true ) {
 %>
 
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+
+<%-- webフォント --%>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<%-- CSSファイル --%>
+<link rel="stylesheet" type="text/css" href="css/index.css">
+
+<title>ログイン</title>
 </head>
 <body>
+<h1><img class="logo" src="image/logo_brown.png" alt="oneHuntingのロゴ"></h1>
+<img class="login_frame" src="image/login_frame.png" alt="">
+<div class="item">
+	<div class="err"><%= message %></div>
+	<form action="login" method="post">
+	<p class="id">ID</p>
+	<input type="text" name="id" class="id_box">
+	<p class="ps">パスワード</p>
+	<input type="password" name="pw" class="ps_box"></p>
+	<p class="login_btn"><input type="submit" value="ログイン" class="login_btn_item"></p>	
+	</form>
 
-<h1>ログイン</h1>
-<%= message %>
-<form action="login" method="post">
-	
-	<p>ID:<input type="text" name="id"></p>
-	<p>PW:<input type="password" name="pw"></p>
-	
-	<p><input type="submit" value="ログイン"></p>
-	
-</form>
+	<form action="signup" method="get">
+	<div class="register">
+	<input type="submit" value="新規登録" class="register_btn_item">
+	</div>
+	</form>
+</div>
 
-<form action="signup" method="get"><input type="submit" value="新規登録"></form>
-
-
+<!-- body直前でjQueryと自作のJSファイルの読み込み  -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"
+ integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="js/index.js"></script>
 </body>
 </html>
