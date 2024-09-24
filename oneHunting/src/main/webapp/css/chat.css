@@ -1,0 +1,148 @@
+@charset "UTF-8";
+body{
+		margin: 0;
+	    padding: 0;
+	    height: 100%;
+	    overflow: hidden;
+}
+
+* {
+	margin:0;
+	font-family: "Zen Maru Gothic", serif;
+	font-weight: 500;
+	font-style: normal;
+	line-height: 1.3;
+}
+
+html { font-size: 62.5%;
+}
+
+/* ===============================================================
+header
+================================================================= */
+.logo {
+	height: 80px;
+	width: 80px;
+
+	display: block;	
+	position: absolute; /* 子要素はabsoluteを指定 */
+	top: 5px; /* 上を基準 */
+	left: 34px
+
+}
+
+.search {
+	margin-left: 520px;
+}
+
+
+/* .nav.active表示 */
+.nav.active {
+    transform: translateX(-100%);
+}
+
+.header__btn {
+	height: 20px;
+	width: 50px;
+	display: block;	
+/*	 子要素はabsoluteを指定 */
+	position: absolute;
+/*	  上を基準 */
+	top: 35px;
+	right: 50px;  
+}
+
+.nav__btn {
+	height: 22px;
+	width: 22px;
+	margin-left: 142px;
+}
+
+.wrapper {
+/*    margin:auto;*/
+    max-width: 100%;
+    height: 90px;
+    
+    display: flex;
+    align-items: center;
+    
+    background: #A39584;
+}
+
+/* hamburgerボタン内 nav */
+.nav {
+    background: #FFEDE9;
+    width: 27%;
+    height: 100vh;
+	padding: 24px 6.4%;
+ 
+    position: fixed;
+    top: 0;
+    right: -55%;
+    z-index: 100;
+    transition: transform 0.4s;
+}
+
+.nav_header {
+	display: flex;
+	justify-content: space-between;
+}
+
+.profile_view,
+.logout {
+/*	 背景色を無色に */
+	  background: transparent;
+/*	   枠線を消す */
+	  border: none;
+/*	   クリックした際に枠線をnone消す */
+	  outline: none;
+/*	   影を消す */
+	  box-shadow: none;
+}
+
+/* ===============================================================
+main
+================================================================= */
+.chat-container {
+	height: 100vh;
+	display: flex;
+    flex-direction: column;
+}
+
+section{
+    background-color: #FFFF;
+}
+
+section .wrapper{
+	max-width: 800px;
+	display: inline-block;
+}
+
+.side-column{
+	display: inline-block;
+	background-color: #FFEDE9;
+	height: 100vh;
+	width: 300px;
+}
+
+.maindisplay{
+	display: flex;
+	margin-left: 0;
+}
+
+
+/* ===============================================================
+footer
+============================================================ */
+
+.footer {
+	text-align: center;
+	background-color: #A39584;
+	padding: 1em;
+
+    justify-content: space-around;
+    position: fixed;
+    bottom: 0;
+    margin: 0;
+    width: 100%;
+}

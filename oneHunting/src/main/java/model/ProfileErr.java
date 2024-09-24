@@ -87,6 +87,7 @@ public class ProfileErr {
 		 */
 		if(ken.equals("")) errmessage += "県名を設定してください。<br>";
 		
+		
 		return errmessage;
 		
 	}

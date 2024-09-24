@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.AccountDAO;
+import model.LoginErr;
 
 /*
  * 
@@ -27,7 +28,20 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		doPost(request, response);
+		//直接アクセスされたときにログイン済か、セッションの中身を調べる
+		HttpSession session = request.getSession();
+		String loginID = (String)session.getAttribute("loginID");
+		Boolean login = (Boolean)session.getAttribute("login");
+		
+		//ログインIDが入っているか、ログインがtrueの時ログインしていると判断する
+		if( loginID != null || login == true ) {
+			//ログイン状態の時は、全体チャットに移動する
+			response.sendRedirect("chat");
+		} else {
+			//ログアウト状態の時は、ログイン画面にリダイレクトさせる
+			response.sendRedirect("/oneHunting");
+			
+		}
 	
 	}
 
@@ -37,13 +51,30 @@ public class LoginServlet extends HttpServlet {
 		String id = request.getParameter("id");
 		String pw = request.getParameter("pw");
 		
+		/*
+		 * 入力値チェック（入力があるか）
+		 */
+		LoginErr loginErr = new LoginErr();
+		String message = loginErr.login_InputValueCheck(id, pw);
+		
+		if(!message.equals("")) {
+			//エラーメッセージがある場合、ログイン画面にフォワードさせる
+			request.setAttribute("message", message);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("");
+			dispatcher.forward(request, response);
+		}
+		
+		
+		/*
+		 * ログイン完了・失敗メッセージの表示（IDの登録があるか、PWが一致するか）
+		 */
+		
 		//DAOの接続
 		AccountDAO accountDAO = new AccountDAO();
-		
-		//ログイン完了・失敗メッセージの表示
-		String message = accountDAO.userLogin(id,pw);
+		message = accountDAO.userLogin(id,pw);
 		request.setAttribute("message", message);
 		
+		//LOGIN OKが返って来た場合、セッションに情報を格納し、ログイン状態にする
 		if(message.equals("LOGIN OK")) {
 			
 			//セッションにログイン状態であることを保存する
@@ -51,19 +82,15 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("loginID", id);
 			session.setAttribute("login", true);
 			
-			//登録完了にフォワードさせる
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/generalChat.jsp");
-			dispatcher.forward(request, response);
+			//全体チャットにリダイレクトする
+			response.sendRedirect("chat");
 			
 		}else {
-			//ログイン画面にフォワードさせる
+			//LOGIN OKが返ってこなかったばあいはログイン画面にフォワードさせる
+			request.setAttribute("message", message);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("");
 			dispatcher.forward(request, response);
 		}
-		
-		//全体チャットにフォワードさせる
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
-		dispatcher.forward(request, response);
 		
 	}
 
