@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%-- 副島さんの書くところ　サーブレットから値を受け取ってください --%>
 <%
 
 
@@ -37,6 +39,7 @@ if( loginID == null || login == false ) {
 <body>
 <h1>ユーザープロフィールの表示</h1>
 
+<%-- Q:<%= %>←これで値を取ってください --%>
 <form action="profile_edit" method="get"><input type="submit" value="編集"></form>
 
 <p>名前</p>

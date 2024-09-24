@@ -314,6 +314,11 @@ public class AccountDAO {
      * プロフィール表示機能
      */
     public UserProfileDTO profileView(String accountId) {
+    	
+    	/*
+    	 * Q:コメントをつけてください
+    	 */
+    	
     	Connection con = null;
     	PreparedStatement ps = null;
     	ResultSet rs = null;
