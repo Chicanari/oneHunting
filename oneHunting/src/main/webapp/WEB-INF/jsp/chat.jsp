@@ -40,42 +40,43 @@ if( loginID == null || login == false ) {
 
 <%-- 言語を日本語に指定 --%>
 <html lang="ja">
+<title>チャット画面</title>
 <head>
 <meta charset="UTF-8">
 <%-- javascript使用の為のmetaタグ --%>
 <meta name="viewport" content = "width=device-width, initial-scale=1.0">
 <!-- CSSファイル  -->
 <link rel="stylesheet" type="text/css" href="css/chat.css"
-	<title>
-	<!-- TODO アイコン設置 -->
-	</title>
-</head>
 <body>	
+
 <%-- 山﨑画面レイアウトマークアップ --%>
 	<div class="chat-container">
-	
 		<!-- ヘッダー-->
-		<form action="nav" method="get">
-			<nav>
+		<nav>
+			<div class="wrapper">
+				<form action="search" method="post">
 				<img class="logo" src="image/logo_white.png" alt="oneHuntingのロゴ">
-				<div class="wrapper">
-					<input type="text" name="kensaku"> <input type="submit"
-						value="検索">
-					<!-- ハンバーガーメニュー -->
-					<img class="header__btn" src="image/hamburgermenu.png" alt="">
-				</div>
-
-				<nav class="nav">
-					<div class="nav__header">
-						<img class="nav__btn" src="image/batten-close.png" alt="">
-						<ul class="nav__list">
-							<li class="nav__item"><a href="/oneHunting/profile_view">プロフィール</a></li>
-							<li class="nav__item"><a href="/oneHunting/logout">ログアウト</a></li>
-						</ul>
-					</div>
-				</nav>
-			</nav>
-		</form>
+					<input type="text" name="kensaku">
+					<input type="submit" value="検索">
+				<!-- .header__btn -->
+            	<img class="header__btn" src="image/hamburgermenu.png" alt="">
+            	</form>
+			</div>
+			
+		<nav class="nav">
+                <div class="nav__header">
+                    <img class="nav__btn" src="image/batten-close.png" alt="">
+                <ul class="nav__list">
+                	<form action="profile_view" method="post">
+					<input type="submit" value="プロフィール">
+					</form>
+					<form action="logout" method="post">
+						<input type="submit" value="ログアウト">
+					</form>
+                </ul>
+                </div>
+            </nav>
+		</nav>
 		<div class="maindisplay">
 		<!-- 左カラム -->
 		<form action="chat" method="get">
@@ -90,16 +91,14 @@ if( loginID == null || login == false ) {
 			<button type="submit" name="chatType" value="chat_main">雑談</button><br/>
 			<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
 			<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
-			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>	
-			</div>
-		</form>	
-		
+			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>
+			</div>		
+		</from>	
 		<main>
 		<!-- チャット本体部分 -->
 		<section id="main">
 			<div class="wrapper">
 				<p>
-				
 				<% for(ChatRecordDTO record :chatList){ %>
 				
 				投稿ID:<%= record.getPostId() %><br>
@@ -109,9 +108,7 @@ if( loginID == null || login == false ) {
 				投稿内容：<%= record.getText() %><br>
 				いいね数：<%= record.getGoodCount() %><br>
 				<br>
-				
 				<% } %>
-				
 				</p>
 			</div>
 		</section>
@@ -131,9 +128,9 @@ if( loginID == null || login == false ) {
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js"
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="js/chat.js"></script>
-	
+    
+    
 <%-- 沼田さん画像機能設定　--%>
-
 	<%-- ※テスト表示用 --%>
 	<%-- <img src="/oneHunting/image/<%=imageName%>"> --%>
 
