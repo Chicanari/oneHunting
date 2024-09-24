@@ -29,8 +29,7 @@ public class UserSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	
+		doPost(request,response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,19 +39,19 @@ public class UserSearchServlet extends HttpServlet {
 		
 		//パラメータはname属性とあわせること
 		String searchQuery = request.getParameter("kensaku");
-		//空白の際、表示なし
+		//空白検索時、表示なしにするためif文を追加
 		if (searchQuery == null || searchQuery.trim().isEmpty()) {
+			//空白時、結果非表示
 			session.setAttribute("search_result", new ArrayList<UserRecordDTO>());
 		}else {
+			//通常検索
 		List<UserRecordDTO> sRecord = accountDAO.userSearch(searchQuery);
-		//セッションスコープへ格納
 		session.setAttribute("search_result", sRecord);
 		}
 		
-		//全体チャットにフォワードさせる ※search_resultに飛ばすように後々変更要
+		//全体チャットにフォワードさせる ※search_result.jspに飛ばすように後々変更要
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/search.jsp");
 		dispatcher.forward(request, response);
-		
 	}
 
 }

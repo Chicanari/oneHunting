@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.postgresql.util.PSQLException;
 
+import dto.UserProfileDTO;
 import dto.UserRecordDTO;
 import model.PwHash;
 
@@ -248,18 +249,50 @@ public class AccountDAO {
     /**
      * プロフィール表示機能
      */
-    public void profileView() {
+    public void profileView(String accountId) {
+    	Connection con = null;
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+    	UserProfileDTO userProfile = null;
+    	
+    	//SQL文の操作
+    	try {
+    		String sql = "SELECT account_icon, account_name, account_id, account_ken, account_introduction, account_good_point ";
+    		sql += "FROM account ";
+    		sql += "WHERE account_id = ? ";
+    		
+    		ps = con.prepareStatement(sql);
+    		ps.setString(1,accountId);
+    		rs = ps.executeQuery();
+    		
+    		while(rs.next()) {
+    			String accountIcon = rs.getString("account_icon");
+    			String accountName = rs.getString("account_name");
+    			//AccountIdは重複のためresultを追加
+    			String resultAccountId = rs.getString("account_id");
+    			String accountKen = rs.getString("account_ken");
+    			String accountIntroduction = rs.getString("account_introduction");
+    			String accountGoodPoint = rs.getString("account_good_point");
+    			
+    			userProfile = new UserProfileDTO(accountIcon,accountName,resultAccountId,
+    											accountKen,accountIntroduction,accountGoodPoint);
+    		}
+    		
+    		
+    		
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
     	
     }
     
     /**
      * ユーザー検索機能
      */
-    //あいまい検索で必要なaccountIdとaccountNameを仮引数に指定
+    //あいまい検索で必要なaccountIdとaccountNameを仮引数searchQueryに指定
     public List<UserRecordDTO> userSearch(String searchQuery) {
     	Connection con = null;
     	PreparedStatement ps = null;
-    	//後ほど作成する検索結果をリスト化するResultSet
     	ResultSet rs = null;
     	List<UserRecordDTO> userRecords = new ArrayList<>();
     	
