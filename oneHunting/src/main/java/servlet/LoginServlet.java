@@ -82,9 +82,8 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("loginID", id);
 			session.setAttribute("login", true);
 			
-			//登録完了にフォワードさせる
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
-			dispatcher.forward(request, response);
+			//全体チャットにリダイレクトする
+			response.sendRedirect("chat");
 			
 		}else {
 			//LOGIN OKが返ってこなかったばあいはログイン画面にフォワードさせる
