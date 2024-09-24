@@ -9,6 +9,10 @@ import java.sql.SQLException;
 
 import org.postgresql.util.PSQLException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import json.GoodID;
 import model.PwHash;
 
 
@@ -322,19 +326,140 @@ public class AccountDAO {
     
     
     /**
-     * 仮：いいねを追加するメソッド
+     * アカウントテーブルのいいねポイントを追加・削除、いいねした投稿の一覧を操作するメソッド
+     * @throws JsonProcessingException 
      */
-    public void like_add() {
+    public void like_update(String postId, String postAccountId, String updateType) throws JsonProcessingException {
+    	
+    	/**
+    	 * このメソッドでは下記の順番・方法でいいね更新を実現しています。
+    	 * 
+    	 * ①チャットテーブルをpostId（投稿ID）で検索し、****_good_idに格納されているJSONファイルを取得する。
+    	 * ②取得したJSONファイルがnullの場合は新規JSONファイルを作成する。
+    	 * ③取得したJSONファイルがnullではない場合は、jsonパッケージのGoodIDクラスを使用する。
+    	 * ④２、３、いずれかのＪＳＯＮファイルに、ログインＩＤを追加・減少する。
+    	 * ⑤ＤＢにＪＳＯＮファイルを格納し、いいね数を増加・減少させる。
+    	 * 
+    	 */
+    	
+    	
+    	/**
+    	 * ①投稿からJSON形式のいいね一覧を取得する 例：{"goodID": ["id1", "id2", "id3"]}
+    	 */
+    	String JsonSql = "SELECT account_good_id FROM account WHERE account_id = ?;";
+    	
+    	//SQL文でJSONファイルをStringで受け取るための変数
+    	String goodId_Json = "";
+	    
+	    // DBに格納されたJSON形式のデータを扱うためのJSONクラス
+    	GoodID goodId = new GoodID();
+    	
+    	// ObjectMapperを初期化
+	    ObjectMapper objectMapper = new ObjectMapper();
+    	
+    	
+    	//SQL文の実行
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(JsonSql);			){
+			
+			//プレースホルダを設定
+			ps.setString(1, postAccountId );
+			
+			//SELECT文の実行
+			try (ResultSet rs = ps.executeQuery()) {
+				if(rs.next()) {
+					//JSONファイルが存在しない場合はnull、存在する場合はStringを返す
+					goodId_Json = rs.getString("account_good_id");
+					System.out.println("account goodId_Json:"+goodId_Json);
+				}
+            }
+			
+			
+			/**
+			 *  いいねボタンを押下をしたpostIdを、****_good_idに追加・削除する
+			 */
+			
+			if(updateType.equals("plus")) {
+				
+				if(goodId_Json == null) {
+					//②④goodIdsがnullの場合は、新しくJSONファイルを作成し、追加する
+			        goodId.addIds(postId);
+				}else {
+					//③goodIdsがnullでない場合は、JSONファイルにuserIDを追加する
+					
+					//JSON形式のStringをGoodIDオブジェクトに変換
+				    goodId = objectMapper.readValue(goodId_Json, GoodID.class);
+				    
+				    //④IDを追加する
+				    goodId.addIds(postId);
+				}
+				
+			} else if(updateType.equals("minus")) {
+				
+				//③JSONファイルのuserIDを削除する
+				
+				//JSON形式のStringをGoodIDオブジェクトに変換
+			    goodId = objectMapper.readValue(goodId_Json, GoodID.class);
+			    
+			    //④IDを削除する
+			    goodId.removeIds(postId);
+				
+			}
+
+		} catch (SQLException e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+		}
+		
+		
+		/**
+		 * 加工したJSONファイルを更新する
+		 */
+		
+		//GoodIDクラスのオブジェクトを、String形式のJSONファイルに変換する
+		String jsonString = objectMapper.writeValueAsString(goodId);
+		
+		//更新するためのSQLを格納する変数
+		String UpdateSql ="";
+		
+		if(updateType.equals("plus")) {
+	    	/**
+	    	 *  ⑤一致するIDのいいねの数を１増やし、JSONファイルのいいねアカウント一覧を更新する
+	    	 */
+	    	UpdateSql = "UPDATE account SET account_good_point = ";
+	    	/*1*/UpdateSql += "account_good_point+1 ,account_good_id = ?::json ";
+	    	/*2*/UpdateSql += "WHERE account_id = ? ;";
+		}else if(updateType.equals("minus")) {
+			/**
+	    	 *  ⑤一致するIDのいいねの数を１減らし、JSONファイルのいいねアカウント一覧を更新する
+	    	 */
+			UpdateSql = "UPDATE account SET account_good_point = ";
+	    	/*1*/UpdateSql += "account_good_point-1 ,account_good_id = ?::json ";
+	    	/*2*/UpdateSql += "WHERE account_id = ? ;";
+		}
+		
+		
+		//SQL文の実行
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(UpdateSql);			){
+			
+			//プレースホルダを設定
+			ps.setString(1, jsonString );
+			ps.setString(2, postAccountId );
+			
+			//INSERT文の実行
+			ps.executeUpdate();
+			
+		} catch (PSQLException e) {
+			System.err.println("SQLエラー: " + e.getMessage()); // 詳細なエラー情報を表示
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+    	
     	
     }
     
     
-    /**
-     * 仮：いいねを削除するメソッド
-     */
-    public void like_delete() {
-    	
-    }
 
 
 }

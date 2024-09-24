@@ -360,9 +360,7 @@ public class ChatDAO {
 			ps.setString(2, postId );
 			
 			//INSERT文の実行
-			int rowsAffected = ps.executeUpdate();
-			if (rowsAffected > 0) {
-	        }
+			ps.executeUpdate();
 			
 		} catch (PSQLException e) {
 			System.err.println("SQLエラー: " + e.getMessage()); // 詳細なエラー情報を表示

@@ -37,7 +37,7 @@ public class LikeServlet extends HttpServlet {
 		//パラメータの取得
 		String like = request.getParameter("like");
 		String postId = request.getParameter("postId");
-		System.out.println(like + " " + postId);
+		String postAccountId = request.getParameter("postAccountId");
 		
 		//現在のチャットタイプの取得
 		HttpSession session = request.getSession();
@@ -52,13 +52,7 @@ public class LikeServlet extends HttpServlet {
 		
 		//チャットのいいね数・いいねしたアカウント一覧を増減する
 		chatDAO.like_update(chatType, postId,loginID,like);
-		
-		//アカウントテーブルのいいね数と投稿一覧を増減する
-		if(like.equals("plus")) {
-			accountDAO.like_add();
-		}else if(like.equals("minus")) {
-			accountDAO.like_delete();
-		}
+		accountDAO.like_update(postId,postAccountId,like);
 		
 		//チャット画面に戻る
 		response.sendRedirect("chat");

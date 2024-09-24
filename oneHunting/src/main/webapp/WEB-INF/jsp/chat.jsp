@@ -104,8 +104,9 @@ if( loginID == null || login == false ) {
 			投稿内容：<%= record.getText() %><br>
 			いいね数：<%= record.getGoodCount() %><br>
 			
-			<%-- 投稿IDを渡す --%>
+			<%-- 投稿ID・投稿者アカウントIDを渡す --%>
 			<input type="hidden" id="postId" name="postId" value="<%= record.getPostId() %>" />
+			<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />
 			
 			<%-- TODO:いいねしてるかしていないか分岐を実装する --%>
 
