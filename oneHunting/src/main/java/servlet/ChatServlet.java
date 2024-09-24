@@ -43,7 +43,9 @@ public class ChatServlet extends HttpServlet {
 		 */
 		
 		String chatType = request.getParameter("chatType");
-		if(chatType == null)  chatType = "chat_main";
+		if(chatType == null) {
+			chatType = "chat_main";
+		}
 		
 		System.out.println("ChatServlet chatType:"+chatType);
 		
@@ -84,6 +86,11 @@ public class ChatServlet extends HttpServlet {
 			* エラーメッセージをリクエストスコープに保存
 			*/
 			request.setAttribute("msg", msg);
+			
+			/**
+			* チャットタイプを判別するための変数をリクエストスコープに保存
+			*/
+			request.setAttribute("chatType", chatType);
 	        
 			//チャット画面にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
@@ -125,7 +132,9 @@ public class ChatServlet extends HttpServlet {
          */
 		String chatType = request.getParameter("chatType");
 		List<ChatRecordDTO> chatList;
-		if(chatType == null)  chatType = "chat_main";
+		if(chatType == null) {
+			chatType = "chat_main";
+		}
 		
 		try {
 			/**
@@ -150,6 +159,9 @@ public class ChatServlet extends HttpServlet {
 		    	
 		    	//エラーメッセージをリクエストスコープに保存
 		        request.setAttribute("msg",msg);
+		        
+				//チャットタイプを判別するための変数をリクエストスコープに保存
+				request.setAttribute("chatType", chatType);
 		        
 		        //チャット画面にフォワード
 		        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
@@ -183,6 +195,9 @@ public class ChatServlet extends HttpServlet {
 		    	//エラーメッセージをリクエストスコープに保存
 		        request.setAttribute("msg",msg);
 		        
+				//チャットタイプを判別するための変数をリクエストスコープに保存
+				request.setAttribute("chatType", chatType);
+		        
 		        //チャット画面にフォワード
 		        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
 		        dispatcher.forward(request, response);
@@ -196,6 +211,9 @@ public class ChatServlet extends HttpServlet {
 		    	
 		    	//エラーメッセージをリクエストスコープに保存
 		        request.setAttribute("msg",msg);
+		        
+				//チャットタイプを判別するための変数をリクエストスコープに保存
+				request.setAttribute("chatType", chatType);
 		        
 		        //チャット画面にフォワード
 		        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
@@ -228,6 +246,11 @@ public class ChatServlet extends HttpServlet {
 			* エラーメッセージをリクエストスコープに保存
 			*/
 			request.setAttribute("msg", msg);
+			
+			/**
+			 * チャットタイプを判別するための変数をリクエストスコープに保存
+			 */
+			request.setAttribute("chatType", chatType);
 			
 			//チャット画面にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");

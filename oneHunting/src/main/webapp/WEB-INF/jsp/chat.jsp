@@ -15,6 +15,13 @@ List<ChatRecordDTO> chatList = (List<ChatRecordDTO>)request.getAttribute("chatLi
 //エラーメッセージ用変数読み込み
 String msg = (String)request.getAttribute("msg");
 
+//チャットタイプを判別するためのチャットタイプ変数呼び出し
+String chatType = (String)request.getAttribute("chatType");
+
+//nullチェックしてデフォルト値を設定
+if (chatType == null) {
+ chatType = "chat_main"; // デフォルトのチャットタイプを設定
+}
 %>
 
 <%-- ログイン情報の取得　※ログインしてない場合はログイン画面へ移動する --%>
@@ -84,6 +91,7 @@ if( loginID == null || login == false ) {
 			<button type="submit" name="chatType" value="chat_oita">大分</button><br/>
 			<button type="submit" name="chatType" value="chat_nagasaki">長崎</button><br/>
 			<button type="submit" name="chatType" value="chat_kumamoto">熊本</button><br/>
+			<button type="submit" name="chatType" value="chat_miyazaki">宮崎</button><br/>
 			<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
 			<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
 			<button type="submit" name="chatType" value="chat_main">雑談</button><br/>
@@ -120,8 +128,23 @@ if( loginID == null || login == false ) {
 		<!-- フッター -->
 		<footer>
 			<div class="footer">
-				<input type="text" name="comment">	
-				<input type="submit" value="送信">
+			<%-- チャット投稿form --%>
+				<form action="chat" method="post" enctype="multipart/form-data">
+					<input type="text" name="comment">
+					
+					<%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
+					<%-- ファイルをアップロードする --%>
+					<%-- onchangeタグによりファイルアップロードされた場合にプレビューを表示する --%>
+					<%-- acceptタグによりアップロードできるファイルを指定 --%>
+					<%-- (※ただし、アップロード時に表示されるファイルを指定するだけであり、指定外のファイルアップロードは可能) --%>
+					
+					<input type="file" name="image" id="fileElem" multiple accept="image/*" style="display:none" />
+					<button id="fileSelect" type="button">画像</button>
+					
+					<%-- 現在のチャットタイプから書き込むチャットタイプを分岐させる予定 --%>
+					<button type="submit" name="chatType" value="chat_main">送信</button>
+				</form>
+				<br/>
 			</div>
 		 </footer>
 	</div>
@@ -131,41 +154,20 @@ if( loginID == null || login == false ) {
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="js/chat.js"></script>
 	
-<%-- 沼田さん画像機能設定　--%>
-
-	<%-- 画像投稿用の仮説form ※書き込みformと統合予定 --%>
-	<form action="chat" method="post" enctype="multipart/form-data">
-
-		<%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
-		<%-- ファイルをアップロードする --%>
-		<%-- onchangeタグによりファイルアップロードされた場合にプレビューを表示する --%>
-		<%-- acceptタグによりアップロードできるファイルを指定 --%>
-		<%-- (※ただし、アップロード時に表示されるファイルを指定するだけであり、指定外のファイルアップロードは可能) --%>
-		<p>
-			アイコン <input type="file" name="image" accept="image/*"
-				onchange="previewFile(this);">
-		</p>
-
-		<input type="submit" value="投稿">
-
-		<%-- 画像プレビューの呼び出し --%>
-		<img id="preview">
-	</form>
 
 	<%-- エラーの表示 --%>
 	<%=msg%>
-
-
-
-	<%-- 画像プレビューを表示するためのスクリプト構文 --%>
+	
+	<%-- ファイルが選択されていませんを見た目上消し去るスクリプト構文 --%>
 	<script>
-		function previewFile(hoge) {
-			var fileData = new FileReader();
-			fileData.onload = (function() {
-				document.getElementById('preview').src = fileData.result;
-			});
-			fileData.readAsDataURL(hoge.files[0]);
-		}
+	const fileSelect = document.getElementById("fileSelect");
+	const fileElem = document.getElementById("fileElem");
+
+	fileSelect.addEventListener("click", (e) => {
+	  if (fileElem) {
+	    fileElem.click();
+	  }
+	}, false);
 	</script>
 
 </body>
