@@ -47,8 +47,9 @@ if( loginID == null || login == false ) {
 <meta name="viewport" content = "width=device-width, initial-scale=1.0">
 <!-- CSSファイル  -->
 <link rel="stylesheet" type="text/css" href="css/chat.css"
-<body>	
+</head>
 
+<body>	
 <%-- 山﨑画面レイアウトマークアップ --%>
 	<div class="chat-container">
 		<!-- ヘッダー-->
