@@ -48,16 +48,16 @@ public class ProfileViewServlet extends HttpServlet {
 		/*
 		 * Q：これはどこからなにを取るためのgetParameter？？
 		 */
-		//HTTPリクエストから送られてくるパラメータ(formの入力フィールドやURLのクエリパラメータ)
+		//HTTPリクエストから送られてくるパラメータ(formの入力フィールドやURLのクエリパラメータ)を取得する
 		//jspで記述したname属性を記述すること。jsp作成時に記述。
 		String accountId = request.getParameter("");
 		
-
 		
 		/*
 		 * Q：なにをしてるかコメント書いてみて
 		 */
-		//request.getParameterを格納しているaccountIdを、profileViewの引数として使用
+		//request.getParameterを格納しているaccountIdを、profileViewの引数として使用。
+		//スコープへ格納し、送り先に転送する
 		//→アカウントIDを使用してプロフィールを表示
 		UserProfileDTO userProfile = accountDAO.profileView(accountId);
 		//上記変数をセッションスコープへ格納

@@ -50,6 +50,8 @@ public class UserSearchServlet extends HttpServlet {
 		}
 		
 		//全体チャットにフォワードさせる ※search_result.jspに飛ばすように後々変更要
+		//仮作成のWEB-INF直下search.jspで動作確認済。jsp作成時確認要。
+		//caht.jspから"WEB-INF/jsp/search_result.jsp"へ画面遷移は確認済
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/search.jsp");
 		dispatcher.forward(request, response);
 	}

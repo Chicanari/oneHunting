@@ -360,7 +360,7 @@ public class AccountDAO {
     			String accountIntroduction = rs.getString("account_introduction");
     			//account_good_pointを格納
     			String accountGoodPoint = rs.getString("account_good_point");
-    			//上記変数をDTOをインスタンス化する際に代入
+    			//上記変数を、DTOをインスタンス化する際に代入
     			userProfile = new UserProfileDTO(accountIcon,accountName,resultAccountId,
     											accountKen,accountIntroduction,accountGoodPoint);
     		}
