@@ -21,6 +21,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import org.postgresql.util.PSQLException;
@@ -51,9 +52,93 @@ public class ChatDAO {
     
     /**
      * コメントをDBに追加するDAOメソッド
+     * chatType,accountId,accountNme,icon,text,image
      */
-    public void comment_insert() {
+    public int comment_insert(String  chatType,
+    		String accountId,String accountName,
+    		String icon,String text, String image) {
+		ArrayList<ChatRecordDTO> chatRecords = new ArrayList<ChatRecordDTO>();
     	
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		//更新数
+		int inCunt = 0;
+		
+    	try {
+    		
+    		//チャットタイプ確認用
+    		System.out.println("comment_view chatType:"+chatType);
+    		
+    		//PostgresSQLへの接続
+    		con = DriverManager.getConnection(url,user,password);
+    		
+    		//SQL文(チャットテーブルの呼び出し)
+    		/**
+    		 * ※いいね周りはnullを指定
+    		 */
+    		String sql = "";
+			sql = ("INSERT INTO " + chatType 
+					+ "(" + chatType  + "_post_id,"
+					+ chatType  + "_account_id,"
+					+ chatType  + "_account_name,"
+					+ chatType  + "_icon,"
+					+ chatType  + "_time."
+					+ chatType  + "_text,"
+					+ chatType  + "image,"
+					+ chatType  + "_good_count,"
+					+ chatType  + "_good_id) ");
+			
+			sql += "VALUES(?, ?, ?, ?, ?, ?, ?, null, null);";	
+			
+			
+			//※postIdとtimeはDAO内で定義して処理する…予定
+			
+			//postIdの自動決定
+			//※後で自動決定するメソッドを持ってくる
+			String postId = "";
+			
+			//現在日時取得
+			Timestamp time = new Timestamp(System.currentTimeMillis());
+			
+			ps = con.prepareStatement(sql);
+			ps.setString(1,postId);
+			ps.setString(2,accountId);
+			ps.setString(3,accountName);
+			ps.setString(4,icon);
+			ps.setTimestamp(5,time);
+			ps.setString(6,text);
+			ps.setString(7,image);
+    		
+    		
+    		//呼び出したチャットテーブルの格納
+    		ps = con.prepareStatement(sql);
+    		
+    		//INSERTの実行
+    		inCunt = ps.executeUpdate();
+    		
+		}catch(Exception e) {
+			System.out.println("DBアクセスにエラーが発生しました");
+			e.printStackTrace();
+		}finally {
+			//PostgreSQLの切断
+			if(ps != null) {
+				try {
+					ps.close();
+				}catch(Exception e) {
+					;
+				}
+			}
+			
+			if(con != null) {
+				try{
+					con.close();
+				}catch(Exception e) {
+					;
+				}
+			}
+		}		
+    	return inCunt;
     }
     
     /**
@@ -70,6 +155,9 @@ public class ChatDAO {
 		ResultSet rs = null;
 		
     	try {
+    		
+    		//チャットタイプ確認用
+    		System.out.println("comment_view chatType:"+chatType);
     		
     		//PostgresSQLへの接続
     		con = DriverManager.getConnection(url,user,password);
