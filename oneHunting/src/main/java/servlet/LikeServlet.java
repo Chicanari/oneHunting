@@ -49,17 +49,15 @@ public class LikeServlet extends HttpServlet {
 		AccountDAO accountDAO = new AccountDAO();
 		
 		//plus　→いいねの増加　minus　→いいねの減少
+		
+		//チャットのいいね数・いいねしたアカウント一覧を増減する
+		chatDAO.like_update(chatType, postId,loginID,like);
+		
+		//アカウントテーブルのいいね数と投稿一覧を増減する
 		if(like.equals("plus")) {
-			
-			//チャットのいいね数・いいねしたアカウント一覧を増やす
-			chatDAO.like_add(chatType, postId,loginID);
 			accountDAO.like_add();
-			
 		}else if(like.equals("minus")) {
-			
-			chatDAO.like_delete(chatType, postId,loginID);
 			accountDAO.like_delete();
-			
 		}
 		
 		//チャット画面に戻る

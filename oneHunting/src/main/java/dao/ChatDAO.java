@@ -238,19 +238,20 @@ public class ChatDAO {
     	return chatRecords;    	  
     }
     
+    
     /**
      * チャットテーブルのいいね数を１増加させ、いいねしたアカウントを追加するメソッド
      */
-    public void like_add(String chatType,String postId, String loginID) throws JsonProcessingException {
+    public void like_update(String chatType,String postId, String loginID,String updateType) throws JsonProcessingException {
     	
     	/**
-    	 * このメソッドでは下記の順番・方法でいいね増加を実現しています。
+    	 * このメソッドでは下記の順番・方法でいいね更新を実現しています。
     	 * 
     	 * ①チャットテーブルをpostId（投稿ID）で検索し、****_good_idに格納されているJSONファイルを取得する。
     	 * ②取得したJSONファイルがnullの場合は新規JSONファイルを作成する。
     	 * ③取得したJSONファイルがnullではない場合は、jsonパッケージのGoodIDクラスを使用する。
-    	 * ④２、３、いずれかのＪＳＯＮファイルに、ログインＩＤを追加する。
-    	 * ⑤ＤＢにＪＳＯＮファイルを格納し、いいね数を増加させる。
+    	 * ④２、３、いずれかのＪＳＯＮファイルに、ログインＩＤを追加・減少する。
+    	 * ⑤ＤＢにＪＳＯＮファイルを格納し、いいね数を増加・減少させる。
     	 * 
     	 */
     	
@@ -287,38 +288,67 @@ public class ChatDAO {
 			
 			
 			/**
-			 *  いいねをしたaccount_idを、****_good_idに追加する
+			 *  いいねボタンを押下をしたaccount_idを、****_good_idに追加・削除する
 			 */
-	    	
-			if(goodId_Json == null) {
-				//②④goodIdsがnullの場合は、新しくJSONファイルを作成し、追加する
-		        goodId.addIds(loginID);
-			}else {
-				//③goodIdsがnullでない場合は、JSONファイルにuserIDを追加する
+			
+			if(updateType.equals("plus")) {
+				
+				if(goodId_Json == null) {
+					//②④goodIdsがnullの場合は、新しくJSONファイルを作成し、追加する
+			        goodId.addIds(loginID);
+				}else {
+					//③goodIdsがnullでない場合は、JSONファイルにuserIDを追加する
+					
+					//JSON形式のStringをGoodIDオブジェクトに変換
+				    goodId = objectMapper.readValue(goodId_Json, GoodID.class);
+				    
+				    //④IDを追加する
+				    goodId.addIds(loginID);
+				}
+				
+			} else if(updateType.equals("minus")) {
+				
+				//③JSONファイルのuserIDを削除する
 				
 				//JSON形式のStringをGoodIDオブジェクトに変換
 			    goodId = objectMapper.readValue(goodId_Json, GoodID.class);
 			    
-			    //④IDを追加する
-			    goodId.addIds(loginID);
+			    //④IDを削除する
+			    goodId.removeIds(loginID);
+				
 			}
-	    	
 
 		} catch (SQLException e1) {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
 		}
 		
-		//StringのJSONファイルに変換する
-		String jsonString = objectMapper.writeValueAsString(goodId);
-
 		
-    	/**
-    	 *  ⑤一致するIDのいいねの数を１増やし、JSONファイルのいいねアカウント一覧を更新する
-    	 */
-    	String UpdateSql = "UPDATE " +chatType+ " SET "+ chatType + "_good_count = ";
-    	/*1*/UpdateSql += chatType + "_good_count+1 ,"+ chatType + "_good_id = ?::json ";
-    	/*2*/UpdateSql += "WHERE " + chatType + "_post_id = ? ;";
+		/**
+		 * 加工したJSONファイルを更新する
+		 */
+		
+		//GoodIDクラスのオブジェクトを、String形式のJSONファイルに変換する
+		String jsonString = objectMapper.writeValueAsString(goodId);
+		
+		//更新するためのSQLを格納する変数
+		String UpdateSql ="";
+		
+		if(updateType.equals("plus")) {
+	    	/**
+	    	 *  ⑤一致するIDのいいねの数を１増やし、JSONファイルのいいねアカウント一覧を更新する
+	    	 */
+	    	UpdateSql = "UPDATE " +chatType+ " SET "+ chatType + "_good_count = ";
+	    	/*1*/UpdateSql += chatType + "_good_count+1 ,"+ chatType + "_good_id = ?::json ";
+	    	/*2*/UpdateSql += "WHERE " + chatType + "_post_id = ? ;";
+		}else if(updateType.equals("minus")) {
+			/**
+	    	 *  ⑤一致するIDのいいねの数を１減らし、JSONファイルのいいねアカウント一覧を更新する
+	    	 */
+			UpdateSql = "UPDATE " +chatType+ " SET "+ chatType + "_good_count = ";
+	    	/*1*/UpdateSql += chatType + "_good_count-1 ,"+ chatType + "_good_id = ?::json ";
+	    	/*2*/UpdateSql += "WHERE " + chatType + "_post_id = ? ;";
+		}
 		
 		
 		//SQL文の実行
@@ -339,17 +369,6 @@ public class ChatDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} 
-    	
-    }
-    
-    
-    /**
-     * いいねを削除するメソッド
-     * @param chatType 
-     * @param postId 
-     * @param loginID 
-     */
-    public void like_delete(String chatType, String postId, String loginID) {
     	
     }
     
