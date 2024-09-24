@@ -87,16 +87,18 @@ if( loginID == null || login == false ) {
 			
 			<form action="chat" method="get">
 			<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
-			<a href="#">佐賀</a><br/>
-			<a href="#">大分</a><br/>
-			<a href="#">長崎</a><br/>
-			<a href="#">熊本</a><br/>
-			<a href="#">鹿児島</a><br/>
-			<a href="#">沖縄</a><br/>
+			<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
+			<button type="submit" name="chatType" value="chat_oita">大分</button><br/>
+			<button type="submit" name="chatType" value="chat_nagasaki">長崎</button><br/>
+			<button type="submit" name="chatType" value="chat_kumamoto">熊本</button><br/>
+			<button type="submit" name="chatType" value="chat_miyazaki">宮崎</button><br/>
+			<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
+			<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
+			
 			<button type="submit" name="chatType" value="chat_main">雑談</button><br/>
-			<a href="#">狩猟資格</a><br/>
-			<a href="#">成果報告</a><br/>
-			<a href="#">おすすめアイテム</a><br/>	
+			<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
+			<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
+			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>
 			</form>
 			
 			</div>
