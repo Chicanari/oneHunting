@@ -32,12 +32,14 @@ public class ProfileViewServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//AccountDAOの実装とセッションスコープの作成
 		AccountDAO accountDAO = new AccountDAO();
 		HttpSession session = request.getSession();
 		
 		//name属性記述
 		String accountId = request.getParameter("");
 		
+		//
 		 UserProfileDTO userProfile = accountDAO.profileView(accountId);
 		 session.setAttribute("profile", userProfile);
 		//ログイン画面にフォワードさせる

@@ -41,10 +41,10 @@ public class UserSearchServlet extends HttpServlet {
 		String searchQuery = request.getParameter("kensaku");
 		//空白検索時、表示なしにするためif文を追加
 		if (searchQuery == null || searchQuery.trim().isEmpty()) {
-			//空白時、結果非表示
+			//空白時、結果を非表示
 			session.setAttribute("search_result", new ArrayList<UserRecordDTO>());
 		}else {
-			//通常検索
+			//通常検索を表示
 		List<UserRecordDTO> sRecord = accountDAO.userSearch(searchQuery);
 		session.setAttribute("search_result", sRecord);
 		}

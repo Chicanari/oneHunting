@@ -322,15 +322,18 @@ public class AccountDAO {
     	//SQL文の操作
     	try {
     		con = DriverManager.getConnection(url,user,password);
-    		
+    		//sql文の操作
     		String sql = "SELECT account_icon, account_name, account_id, account_ken, account_introduction, account_good_point ";
     		sql += "FROM account ";
     		sql += "WHERE account_id = ? ";
-    		
+    		//実行前にコンパイル処理
     		ps = con.prepareStatement(sql);
+    		
     		ps.setString(1,accountId);
+    		//結果を実行
     		rs = ps.executeQuery();
     		
+    		//プロフィール表示に必要な情報を変数へrs格納
     		while(rs.next()) {
     			String accountIcon = rs.getString("account_icon");
     			String accountName = rs.getString("account_name");
@@ -339,7 +342,7 @@ public class AccountDAO {
     			String accountKen = rs.getString("account_ken");
     			String accountIntroduction = rs.getString("account_introduction");
     			String accountGoodPoint = rs.getString("account_good_point");
-    			
+    			//上記変数をDTOをインスタンス化する際に代入
     			userProfile = new UserProfileDTO(accountIcon,accountName,resultAccountId,
     											accountKen,accountIntroduction,accountGoodPoint);
     		}
@@ -348,6 +351,7 @@ public class AccountDAO {
     		
     	}catch(Exception e) {
     		e.printStackTrace();
+    		//後ほどtry-with-resourcesで省略すること
     	}finally {
     		if(con != null) {
     			try {
@@ -372,6 +376,7 @@ public class AccountDAO {
     			}
     		}
     	}
+    	//while(rs.next())の処理を結果として返す
     	return userProfile;
     }
     
@@ -399,7 +404,7 @@ public class AccountDAO {
     		//ID・名前であいまい検索し実行
     		String ambiguousQuery = "%" + searchQuery + "%";
     		ps.setString(1, ambiguousQuery);
-    		ps.setString(2, ambiguousQuery); 
+    		ps.setString(2, ambiguousQuery);
     		
     		rs = ps.executeQuery();
     		userRecords = searchResults(rs);
