@@ -93,7 +93,7 @@ public class ChatDAO {
 			
 			//postIdの自動決定
 			//※後で自動決定するメソッドを持ってくる
-			String postId = "";
+			String postId = model.ChatUtility.createPostID(accountId);
 			
 			//現在日時取得
 			Timestamp time = new Timestamp(System.currentTimeMillis());

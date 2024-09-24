@@ -8,7 +8,7 @@ public class ChatUtility {
 	/**
 	 * チャットテーブルに保存するPostIDを生成するメソッド
 	 */
-	public String createPostID(String userID) {
+	public static String createPostID(String userID) {
 		
 		/**
 		 * ＊postIDの仕様＊
