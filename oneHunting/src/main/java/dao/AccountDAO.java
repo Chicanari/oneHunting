@@ -187,7 +187,6 @@ public class AccountDAO {
 			
 		}
 		
-		System.out.println("userSignup:登録に失敗しました");
 		return "";
     }
     
@@ -282,7 +281,6 @@ public class AccountDAO {
 					db_pw = rs.getString("account_password");
 				}else {
 					//一致するidがなかった場合はエラーメッセージを返す
-					System.out.println("登録がありません。");
 					return "登録がありません。";
 				}
             }
@@ -538,7 +536,6 @@ public class AccountDAO {
 				if(rs.next()) {
 					//JSONファイルが存在しない場合はnull、存在する場合はStringを返す
 					goodId_Json = rs.getString("account_good_id");
-					System.out.println("account goodId_Json:"+goodId_Json);
 				}
             }
 			
