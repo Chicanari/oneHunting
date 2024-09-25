@@ -10,7 +10,7 @@ page import="dto.ChatRecordDTO,java.util.List"
 <% 
 
 //チャット画面に表示する情報（ChatRecordDTO）をリクエストスコープから取得
-List<ChatRecordDTO> chatList = (List<ChatRecordDTO>)request.getAttribute("chatList");
+List<ChatRecordDTO> chatList = (List<ChatRecordDTO>)session.getAttribute("chatList");
 
 //エラーメッセージ用変数読み込み
 String msg = (String)request.getAttribute("msg");
@@ -40,7 +40,6 @@ if( loginID == null || login == false ) {
 }
 
 %>
-
 
 <!DOCTYPE html>
 
@@ -91,68 +90,81 @@ if( loginID == null || login == false ) {
                 </div>
             </nav>
 		</header-menu>
-
 	<div class="maindisplay">
-			<!-- 左カラム -->
-			<from action="chat" method="get">
-				<div class="side-column">
-					<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
-					<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
-					<button type="submit" name="chatType" value="chat_oita">大分</button><br/>
-					<button type="submit" name="chatType" value="chat_nagasaki">長崎</button><br/>
-					<button type="submit" name="chatType" value="chat_kumamoto">熊本</button><br/>
-					<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
-					<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
-					<button type="submit" name="chatType" value="chat_main">雑談</button><br/>
-					<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
-					<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
-					<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>	
-				</div>
-			</from>	
+		<!-- 左カラム -->
+		<form action="chat" method="get">
+			<div class="side-column">
+			<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
+			<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
+			<button type="submit" name="chatType" value="chat_oita">大分</button><br/>
+			<button type="submit" name="chatType" value="chat_nagasaki">長崎</button><br/>
+			<button type="submit" name="chatType" value="chat_kumamoto">熊本</button><br/>
+			<button type="submit" name="chatType" value="chat_miyazaki">宮崎</button><br/>
+			<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
+			<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
+			<button type="submit" name="chatType" value="chat_main">雑談</button><br/>
+			<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
+			<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
+			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>
+			</div>		
+		</from>	
 			
-			<!-- チャット本体部分 -->
-			<section id="main">
-					<p>
-					
-					<% for(ChatRecordDTO record :chatList){ %>
-					
-					投稿ID:<%= record.getPostId() %><br>
-					アカウントID：<%= record.getAccountId() %><br>
-					アカウント名：<%= record.getAccountName() %><br>
-					投稿日時：<%= record.getTime() %><br>
-					投稿内容：<%= record.getText() %><br>
-					いいね数：<%= record.getGoodCount() %><br>
-					<br>
-					
-					<% } %>
-					
-					</p>
-			</section>
-	</div>
+			<% for(ChatRecordDTO record :chatList){ %>
 
-		<!-- フッター -->
-		<footer>
-			<div class="footer">
-			<%-- チャット投稿form --%>
-				<form action="chat" method="post" enctype="multipart/form-data">
-					<p class="comment"><input type="text" name="comment">
-					
-					<%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
-					<%-- ファイルをアップロードする --%>
-					<%-- onchangeタグによりファイルアップロードされた場合にプレビューを表示する --%>
-					<%-- acceptタグによりアップロードできるファイルを指定 --%>
-					<%-- (※ただし、アップロード時に表示されるファイルを指定するだけであり、指定外のファイルアップロードは可能) --%>
-					
-					<input type="file" name="image" id="fileElem" multiple accept="image/*" style="display:none" />
-					<button id="fileSelect" type="button">画像</button>
-					
-					<%-- 現在のチャットタイプから書き込むチャットタイプを分岐させる予定 --%>
-					<button type="submit" name="chatType" value="chat_main">送信</button></p>
-				</form>
-				<br/>
-			</div>
-		 </footer>
+			<form action="like" method="post">
+			
+			投稿ID:<%= record.getPostId() %><br>
+			アカウントID：<%= record.getAccountId() %><br>
+			アカウント名：<%= record.getAccountName() %><br>
+			投稿日時：<%= record.getTime() %><br>
+			投稿内容：<%= record.getText() %><br>
+			いいね数：<%= record.getGoodCount() %><br>
+			
+			<%-- 投稿ID・投稿者アカウントIDを渡す --%>
+			<input type="hidden" id="postId" name="postId" value="<%= record.getPostId() %>" />
+			<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />
+			
+			<%-- TODO:いいねしてるかしていないか分岐を実装する --%>
+
+				<%
+				//この投稿IDのいいねアカウント一覧に、ログインアカウントが含まれているか確認する
+				boolean isLike = false;
+				if(record.getGoodId() != null){
+					isLike = record.getGoodId().contains(loginID);
+				}
+				
+				if(isLike){ %>
+					<button type="submit" name="like" value="minus">♥</button><br>
+				<% } else { %>
+					<button type="submit" name="like" value="plus">♡</button><br>
+				<% } %>
+				
+			<br>
+			</form><div>
+			<% } %>
 	</div>
+		
+		<!-- フッター -->
+	<footer>
+		<div class="footer">
+		<%-- チャット投稿form --%>
+			<form action="chat" method="post" enctype="multipart/form-data">
+				<p class="comment"><input type="text" name="comment">
+					
+				<%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
+				<%-- ファイルをアップロードする --%>
+				<%-- onchangeタグによりファイルアップロードされた場合にプレビューを表示する --%>
+				<%-- acceptタグによりアップロードできるファイルを指定 --%>
+				<%-- (※ただし、アップロード時に表示されるファイルを指定するだけであり、指定外のファイルアップロードは可能) --%>
+					
+				<input type="file" name="image" id="fileElem" multiple accept="image/*" style="display:none" />
+				<button id="fileSelect" type="button">画像</button>
+					
+				<%-- 現在のチャットタイプから書き込むチャットタイプを分岐させる予定 --%>
+				<button type="submit" name="chatType" value="chat_main">送信</button></p>
+			</form>
+		</div>
+	</footer>
 	
 	<!-- body直前でjQueryと自作のJSファイルの読み込み  -->
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js"

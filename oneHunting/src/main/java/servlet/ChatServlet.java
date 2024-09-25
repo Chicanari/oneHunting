@@ -44,14 +44,28 @@ public class ChatServlet extends HttpServlet {
 		
 		/**
 		 * 
+		 * 最後に見ていたチャットを表示する
 		 * 自動遷移時、メインチャットを表示する
 		 * 
-		 */	
+		 */
+		
+		//左カラムから送られてきたチャット名を取得する
 		String chatType = request.getParameter("chatType");
+		 
+		//上記がnullだった場合
 		if(chatType == null) {
-			chatType = "chat_main";
-		}	
-		System.out.println("ChatServlet chatType:"+chatType);	
+			
+			//セッションにチャットタイプが保存されている（既に遷移済みでないか）確認する
+			chatType = (String)session.getAttribute("chatType");
+			
+			//入っていない場合はメインチャットへ遷移させる
+			if(chatType == null) {
+				chatType = "chat_main";
+			}
+			
+		}
+		
+		
 		/**
 		 * 
 		 * 左カラムチャットより遷移するチャットを取得し返却する
@@ -85,9 +99,11 @@ public class ChatServlet extends HttpServlet {
 			session.setAttribute("chatType",chatType);
 		
 			/**
-			 * チャットリストをリクエストスコープに保存
+			 * チャットのコメント一覧と名前をセッションスコープに保存
 			 */
-			request.setAttribute("chatList", chatList); 
+			
+			session.setAttribute("chatType", chatType);
+			session.setAttribute("chatList", chatList); 
 			
 			/**
 			* エラーメッセージをリクエストスコープに保存

@@ -1,5 +1,7 @@
 package dto;
 
+import java.util.Set;
+
 public class ChatRecordDTO {
 	
 	//フィールド宣言
@@ -11,11 +13,11 @@ public class ChatRecordDTO {
 	private String text; //チャット本文
 	private String image; //投稿画像のファイル名
 	private Integer goodCount; //いいねの数
-	//private String goodId; //いいねされた人のID
+	private Set<String> goodId; //いいねされた人のID
 	
 	//フィールド8つに対しての代入処理を行うコンストラクタ(仮引数)
 	public ChatRecordDTO(String postId,String accountId,String accountName,
-			String icon,String time,String text,String image,Integer goodCount) {
+			String icon,String time,String text,String image,Integer goodCount,Set<String> goodId) {
 		this.postId = postId;
 		this.accountId = accountId;
 		this.accountName = accountName;
@@ -24,6 +26,7 @@ public class ChatRecordDTO {
 		this.text = text;
 		this.image = image;
 		this.goodCount = goodCount;
+		this.goodId = goodId;
 	}
 	
 	//getter＆setterの宣言
@@ -74,6 +77,10 @@ public class ChatRecordDTO {
 	}
 	public void setGoodCount(Integer goodCount) {
 		this.goodCount = goodCount;
+	}
+
+	public Set<String> getGoodId() {
+		return goodId;
 	}
 
 }
