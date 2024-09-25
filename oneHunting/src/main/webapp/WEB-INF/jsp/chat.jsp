@@ -18,7 +18,7 @@ String msg = (String)request.getAttribute("msg");
 //チャットタイプを判別するためのチャットタイプ変数呼び出し
 String chatType = (String)session.getAttribute("chatType");
 
-//件分類を判別するための県情報を呼び出し
+//県分類を判別するための県情報を呼び出し
 String ken = (String)session.getAttribute("ken");
 
 //nullチェックしてデフォルト値を設定
@@ -66,12 +66,12 @@ if( loginID == null || login == false ) {
 	<div class="chat-container">
 		<!-- ヘッダー-->
 		<header-menu>
-			<div class="wrapper">
+			<div class="header_container">
 				<form action="search" method="post">
 				<img class="logo" src="image/logo_white.png" alt="oneHuntingのロゴ">
 				<div class="search">
-					<input type="text" name="kensaku">
-					<input type="submit" value="検索">
+					<input type="text" name="kensaku" class="kensaku">
+					<input type="submit" value="検索" class="kensaku_btn">
 				</div>
 				<!-- .header__btn -->
             	<img class="header__btn" src="image/hamburgermenu.png" alt="">
@@ -81,35 +81,49 @@ if( loginID == null || login == false ) {
 			<nav class="nav">
                 <div class="nav__header">
                     <img class="nav__btn" src="image/batten-close.png" alt="">
-                <ul>
-                	<form action="profile_view" method="post">
-					<input type="submit" value="プロフィール" class="profile_view">
-					</form>
-					<form action="logout" method="post">
-						<input type="submit" value="ログアウト" class="logout">
-					</form>
-                </ul>
+                    <div class="nav_item">
+	                	<form action="profile_view" method="post">
+							<input type="submit" value="プロフィール" class="profile_view">
+						</form>
+						<form action="logout" method="post">
+							<input type="submit" value="ログアウト" class="logout">
+						</form>
+						<img class="risu" src="image/risu.png" alt="">
+					</div>
                 </div>
             </nav>
 		</header-menu>
-		<div class="maindisplay">
+	<div class="maindisplay">
 		<!-- 左カラム -->
-		<p>
+		<form action="chat" method="get">
+			<div class="side-column">
+			<% if(ken.equals("福岡県")){ %>
+			<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
+			<% }else if(ken.equals("佐賀県")){ %>
+			<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
+			<% }else if(ken.equals("大分県")){ %>
+			<button type="submit" name="chatType" value="chat_oita">大分</button><br/>
+			<% }else if(ken.equals("長崎県")){ %>
+			<button type="submit" name="chatType" value="chat_nagasaki">長崎</button><br/>
+			<% }else if(ken.equals("熊本県")){ %>
+			<button type="submit" name="chatType" value="chat_kumamoto">熊本</button><br/>
+			<% }else if(ken.equals("宮崎県")){ %>
+			<button type="submit" name="chatType" value="chat_miyazaki">宮崎</button><br/>
+			<% }else if(ken.equals("鹿児島県")){ %>
+			<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
+			<% }else if(ken.equals("沖縄県")){ %>
+			<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
+			<% } %>	
+			<button type="submit" name="chatType" value="chat_main">雑談</button><br/>
+			<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
+			<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
+			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>
+			</div>		
+		</form>	
 			
-			
-			<%-- 本来のfor文 for(ChatRecordDTO record :chatList){ --%>
-			
-			<% 
-			
-			//５つまでチャットを出す　※本番までの暫定コード　本番では上記の拡張for文で
-			int chat_num = chatList.size();
-			if(chat_num>5) chat_num=5;
-			
-			for(int i = 0; i<chat_num; i++){ 
-			
-				ChatRecordDTO record = chatList.get(i);
-				
-			%>
+		<div class="cntainer">
+			<% for(ChatRecordDTO record :chatList){ %>
+
 			<form action="like" method="post">
 			
 			
@@ -141,74 +155,10 @@ if( loginID == null || login == false ) {
 					<button type="submit" name="like" value="plus">♡</button><br>
 				<% } %>
 				
-			<br>
 			</form>
 			<% } %>
-			
-			
-		</p>
-		
-		<form action="chat" method="get">
-			<div class="side-column">
-			<% if(ken.equals("福岡県")){ %>
-			<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
-			<% }else if(ken.equals("佐賀県")){ %>
-			<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
-			<% }else if(ken.equals("大分県")){ %>
-			<button type="submit" name="chatType" value="chat_oita">大分</button><br/>
-			<% }else if(ken.equals("長崎県")){ %>
-			<button type="submit" name="chatType" value="chat_nagasaki">長崎</button><br/>
-			<% }else if(ken.equals("熊本県")){ %>
-			<button type="submit" name="chatType" value="chat_kumamoto">熊本</button><br/>
-			<% }else if(ken.equals("宮崎県")){ %>
-			<button type="submit" name="chatType" value="chat_miyazaki">宮崎</button><br/>
-			<% }else if(ken.equals("鹿児島県")){ %>
-			<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
-			<% }else if(ken.equals("沖縄県")){ %>
-			<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
-			<% } %>
-			
-			<button type="submit" name="chatType" value="chat_main">雑談</button><br/>
-			<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
-			<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
-			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>
-			</div>		
-		</form>	
-		<main>
-		<!-- チャット本体部分 -->
-		<section id="main">
-			<div class="wrapper">
-				<p>
-				
-				<form action="like" method="post">
-				<% for(ChatRecordDTO record :chatList){ %>
-				
-				投稿ID:<%= record.getPostId() %><br>
-				アカウントID：<%= record.getAccountId() %><br>
-				アカウント名：<%= record.getAccountName() %><br>
-				投稿日時：<%= record.getTime() %><br>
-				投稿内容：<%= record.getText() %><br>
-				いいね数：<%= record.getGoodCount() %><br>
-				
-				<%-- 投稿IDを渡す --%>
-				<input type="hidden" id="postId" name="postId" value="<%= record.getPostId() %>" />
-				
-				<%-- TODO:いいねしてるかしていないか分岐を実装する --%>
-					<% if(true){ %>
-						 <button type="submit" name="like" value="plus">♡</button><br>
-					<% } else { %>
-						<button type="submit" name="like" value="minus">♥</button><br>
-					<% } %>
-				<br>
-				<% } %>
-				</form>
-				
-				</p>
-			</div>
-		</section>
-		</main>
-		
 		</div>
+	</div>
 		<!-- フッター -->
 		<footer>
 			<div class="footer">
@@ -233,7 +183,7 @@ if( loginID == null || login == false ) {
 					<%=msg%>
 			</div>
 		 </footer>
-	</div>
+
 	
 	<!-- body直前でjQueryと自作のJSファイルの読み込み  -->
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js"
