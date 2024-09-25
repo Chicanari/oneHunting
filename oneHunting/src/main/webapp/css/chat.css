@@ -35,7 +35,7 @@ header
 }
 
 .search {
-	margin-left: 600px;
+	margin-left: 550px;
 }
 
 
@@ -112,22 +112,35 @@ header
 	  outline: none;
 /*	   影を消す */
 	  box-shadow: none;
+	  position: relative;
 }
 
 .kensaku {
 	border-radius: 5px;
 	box-shadow: none;
+	
+
+	/*枠線を消す */
+	border: none;
+	/*クリックした際に枠線をnone消す */
+	outline: none;
+	
+	width: 300px;
+	
+	padding: 6px;
+	font-size: 18px;
 }
 
-.kensaku_btn {
-/*	 背景色を無色に */
-	  background: transparent;
-/*	   枠線を消す */
-	  border: none;
-/*	   クリックした際に枠線をnone消す */
-	  outline: none;
-/*	   影を消す */
-	  box-shadow: none;
+.kensaku::placeholder {
+	color: #BBB;
+}
+
+.search button {
+	position: absolute;
+	right: 1px;
+	border: none;
+	background: none;
+	cursor: pointer;
 }
 
 /* ===============================================================
@@ -147,7 +160,7 @@ section{
 	outline: none;
 /*	影を消す */
 	box-shadow: none;
-	line-height: 3rem;
+	line-height: 4rem;
 }
 
 .nav_item {
@@ -173,6 +186,7 @@ section{
     width: 250px; /* 左カラムの幅を指定 */
     height: 100vh;
     background-color: #FFEDE9;
+	padding: 30px;
 }
 
 .container {
@@ -180,6 +194,43 @@ section{
     display: flex;
     flex-direction: column; /* 縦に並べる */
     gap: 20px; /* 要素間の間隔を指定 */
+	padding: 5px 40px;
+	
+	height: 77vh;
+	overflow-y: scroll;
+}
+
+.container::-webkit-scrollbar {
+    background-color: #FFFF; 
+}
+
+.container::-webkit-scrollbar-thumb {
+    background: #A39584;
+    border-radius: 20px;
+}
+
+/* 投稿内容設定　*/
+.get-name {
+	font-weight: bold;
+	font-size: 1.8rem;
+}
+
+.get-time {
+	font-size: 1.6rem;
+	margin-left: 3px;
+	color: #A39584;
+}
+
+.get-good {
+	font-size: 1.6rem;
+}
+
+.good-on,
+.good-off {
+		background: transparent;
+		border: none;
+		color: #FF1493;
+		margin-top: 5px;
 }
 
 /* ===============================================================
@@ -189,12 +240,42 @@ footer
 footer {
 	background-color: #A39584;
 	width: 100%;
- 	height: 80px;
+ 	height: 70px;
     position: absolute;/*絶対位置*/
     bottom: 0; /*下に固定*/
    	text-align: center;
 }
 
 .footer {
-	
+	margin-top: 20px;
 }
+
+.picture,
+.post {
+	border: none;
+	background: #FFEDE9;
+	cursor: pointer;
+	border-radius: 3px;
+	width: 40px;
+	height: 35px;
+
+}
+
+.comment-box {
+	margin-top: 3px;
+	border: none;
+	outline: none;
+	border-radius: 3px;
+	width: 350px;
+	height: 1.5em;
+}
+
+.footer img {
+	margin-top: 2px;
+}
+
+.footer button {
+	vertical-align: top;
+}
+
+

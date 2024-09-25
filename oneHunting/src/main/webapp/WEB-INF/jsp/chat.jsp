@@ -59,7 +59,6 @@ if( loginID == null || login == false ) {
 </head>
 
 <body>	
-<%-- 山﨑画面レイアウトマークアップ --%>
 	<div class="chat-container">
 		<!-- ヘッダー-->
 		<header-menu>
@@ -67,8 +66,9 @@ if( loginID == null || login == false ) {
 				<form action="search" method="post">
 				<img class="logo" src="image/logo_white.png" alt="oneHuntingのロゴ">
 				<div class="search">
-					<input type="text" name="kensaku" class="kensaku">
-					<input type="submit" value="検索" class="kensaku_btn">
+					<input type="text" name="kensaku" class="kensaku" placeholder="Search">
+					<!-- <input type="submit" value="検索" class="kensaku_btn"> -->
+					<button type="submit"><img src="image/serch.png" alt=""></button>
 				</div>
 				<!-- .header__btn -->
             	<img class="header__btn" src="image/hamburgermenu.png" alt="">
@@ -116,13 +116,20 @@ if( loginID == null || login == false ) {
 			
 			
 			<%-- アイコン --%><img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br>
-			投稿ID:<%= record.getPostId() %><br>
-			アカウントID：<%= record.getAccountId() %><br>
-			アカウント名：<%= record.getAccountName() %><br>
-			<%-- 投稿画像 --%><img src="/oneHunting/chat_image/<%= record.getImage() %>"><br>
-			投稿日時：<%= record.getTime() %><br>
-			投稿内容：<%= record.getText() %><br>
-			いいね数：<%= record.getGoodCount() %><br>
+			<%-- 投稿ID:<%= record.getPostId() %><br> --%>
+			<%-- アカウントID：<%= record.getAccountId() %><br> --%>
+			
+			<input type ="hidden" vale="record.getPostId()">
+			<input type ="hidden" vale="record.getAccountId()">
+			
+			<%-- アカウント名 --%>
+			<span class="get-name"><%= record.getAccountName() %></span>
+			<%-- 投稿日時--%>
+			<span class="get-time"><%= record.getTime() %></span><br>
+			<%-- 投稿画像 --%>
+			<img src="/oneHunting/chat_image/<%= record.getImage() %>"><br>
+			<%-- 投稿内容 --%>
+			<%= record.getText() %><br>
 			
 			<%-- 投稿ID・投稿者アカウントIDを渡す --%>
 			<input type="hidden" id="postId" name="postId" value="<%= record.getPostId() %>" />
@@ -138,21 +145,24 @@ if( loginID == null || login == false ) {
 				}
 				
 				if(isLike){ %>
-					<button type="submit" name="like" value="minus">♥</button><br>
+					<button type="submit" name="like" value="minus" class="good-on">♥</button>
 				<% } else { %>
-					<button type="submit" name="like" value="plus">♡</button><br>
+					<button type="submit" name="like" value="plus" class="good-off">♡</button>
 				<% } %>
+			
+			<%-- いいね数 --%>
+			<span class="get-good"><%= record.getGoodCount() %></span>
 				
 			</form>
 			<% } %>
-		</div>
+	</div>
 
 		<!-- フッター -->
 		<footer>
 			<div class="footer">
 			<%-- チャット投稿form --%>
 				<form action="chat" method="post" enctype="multipart/form-data">
-					<input type="text" name="comment">
+					<input type="text" name="comment" class="comment-box">
 					
 					<%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
 					<%-- ファイルをアップロードする --%>
@@ -160,10 +170,10 @@ if( loginID == null || login == false ) {
 					<%-- acceptタグによりアップロードできるファイルを指定 --%>
 					<%-- (※ただし、アップロード時に表示されるファイルを指定するだけであり、指定外のファイルアップロードは可能) --%>
 					<input type="file" name="image" id="fileElem" multiple accept="image/*" style="display:none" />
-					<button id="fileSelect" type="button">画像</button>
+					<button id="fileSelect" type="button" class="picture"><img src="image/picture.png" alt=""></button>
 					
 					<%-- 現在のチャットタイプから書き込むチャットタイプを分岐させる予定 --%>
-					<button type="submit" name="chatType" value="chat_main">送信</button>
+					<button type="submit" name="chatType" value="chat_main" class="post"><img src="image/post.png" alt=""></button>
 				</form>
 					<%-- エラーの表示 --%>
 					<%-- <%=msg %> --%><%--  --%>
