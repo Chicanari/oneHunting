@@ -109,7 +109,7 @@ if( loginID == null || login == false ) {
 			</div>		
 		</form>	
 			
-		<div class="cntainer">
+		<div class="container">
 			<% for(ChatRecordDTO record :chatList){ %>
 
 			<form action="like" method="post">
@@ -159,16 +159,14 @@ if( loginID == null || login == false ) {
 					<%-- onchangeタグによりファイルアップロードされた場合にプレビューを表示する --%>
 					<%-- acceptタグによりアップロードできるファイルを指定 --%>
 					<%-- (※ただし、アップロード時に表示されるファイルを指定するだけであり、指定外のファイルアップロードは可能) --%>
-					
 					<input type="file" name="image" id="fileElem" multiple accept="image/*" style="display:none" />
 					<button id="fileSelect" type="button">画像</button>
 					
 					<%-- 現在のチャットタイプから書き込むチャットタイプを分岐させる予定 --%>
 					<button type="submit" name="chatType" value="chat_main">送信</button>
 				</form>
-				<br/>
 					<%-- エラーの表示 --%>
-					<%=msg%>
+					<%-- <%=msg %> --%>
 			</div>
 		 </footer>
 
