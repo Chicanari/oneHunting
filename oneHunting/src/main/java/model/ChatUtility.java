@@ -10,6 +10,8 @@ public class ChatUtility {
 	 */
 	public String createPostID(String userID) {
 		
+		System.out.println(userID);
+		
 		/**
 		 * ＊postIDの仕様＊
 		 * 投稿日時をミリ秒2桁まで(16桁) ＋ ユーザID(2～26桁)で登録
@@ -31,6 +33,8 @@ public class ChatUtility {
 		 * ユーザID(2～26桁)を足す
 		 */
 		String postID = date_16digit + userID;
+		
+		System.out.println(postID);
 		
 		return postID;
 		

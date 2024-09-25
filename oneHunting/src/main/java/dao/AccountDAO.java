@@ -338,7 +338,7 @@ public class AccountDAO {
     		String sql = "SELECT account_icon, account_name, account_id, account_ken, account_introduction, account_good_point ";
     		sql += "FROM account ";
     		//セキュリティ対策のためaccountIdをプレースホルダー化
-    		sql += "WHERE account_id = ? ";
+    		sql += "WHERE account_id = ? ;";
     		//実行前にコンパイル処理
     		ps = con.prepareStatement(sql);
     		//プレースホルダーへ仮引数accountIdを格納

@@ -16,7 +16,7 @@ List<ChatRecordDTO> chatList = (List<ChatRecordDTO>)session.getAttribute("chatLi
 String msg = (String)request.getAttribute("msg");
 
 //チャットタイプを判別するためのチャットタイプ変数呼び出し
-String chatType = (String)request.getAttribute("chatType");
+String chatType = (String)session.getAttribute("chatType");
 
 //nullチェックしてデフォルト値を設定
 if (chatType == null) {
@@ -109,9 +109,12 @@ if( loginID == null || login == false ) {
 			%>
 			<form action="like" method="post">
 			
+			
+			<%-- アイコン --%><img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br>
 			投稿ID:<%= record.getPostId() %><br>
 			アカウントID：<%= record.getAccountId() %><br>
 			アカウント名：<%= record.getAccountName() %><br>
+			<%-- 投稿画像 --%><img src="/oneHunting/chat_image/<%= record.getImage() %>"><br>
 			投稿日時：<%= record.getTime() %><br>
 			投稿内容：<%= record.getText() %><br>
 			いいね数：<%= record.getGoodCount() %><br>
@@ -213,6 +216,8 @@ if( loginID == null || login == false ) {
 					<button type="submit" name="chatType" value="chat_main">送信</button>
 				</form>
 				<br/>
+					<%-- エラーの表示 --%>
+					<%=msg%>
 			</div>
 		 </footer>
 	</div>
@@ -221,9 +226,6 @@ if( loginID == null || login == false ) {
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js"
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="js/chat.js"></script>
-
-	<%-- エラーの表示 --%>
-	<%=msg%>
 	
 	<%-- ファイルが選択されていませんを見た目上消し去るスクリプト構文 --%>
 	<script>
