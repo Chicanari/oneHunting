@@ -202,9 +202,12 @@ public class ChatServlet extends HttpServlet {
 			/**
 			 * リクエストパラメータからチャット投稿情報の取得
 			 */
-			String accountId = request.getParameter("accountId");
-			String accountName = request.getParameter("accountName");
-			String icon = request.getParameter("icon");
+			//sessionスコープ内のログインIDからアカウントIDを取得
+			String accountId = (String)session.getAttribute("loginID");
+			
+			//※AccountDAOから引っ張ってきたい
+			//String accountName = request.getParameter("accountName");
+			//String icon = request.getParameter("icon");
 			String text = request.getParameter("text");
 			
 			/**
