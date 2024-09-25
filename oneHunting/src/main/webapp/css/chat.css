@@ -138,27 +138,16 @@ section{
 	margin-left: 40px;
 }
 
-.side-column{
-	display: inline-block;
-	background-color: #FFEDE9;
-	height: 100vh;
-	padding:60px 100px 459px 30px;
-}
-
 .side-column button {
-	/*	 背景色を無色に */
-		  background: transparent;
-	/*	   枠線を消す */
-		  border: none;
-	/*	   クリックした際に枠線をnone消す */
-		  outline: none;
-	/*	   影を消す */
-		  box-shadow: none;
-		  line-height: 3rem;
-}
-
-.maindisplay{
-	display: flex;
+/*	 背景色を無色に */
+	background: transparent;
+/*	枠線を消す */
+	border: none;
+/*	クリックした際に枠線をnone消す */
+	outline: none;
+/*	影を消す */
+	box-shadow: none;
+	line-height: 3rem;
 }
 
 .nav_item {
@@ -175,20 +164,35 @@ section{
 	height: 226px;
 }
 
+.maindisplay {
+    flex: 1; /* 利用可能なスペースをすべて占める */
+    display: flex; /* 左カラムとコンテンツを横に並べる */
+}
+
+.side-column {
+    width: 250px; /* 左カラムの幅を指定 */
+    height: 100vh;
+    background-color: #FFEDE9;
+}
+
+.container {
+    flex: 1; /* 残りのスペースを占める */
+    display: flex;
+    flex-direction: column; /* 縦に並べる */
+    gap: 20px; /* 要素間の間隔を指定 */
+}
+
 /* ===============================================================
 footer
 ============================================================ */
 
-.footer {
-	text-align: center;
+footer {
 	background-color: #A39584;
-	padding: 0.5em;
-
-    justify-content: space-around;
-    position: fixed;
-    bottom: 0;
-    margin: 0;
-    width: 100%;
+	width: 100%;
+ 	height: 80px;
+    position: absolute;/*②絶対位置*/
+    bottom: 0; /*下に固定*/
+	
 }
 
 .comment {
