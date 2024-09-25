@@ -44,8 +44,8 @@ if( loginID == null || login == false ) {
 <% if(loginID != null && loginID.equals(profile.getAccountId())){ %>
 <form action="profile_edit" method="get"><input type="submit" value="編集"></form>
 <% } %>
+<img src ="/oneHunting/icon/<%= profile.getAccountIcon() %>" width="50">
 
-<%= profile.getAccountIcon() %>
 <p>名前</p>
 <%= profile.getAccountName() %>
 <p>ID</p>
