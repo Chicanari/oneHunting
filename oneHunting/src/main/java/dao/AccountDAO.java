@@ -147,10 +147,9 @@ public class AccountDAO {
 		/*5*/ sql += ",account_ken";
 		
 		/*6*/ sql += ",account_good_point";
-		/*7*/ sql += ",account_good_id";
 		
 		sql += ") VALUES ";
-		sql += "(?,?,?,?,?,?,?);";
+		sql += "(?,?,?,?,?,?);";
 		
 		
 		//SQL文の実行
@@ -165,7 +164,6 @@ public class AccountDAO {
 			ps.setString(5, ken );
 			
 			ps.setInt(6, 0 );
-			ps.setString(7, null );
 			
 			//INSERT文の実行
 			int rowsAffected = ps.executeUpdate();

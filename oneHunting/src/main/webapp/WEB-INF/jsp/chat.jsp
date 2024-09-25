@@ -18,9 +18,6 @@ String msg = (String)request.getAttribute("msg");
 //チャットタイプを判別するためのチャットタイプ変数呼び出し
 String chatType = (String)session.getAttribute("chatType");
 
-//県分類を判別するための県情報を呼び出し
-String ken = (String)session.getAttribute("ken");
-
 //nullチェックしてデフォルト値を設定
 if (chatType == null) {
  chatType = "chat_main"; // デフォルトのチャットタイプを設定
@@ -97,23 +94,14 @@ if( loginID == null || login == false ) {
 		<!-- 左カラム -->
 		<form action="chat" method="get">
 			<div class="side-column">
-			<% if(ken.equals("福岡県")){ %>
 			<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
-			<% }else if(ken.equals("佐賀県")){ %>
 			<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
-			<% }else if(ken.equals("大分県")){ %>
 			<button type="submit" name="chatType" value="chat_oita">大分</button><br/>
-			<% }else if(ken.equals("長崎県")){ %>
 			<button type="submit" name="chatType" value="chat_nagasaki">長崎</button><br/>
-			<% }else if(ken.equals("熊本県")){ %>
 			<button type="submit" name="chatType" value="chat_kumamoto">熊本</button><br/>
-			<% }else if(ken.equals("宮崎県")){ %>
 			<button type="submit" name="chatType" value="chat_miyazaki">宮崎</button><br/>
-			<% }else if(ken.equals("鹿児島県")){ %>
 			<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
-			<% }else if(ken.equals("沖縄県")){ %>
 			<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
-			<% } %>	
 			<button type="submit" name="chatType" value="chat_main">雑談</button><br/>
 			<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
 			<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
@@ -121,7 +109,7 @@ if( loginID == null || login == false ) {
 			</div>		
 		</form>	
 			
-		<div class="cntainer">
+		<div class="container">
 			<% for(ChatRecordDTO record :chatList){ %>
 
 			<form action="like" method="post">
@@ -158,7 +146,7 @@ if( loginID == null || login == false ) {
 			</form>
 			<% } %>
 		</div>
-	</div>
+
 		<!-- フッター -->
 		<footer>
 			<div class="footer">
@@ -171,16 +159,14 @@ if( loginID == null || login == false ) {
 					<%-- onchangeタグによりファイルアップロードされた場合にプレビューを表示する --%>
 					<%-- acceptタグによりアップロードできるファイルを指定 --%>
 					<%-- (※ただし、アップロード時に表示されるファイルを指定するだけであり、指定外のファイルアップロードは可能) --%>
-					
 					<input type="file" name="image" id="fileElem" multiple accept="image/*" style="display:none" />
 					<button id="fileSelect" type="button">画像</button>
 					
 					<%-- 現在のチャットタイプから書き込むチャットタイプを分岐させる予定 --%>
 					<button type="submit" name="chatType" value="chat_main">送信</button>
 				</form>
-				<br/>
 					<%-- エラーの表示 --%>
-					<%=msg%>
+					<%-- <%=msg %> --%>
 			</div>
 		 </footer>
 
