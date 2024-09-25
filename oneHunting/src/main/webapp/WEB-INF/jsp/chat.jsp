@@ -10,7 +10,7 @@ page import="dto.ChatRecordDTO,java.util.List"
 <% 
 
 //チャット画面に表示する情報（ChatRecordDTO）をリクエストスコープから取得
-List<ChatRecordDTO> chatList = (List<ChatRecordDTO>)request.getAttribute("chatList");
+List<ChatRecordDTO> chatList = (List<ChatRecordDTO>)session.getAttribute("chatList");
 
 //エラーメッセージ用変数読み込み
 String msg = (String)request.getAttribute("msg");
@@ -40,7 +40,6 @@ if( loginID == null || login == false ) {
 }
 
 %>
-
 
 <!DOCTYPE html>
 
@@ -92,6 +91,57 @@ if( loginID == null || login == false ) {
 		</header-menu>
 		<div class="maindisplay">
 		<!-- 左カラム -->
+		<p>
+			
+			
+			<%-- 本来のfor文 for(ChatRecordDTO record :chatList){ --%>
+			
+			<% 
+			
+			//５つまでチャットを出す　※本番までの暫定コード　本番では上記の拡張for文で
+			int chat_num = chatList.size();
+			if(chat_num>5) chat_num=5;
+			
+			for(int i = 0; i<chat_num; i++){ 
+			
+				ChatRecordDTO record = chatList.get(i);
+				
+			%>
+			<form action="like" method="post">
+			
+			投稿ID:<%= record.getPostId() %><br>
+			アカウントID：<%= record.getAccountId() %><br>
+			アカウント名：<%= record.getAccountName() %><br>
+			投稿日時：<%= record.getTime() %><br>
+			投稿内容：<%= record.getText() %><br>
+			いいね数：<%= record.getGoodCount() %><br>
+			
+			<%-- 投稿ID・投稿者アカウントIDを渡す --%>
+			<input type="hidden" id="postId" name="postId" value="<%= record.getPostId() %>" />
+			<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />
+			
+			<%-- TODO:いいねしてるかしていないか分岐を実装する --%>
+
+				<%
+				//この投稿IDのいいねアカウント一覧に、ログインアカウントが含まれているか確認する
+				boolean isLike = false;
+				if(record.getGoodId() != null){
+					isLike = record.getGoodId().contains(loginID);
+				}
+				
+				if(isLike){ %>
+					<button type="submit" name="like" value="minus">♥</button><br>
+				<% } else { %>
+					<button type="submit" name="like" value="plus">♡</button><br>
+				<% } %>
+				
+			<br>
+			</form>
+			<% } %>
+			
+			
+		</p>
+		
 		<form action="chat" method="get">
 			<div class="side-column">
 			<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
@@ -113,6 +163,8 @@ if( loginID == null || login == false ) {
 		<section id="main">
 			<div class="wrapper">
 				<p>
+				
+				<form action="like" method="post">
 				<% for(ChatRecordDTO record :chatList){ %>
 				
 				投稿ID:<%= record.getPostId() %><br>
@@ -121,8 +173,20 @@ if( loginID == null || login == false ) {
 				投稿日時：<%= record.getTime() %><br>
 				投稿内容：<%= record.getText() %><br>
 				いいね数：<%= record.getGoodCount() %><br>
+				
+				<%-- 投稿IDを渡す --%>
+				<input type="hidden" id="postId" name="postId" value="<%= record.getPostId() %>" />
+				
+				<%-- TODO:いいねしてるかしていないか分岐を実装する --%>
+					<% if(true){ %>
+						 <button type="submit" name="like" value="plus">♡</button><br>
+					<% } else { %>
+						<button type="submit" name="like" value="minus">♥</button><br>
+					<% } %>
 				<br>
 				<% } %>
+				</form>
+				
 				</p>
 			</div>
 		</section>
