@@ -110,7 +110,7 @@ if( loginID == null || login == false ) {
 			<form action="like" method="post">
 			
 			
-			<%-- アイコン --%><img src="/oneHunting/icon/<%= record.getIcon() %>" width="120" height="120"><br>
+			<%-- アイコン --%><img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br>
 			投稿ID:<%= record.getPostId() %><br>
 			アカウントID：<%= record.getAccountId() %><br>
 			アカウント名：<%= record.getAccountName() %><br>
