@@ -72,9 +72,6 @@ public class ChatDAO {
 		
     	try {
     		
-    		//チャットタイプ確認用
-    		System.out.println("comment_view chatType:"+chatType);
-    		
     		//PostgresSQLへの接続
     		con = DriverManager.getConnection(url,user,password);
     		
@@ -160,9 +157,6 @@ public class ChatDAO {
 		ResultSet rs = null;
 		
     	try {
-    		
-    		//チャットタイプ確認用
-    		System.out.println("comment_view chatType:"+chatType);
     		
     		//PostgresSQLへの接続
     		con = DriverManager.getConnection(url,user,password);
