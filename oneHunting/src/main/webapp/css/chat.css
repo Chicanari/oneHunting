@@ -175,7 +175,6 @@ section{
 	height: 226px;
 }
 
-
 /* ===============================================================
 footer
 ============================================================ */
@@ -183,7 +182,7 @@ footer
 .footer {
 	text-align: center;
 	background-color: #A39584;
-/*	padding: 1em;*/
+	padding: 0.5em;
 
     justify-content: space-around;
     position: fixed;

@@ -107,8 +107,9 @@ if( loginID == null || login == false ) {
 			<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
 			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>
 			</div>		
-		</from>	
+		</form>	
 			
+		<div class="cntainer">
 			<% for(ChatRecordDTO record :chatList){ %>
 
 			<form action="like" method="post">
@@ -139,9 +140,9 @@ if( loginID == null || login == false ) {
 					<button type="submit" name="like" value="plus">♡</button><br>
 				<% } %>
 				
-			<br>
-			</form><div>
+			</form>
 			<% } %>
+		</div>
 	</div>
 		
 		<!-- フッター -->
