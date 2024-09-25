@@ -80,7 +80,7 @@ public class ChatDAO {
 					+ chatType  + "_account_id,"
 					+ chatType  + "_account_name,"
 					+ chatType  + "_icon,"
-					+ chatType  + "_time."
+					+ chatType  + "_time,"
 					+ chatType  + "_text,"
 					+ chatType  + "image,"
 					+ chatType  + "_good_count,"
