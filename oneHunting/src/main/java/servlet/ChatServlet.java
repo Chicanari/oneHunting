@@ -55,7 +55,8 @@ public class ChatServlet extends HttpServlet {
 		/** 
 		 * 左カラムチャットより遷移するチャットを取得し返却する
 		 * 
-		 */
+		 */	
+
 		
 		/**
 		* エラーメッセージ用の変数宣言
@@ -92,6 +93,11 @@ public class ChatServlet extends HttpServlet {
 			* エラーメッセージをリクエストスコープに保存
 			*/
 			request.setAttribute("msg", msg);
+			
+			/**
+			* チャットタイプを判別するための変数をリクエストスコープに保存
+			*/
+			request.setAttribute("chatType", chatType);
 	        
 			//チャット画面にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
@@ -135,6 +141,7 @@ public class ChatServlet extends HttpServlet {
 		List<ChatRecordDTO> chatList;
 		if(chatType == null) chatType = "chat_main";
 		
+
 		
 		try {
 			/**
