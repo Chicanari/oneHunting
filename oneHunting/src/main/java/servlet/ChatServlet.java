@@ -45,6 +45,16 @@ public class ChatServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		/**
+		 * sessionスコープ内のログインIDからアカウントIDを取得
+		 */
+		String accountId = (String)session.getAttribute("loginID");
+		//アカウントIDから他の情報を取得するためのaccountDAOへの接続
+		AccountDAO aDAO = new AccountDAO();
+		UserProfileDTO upDTO = aDAO.profileView(accountId);
+		//県情報を取得
+		String ken = upDTO.getAccountKen();
+		
+		/**
 		 * 
 		 * 最後に見ていたチャットを表示する
 		 * 自動遷移時、メインチャットを表示する
@@ -101,10 +111,11 @@ public class ChatServlet extends HttpServlet {
 			session.setAttribute("chatType",chatType);
 		
 			/**
-			 * チャットのコメント一覧と名前をセッションスコープに保存
+			 * チャットのコメント一覧・名前・県情報をセッションスコープに保存
 			 */	
 			session.setAttribute("chatType", chatType);
 			session.setAttribute("chatList", chatList); 
+			session.setAttribute("ken", ken); 
 			
 			/**
 			* エラーメッセージをリクエストスコープに保存
@@ -129,6 +140,15 @@ public class ChatServlet extends HttpServlet {
 		 */
 		HttpSession session = request.getSession();
 		
+		/**
+		 * sessionスコープ内のログインIDからアカウントIDを取得
+		 */
+		String accountId = (String)session.getAttribute("loginID");
+		//アカウントIDから他の情報を取得するためのaccountDAOへの接続
+		AccountDAO aDAO = new AccountDAO();
+		UserProfileDTO upDTO = aDAO.profileView(accountId);
+		//県情報を取得
+		String ken = upDTO.getAccountKen();
 		
 		/**
 		 * imageで取得する画像のファイル名を取得するための変数宣言
@@ -193,15 +213,10 @@ public class ChatServlet extends HttpServlet {
 			
 			/**
 			 * リクエストパラメータからチャット投稿情報の取得
-			 * accountid,accounName,icon,text
+			 * accounName,icon,text
 			 * 
 			 */
-			//sessionスコープ内のログインIDからアカウントIDを取得
-			String accountId = (String)session.getAttribute("loginID");
-			//アカウントIDから他の情報を取得するためのaccountDAOへの接続
-			AccountDAO aDAO = new AccountDAO();
-			UserProfileDTO upDTO = aDAO.profileView(accountId);
-			//アカウント情報を取得
+			//アカウントの名前情報を取得
 			String accountName = upDTO.getAccountName();
 			//アイコン情報を取得
 			String icon = upDTO.getAccountIcon();
@@ -218,10 +233,11 @@ public class ChatServlet extends HttpServlet {
 				chatList = cDAO.comment_view(chatType); 
 				
 				/**
-				 * チャットのコメント一覧と名前をセッションスコープに保存
+				 * チャットのコメント一覧・名前・県情報をセッションスコープに保存
 				 */	
 				session.setAttribute("chatType", chatType);
 				session.setAttribute("chatList", chatList); 
+				session.setAttribute("ken", ken); 
 				
 				//エラーメッセージの追加
 		    	msg += "文字が入力されていません。";
@@ -240,10 +256,11 @@ public class ChatServlet extends HttpServlet {
 				chatList = cDAO.comment_view(chatType); 
 				
 				/**
-				 * チャットのコメント一覧と名前をセッションスコープに保存
+				 * チャットのコメント一覧・名前・県情報をセッションスコープに保存
 				 */	
 				session.setAttribute("chatType", chatType);
 				session.setAttribute("chatList", chatList); 
+				session.setAttribute("ken", ken); 
 				
 				//エラーメッセージの追加
 		    	msg += "200字以内で入力してください。";
@@ -282,10 +299,11 @@ public class ChatServlet extends HttpServlet {
 			}
 			
 			/**
-			 * チャットのコメント一覧と名前をセッションスコープに保存
+			 * チャットのコメント一覧・名前・県情報をセッションスコープに保存
 			 */	
 			session.setAttribute("chatType", chatType);
 			session.setAttribute("chatList", chatList); 
+			session.setAttribute("ken", ken); 
 			
 			/**
 			* エラーメッセージをリクエストスコープに保存
