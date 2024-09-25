@@ -213,6 +213,8 @@ if( loginID == null || login == false ) {
 					<button type="submit" name="chatType" value="chat_main">送信</button>
 				</form>
 				<br/>
+					<%-- エラーの表示 --%>
+					<%=msg%>
 			</div>
 		 </footer>
 	</div>
@@ -221,9 +223,6 @@ if( loginID == null || login == false ) {
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js"
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="js/chat.js"></script>
-
-	<%-- エラーの表示 --%>
-	<%=msg%>
 	
 	<%-- ファイルが選択されていませんを見た目上消し去るスクリプト構文 --%>
 	<script>

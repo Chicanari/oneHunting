@@ -8,7 +8,9 @@ public class ChatUtility {
 	/**
 	 * チャットテーブルに保存するPostIDを生成するメソッド
 	 */
-	public static String createPostID(String userID) {
+	public String createPostID(String userID) {
+		
+		System.out.println(userID);
 		
 		/**
 		 * ＊postIDの仕様＊
@@ -31,6 +33,8 @@ public class ChatUtility {
 		 * ユーザID(2～26桁)を足す
 		 */
 		String postID = date_16digit + userID;
+		
+		System.out.println(postID);
 		
 		return postID;
 		

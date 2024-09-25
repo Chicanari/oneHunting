@@ -15,8 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import dao.AccountDAO;
 import dao.ChatDAO;
 import dto.ChatRecordDTO;
+import dto.UserProfileDTO;
 
 /*
  * 
@@ -117,9 +119,7 @@ public class ChatServlet extends HttpServlet {
 		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
-		}
-		
-		
+		}	
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -152,13 +152,11 @@ public class ChatServlet extends HttpServlet {
 				
         /**
          * chatDAOから表示用のメソッド呼び出し
-         * 
+         * 現在の情報を取得したいのでセッションスコープから取り出す
          */
-		//左カラムから送られてきたチャット名を取得する
-		String chatType = request.getParameter("chatType");
+		String chatType = (String)session.getAttribute("chatType");
 		List<ChatRecordDTO> chatList;
 		if(chatType == null) chatType = "chat_main";
-		
 
 		
 		try {
@@ -172,27 +170,7 @@ public class ChatServlet extends HttpServlet {
 			 */
 			request.setAttribute("chatList", chatList); 
 					
-		    /**
-		     *  画像ファイルかどうかをチェック
-		     */
-		    if (!model.ProfileErr.isImageFile(part)) {
-				/**
-				 * チャットのコメント一覧と名前をセッションスコープに保存
-				 */	
-				session.setAttribute("chatType", chatType);
-				session.setAttribute("chatList", chatList); 
-				
-				//エラーメッセージの追加
-		    	msg += "不正なファイルです。";
-		    	
-		    	//エラーメッセージをリクエストスコープに保存
-		        request.setAttribute("msg",msg);
-		        
-		        //チャット画面にフォワード
-		        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
-		        dispatcher.forward(request, response);
-		        return;
-		    }
+
 	        
 			/**
 			 * imageで取得する画像のファイル名を取得
@@ -201,14 +179,20 @@ public class ChatServlet extends HttpServlet {
 			
 			/**
 			 * リクエストパラメータからチャット投稿情報の取得
+			 * accountid,accounName,icon,text
+			 * 
 			 */
 			//sessionスコープ内のログインIDからアカウントIDを取得
 			String accountId = (String)session.getAttribute("loginID");
-			
-			//※AccountDAOから引っ張ってきたい
-			//String accountName = request.getParameter("accountName");
-			//String icon = request.getParameter("icon");
-			String text = request.getParameter("text");
+			//アカウントIDから他の情報を取得するためのaccountDAOへの接続
+			AccountDAO aDAO = new AccountDAO();
+			UserProfileDTO upDTO = aDAO.profileView(accountId);
+			//アカウント情報を取得
+			String accountName = upDTO.getAccountName();
+			//アイコン情報を取得
+			String icon = upDTO.getAccountIcon();
+			//リクエストスコープから本文を取得
+			String text = request.getParameter("comment");
 			
 			/**
 			 * textが200字より多いの場合と0の場合にエラーを返す
@@ -275,6 +259,9 @@ public class ChatServlet extends HttpServlet {
 			* エラーメッセージをリクエストスコープに保存
 			*/
 			request.setAttribute("msg", msg);
+			
+			//確認用
+			System.out.println("kakikomi:"+chatType);
 			
 			//チャット画面にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");

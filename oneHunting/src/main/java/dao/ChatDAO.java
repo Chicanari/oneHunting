@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dto.ChatRecordDTO;
 import json.GoodID;
+import model.ChatUtility;
 
 public class ChatDAO {
 	
@@ -90,19 +91,20 @@ public class ChatDAO {
 					+ chatType  + "_icon,"
 					+ chatType  + "_time,"
 					+ chatType  + "_text,"
-					+ chatType  + "image,"
+					+ chatType  + "_image,"
 					+ chatType  + "_good_count,"
 					+ chatType  + "_good_id) ");
 			
-			sql += "VALUES(?, ?, ?, ?, ?, ?, ?, null, null);";	
-			
+			sql += "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";				
 			
 			/**
 			 * ※postIdとtimeはDAO内で定義して処理する
 			 */
 			
+			ChatUtility cu = new ChatUtility();
+			
 			//postIdの自動決定
-			String postId = model.ChatUtility.createPostID(accountId);
+			String postId = cu.createPostID(accountId);
 			
 			//現在日時取得
 			Timestamp time = new Timestamp(System.currentTimeMillis());
@@ -115,7 +117,20 @@ public class ChatDAO {
 			ps.setTimestamp(5,time);
 			ps.setString(6,text);
 			ps.setString(7,image);
-    		
+			ps.setInt(8, 0); // good_count
+			ps.setNull(9, java.sql.Types.VARCHAR); // good_id（nullをセット）
+			
+			/**
+			 * エラー確認用
+			 */
+			System.out.println("PostId: " + postId);
+			System.out.println("AccountId: " + accountId);
+			System.out.println("AccountName: " + accountName);
+			System.out.println("Icon: " + icon);
+			System.out.println("Time: " + time);
+			System.out.println("Text: " + text);
+			System.out.println("Image: " + image);
+			
     		
     		//呼び出したチャットテーブルの格納
     		ps = con.prepareStatement(sql);
