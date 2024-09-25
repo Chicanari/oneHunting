@@ -319,40 +319,63 @@ public class AccountDAO {
     	 * Q:コメントをつけてください
     	 */
     	
+    	//以下3つDB関連の変数
+    	//データベースへの接続や操作するオブジェクト
     	Connection con = null;
+    	//プレースホルダーを含むsql文を実行するオブジェクト
     	PreparedStatement ps = null;
+    	//実行結果を表すオブジェクト
     	ResultSet rs = null;
+    	//結果を返す用の変数
     	UserProfileDTO userProfile = null;
     	
     	//SQL文の操作
     	try {
     		con = DriverManager.getConnection(url,user,password);
-    		
+    		//sql文の操作
     		String sql = "SELECT account_icon, account_name, account_id, account_ken, account_introduction, account_good_point ";
     		sql += "FROM account ";
+    		//セキュリティ対策のためaccountIdをプレースホルダー化
     		sql += "WHERE account_id = ? ";
-    		
+    		//実行前にコンパイル処理
     		ps = con.prepareStatement(sql);
+    		//プレースホルダーへ仮引数accountIdを格納
     		ps.setString(1,accountId);
+    		//結果を実行
     		rs = ps.executeQuery();
     		
-    		while(rs.next()) {
+    		/*
+    		 * Q:なぜ１行のみだったらifが適切なのでしょうか？
+    		 */
+    		//→whileだと複数行あれば全て取得。ifだと複数行でも最初の行のみ取得する・・・とのこと
+    		
+    		//プロフィール表示に必要な情報を変数へrs格納
+    		//結果が1行のみならif文が適切とのことなので
+    		if(rs.next()) {
+    			//以下変数へ各カラム名を格納
+    			//account_iconを格納
     			String accountIcon = rs.getString("account_icon");
+    			//account_nameを格納
     			String accountName = rs.getString("account_name");
-    			//AccountIdは重複のためresultを追加
+    			//AccountIdは重複のためresultを追加、account_idを格納
     			String resultAccountId = rs.getString("account_id");
+    			//account_kenを格納
     			String accountKen = rs.getString("account_ken");
+    			//account_introductionを格納
     			String accountIntroduction = rs.getString("account_introduction");
+    			//account_good_pointを格納
     			String accountGoodPoint = rs.getString("account_good_point");
-    			
+    			//上記変数を、DTOをインスタンス化する際に代入
     			userProfile = new UserProfileDTO(accountIcon,accountName,resultAccountId,
     											accountKen,accountIntroduction,accountGoodPoint);
     		}
     		
     		
-    		
+    	//エラーメッセージを表示
     	}catch(Exception e) {
     		e.printStackTrace();
+    		//後ほどtry-with-resourcesで省略すること
+    		//Connection、PreparedStatement、ResultSetの変数３つを閉じる(切断する)処理
     	}finally {
     		if(con != null) {
     			try {
@@ -377,6 +400,13 @@ public class AccountDAO {
     			}
     		}
     	}
+    	
+    	/*
+    	 * Q:下記のコメントが矛盾しています　書き直してください
+    	 * 　また、「while(rs.next())の処理」ではなく、具体的になにを返してるのか書いてください。
+    	 */
+    	
+    	//UserProfileDTOのインスタンス化を代入したuserProfileを結果として返す
     	return userProfile;
     }
     
@@ -404,7 +434,7 @@ public class AccountDAO {
     		//ID・名前であいまい検索し実行
     		String ambiguousQuery = "%" + searchQuery + "%";
     		ps.setString(1, ambiguousQuery);
-    		ps.setString(2, ambiguousQuery); 
+    		ps.setString(2, ambiguousQuery);
     		
     		rs = ps.executeQuery();
     		userRecords = searchResults(rs);

@@ -41,15 +41,17 @@ public class UserSearchServlet extends HttpServlet {
 		String searchQuery = request.getParameter("kensaku");
 		//空白検索時、表示なしにするためif文を追加
 		if (searchQuery == null || searchQuery.trim().isEmpty()) {
-			//空白時、結果非表示
+			//空白時、結果を非表示
 			session.setAttribute("search_result", new ArrayList<UserRecordDTO>());
 		}else {
-			//通常検索
+			//通常検索を表示
 		List<UserRecordDTO> sRecord = accountDAO.userSearch(searchQuery);
 		session.setAttribute("search_result", sRecord);
 		}
 		
 		//全体チャットにフォワードさせる ※search_result.jspに飛ばすように後々変更要
+		//仮作成のWEB-INF直下search.jspで動作確認済。jsp作成時確認要。
+		//caht.jspから"WEB-INF/jsp/search_result.jsp"へ画面遷移は確認済
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/search.jsp");
 		dispatcher.forward(request, response);
 	}
