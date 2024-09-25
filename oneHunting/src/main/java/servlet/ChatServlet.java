@@ -271,7 +271,7 @@ public class ChatServlet extends HttpServlet {
 			/**
 			* アップロードするフォルダを指定
 			*/
-			String path = getServletContext().getRealPath("/image");
+			String path = getServletContext().getRealPath("/chat_image");
 			
 			//画像の中身が在る場合にのみ保存する
 			if(!(part == null)) {

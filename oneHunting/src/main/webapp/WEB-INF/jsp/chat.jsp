@@ -114,7 +114,7 @@ if( loginID == null || login == false ) {
 			投稿ID:<%= record.getPostId() %><br>
 			アカウントID：<%= record.getAccountId() %><br>
 			アカウント名：<%= record.getAccountName() %><br>
-			<%-- 投稿画像 --%><img src="/oneHunting/image/<%= record.getImage() %>"><br>
+			<%-- 投稿画像 --%><img src="/oneHunting/chat_image/<%= record.getImage() %>"><br>
 			投稿日時：<%= record.getTime() %><br>
 			投稿内容：<%= record.getText() %><br>
 			いいね数：<%= record.getGoodCount() %><br>
