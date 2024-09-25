@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%-- 副島さんの書くところ サーブレットから値を受け取ってください --%>
+<%-- UserProfileDTO --%>
 <%@ page import="dto.UserProfileDTO" %>
 <%
 UserProfileDTO profile = (UserProfileDTO) request.getAttribute("profile");
@@ -45,6 +45,7 @@ if( loginID == null || login == false ) {
 <form action="profile_edit" method="get"><input type="submit" value="編集"></form>
 <% } %>
 
+<%= profile.getAccountIcon() %>
 <p>名前</p>
 <%= profile.getAccountName() %>
 <p>ID</p>
