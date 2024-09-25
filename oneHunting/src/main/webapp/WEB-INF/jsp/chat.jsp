@@ -16,7 +16,7 @@ List<ChatRecordDTO> chatList = (List<ChatRecordDTO>)session.getAttribute("chatLi
 String msg = (String)request.getAttribute("msg");
 
 //チャットタイプを判別するためのチャットタイプ変数呼び出し
-String chatType = (String)request.getAttribute("chatType");
+String chatType = (String)session.getAttribute("chatType");
 
 //nullチェックしてデフォルト値を設定
 if (chatType == null) {
