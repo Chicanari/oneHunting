@@ -89,10 +89,11 @@ public class ChatDAO {
 			sql += "VALUES(?, ?, ?, ?, ?, ?, ?, null, null);";	
 			
 			
-			//※postIdとtimeはDAO内で定義して処理する…予定
+			/**
+			 * ※postIdとtimeはDAO内で定義して処理する
+			 */
 			
 			//postIdの自動決定
-			//※後で自動決定するメソッドを持ってくる
 			String postId = model.ChatUtility.createPostID(accountId);
 			
 			//現在日時取得

@@ -47,16 +47,12 @@ public class ChatServlet extends HttpServlet {
 		 * 自動遷移時、メインチャットを表示する
 		 * 
 		 */	
+		
 		String chatType = request.getParameter("chatType");
 		if(chatType == null) {
 			chatType = "chat_main";
 		}	
-		System.out.println("ChatServlet chatType:"+chatType);	
-		/**
-		 * 
-		 * 左カラムチャットより遷移するチャットを取得し返却する
-		 * 
-		 */
+		System.out.println("ChatServlet chatType:"+chatType);
 		
 		/**
 		* エラーメッセージ用の変数宣言
