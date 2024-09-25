@@ -109,9 +109,12 @@ if( loginID == null || login == false ) {
 			%>
 			<form action="like" method="post">
 			
+			
+			<%-- アイコン --%><img src="/oneHunting/icon/<%= record.getIcon() %>" width="120" height="120"><br>
 			投稿ID:<%= record.getPostId() %><br>
 			アカウントID：<%= record.getAccountId() %><br>
 			アカウント名：<%= record.getAccountName() %><br>
+			<%-- 投稿画像 --%><img src="/oneHunting/image/<%= record.getImage() %>"><br>
 			投稿日時：<%= record.getTime() %><br>
 			投稿内容：<%= record.getText() %><br>
 			いいね数：<%= record.getGoodCount() %><br>
