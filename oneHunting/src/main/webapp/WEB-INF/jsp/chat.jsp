@@ -64,7 +64,7 @@ if( loginID == null || login == false ) {
 	<div class="chat-container">
 		<!-- ヘッダー-->
 		<header-menu>
-			<div class="wrapper">
+			<div class="header_container">
 				<form action="search" method="post">
 				<img class="logo" src="image/logo_white.png" alt="oneHuntingのロゴ">
 				<div class="search">
@@ -90,45 +90,45 @@ if( loginID == null || login == false ) {
                 </div>
             </nav>
 		</header-menu>
-		<div class="maindisplay">
-		<!-- 左カラム -->
-		<form action="chat" method="get">
-			<div class="side-column">
-			<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
-			<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
-			<button type="submit" name="chatType" value="chat_oita">大分</button><br/>
-			<button type="submit" name="chatType" value="chat_nagasaki">長崎</button><br/>
-			<button type="submit" name="chatType" value="chat_kumamoto">熊本</button><br/>
-			<button type="submit" name="chatType" value="chat_miyazaki">宮崎</button><br/>
-			<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
-			<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
-			<button type="submit" name="chatType" value="chat_main">雑談</button><br/>
-			<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
-			<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
-			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>
-			</div>		
-		</from>	
-		<main>
-		<!-- チャット本体部分 -->
-		<section id="main">
-			<div class="wrapper">
-				<p>
-				<% for(ChatRecordDTO record :chatList){ %>
-				
-				投稿ID:<%= record.getPostId() %><br>
-				アカウントID：<%= record.getAccountId() %><br>
-				アカウント名：<%= record.getAccountName() %><br>
-				投稿日時：<%= record.getTime() %><br>
-				投稿内容：<%= record.getText() %><br>
-				いいね数：<%= record.getGoodCount() %><br>
-				<br>
-				<% } %>
-				</p>
-			</div>
-		</section>
-		</main>
-		
-		</div>
+
+	<div class="maindisplay">
+			<!-- 左カラム -->
+			<from action="chat" method="get">
+				<div class="side-column">
+				<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
+				<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
+				<button type="submit" name="chatType" value="chat_oita">大分</button><br/>
+				<button type="submit" name="chatType" value="chat_nagasaki">長崎</button><br/>
+				<button type="submit" name="chatType" value="chat_kumamoto">熊本</button><br/>
+				<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
+				<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
+				<button type="submit" name="chatType" value="chat_main">雑談</button><br/>
+				<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
+				<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
+				<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>	
+				</div>
+			</from>	
+			
+			<!-- チャット本体部分 -->
+			<section id="main">
+					<p>
+					
+					<% for(ChatRecordDTO record :chatList){ %>
+					
+					投稿ID:<%= record.getPostId() %><br>
+					アカウントID：<%= record.getAccountId() %><br>
+					アカウント名：<%= record.getAccountName() %><br>
+					投稿日時：<%= record.getTime() %><br>
+					投稿内容：<%= record.getText() %><br>
+					いいね数：<%= record.getGoodCount() %><br>
+					<br>
+					
+					<% } %>
+					
+					</p>
+			</section>
+	</div>
+
 		<!-- フッター -->
 		<footer>
 			<div class="footer">
