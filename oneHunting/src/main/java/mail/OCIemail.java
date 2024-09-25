@@ -11,11 +11,11 @@ public class OCIemail {
  
     // Replace FROM with your "From" address.
     // This address must be added to Approved Senders in the console.
-    static final String FROM = "<sender email address>";
-    static final String FROMNAME = "<sender name>";
+    static final String FROM = "chicanari@gmail.com";
+    static final String FROMNAME = "ひと狩り行こうぜ！";
  
     // Replace TO with a recipient address.
-    static final String TO = "<recipient email address>";
+    static final String TO = "chicanari@gmail.com";
  
     // Replace smtp_username with your Oracle Cloud Infrastructure SMTP username generated in console.
     static final String SMTP_USERNAME = "<username OCID from SMTP credentials>";
