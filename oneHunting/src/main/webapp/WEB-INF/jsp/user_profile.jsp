@@ -5,7 +5,7 @@
 <%@ page import="dto.UserProfileDTO" %>
 <%--  --%>
 <%
-UserProfileDTO profile = (UserProfileDTO) request.getAttribute("profile");
+UserProfileDTO profile = (UserProfileDTO) session.getAttribute("profile");
 
 
 %>
