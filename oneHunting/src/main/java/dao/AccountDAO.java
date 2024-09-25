@@ -12,6 +12,7 @@ import java.util.List;
 import org.postgresql.util.PSQLException;
 
 import dto.UserProfileDTO;
+import dto.UserProfileEditDTO;
 import dto.UserRecordDTO;
 import model.PwHash;
 
@@ -306,8 +307,16 @@ public class AccountDAO {
     /**
      * プロフィール編集機能
      */
-    public void profileEdit() {
+    //仮引数は後日指定する
+    public UserProfileEditDTO profileEdit() {
+    	//データベース操作に必要なオブジェクト3の実装
+    	Connection con = null;
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+    	UserProfileEditDTO profileEdit = null;
     	
+    	
+    	return profileEdit;
     }
     
     /**
@@ -401,12 +410,7 @@ public class AccountDAO {
     		}
     	}
     	
-    	/*
-    	 * Q:下記のコメントが矛盾しています　書き直してください
-    	 * 　また、「while(rs.next())の処理」ではなく、具体的になにを返してるのか書いてください。
-    	 */
-    	
-    	//UserProfileDTOのインスタンス化を代入したuserProfileを結果として返す
+    	//UserProfileDTOのインスタンス化を、代入したuserProfileを結果として返す
     	return userProfile;
     }
     
@@ -485,7 +489,7 @@ public class AccountDAO {
     				new UserRecordDTO(accountIcon,accountName,accountKen);
     		userRecords.add(userRecord);
     	}
-    	
+    	//
     	return userRecords;
     }
     
