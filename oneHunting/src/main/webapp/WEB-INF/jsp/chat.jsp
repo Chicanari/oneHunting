@@ -67,7 +67,7 @@ if( loginID == null || login == false ) {
                 <div class="nav__header">
                     <img class="nav__btn" src="image/batten-close.png" alt="">
                 <ul class="nav__list">
-                	<form action="profile_view" method="post">
+                	<form action="profile_view"　method="post">
 					<input type="submit" value="プロフィール">
 					</form>
 					<form action="logout" method="post">
