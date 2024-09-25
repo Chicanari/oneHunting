@@ -166,7 +166,7 @@ if( loginID == null || login == false ) {
 					<button type="submit" name="chatType" value="chat_main">送信</button>
 				</form>
 					<%-- エラーの表示 --%>
-					<%-- <%=msg %> --%>
+					<%-- <%=msg %> --%><%--  --%>
 			</div>
 		 </footer>
 
