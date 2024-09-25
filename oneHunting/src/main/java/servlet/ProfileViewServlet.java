@@ -40,7 +40,7 @@ public class ProfileViewServlet extends HttpServlet {
 		/**
 		 * Q:account_idはどうやって取ってくる？
 		 */
-		//
+		//セッションスコープスコープに保存しているログインID
 		
 		//AccountDAOの実装とセッションスコープの作成
 		AccountDAO accountDAO = new AccountDAO();
@@ -53,6 +53,7 @@ public class ProfileViewServlet extends HttpServlet {
 		
 		/*
 		 * Q：↑どこから何を取ってくるから書いたの？
+		 * A:JSPから送られてくるformの値
 		 */
 		//
 		String accountId = request.getParameter("");
@@ -68,13 +69,16 @@ public class ProfileViewServlet extends HttpServlet {
 		/*
 		 * >>request.getParameterを格納しているaccountIdを、profileViewの引数として使用。
 		 * Q:ここでなにを取得しているから、profileViewの引数にしているの？
+		 * A:JSPから送られてくるformの値
 		 * 　上記の「テーブルに登録しているaccount_id」と矛盾していない？
 		 * 
 		 * >>スコープへ格納
 		 * Q:何スコープに格納？また、そのスコープに格納する理由はなぜ？
+		 * A:ログイン中account_idが必要になるためセッションスコープへ格納
 		 * 
 		 * >>送り先に転送する
 		 * Q:送り先ってなに？もっと詳しくコメントしてください。
+		 * A:プロフィール表示用のJSPへ転送する
 		 */
 		
 		UserProfileDTO userProfile = accountDAO.profileView(accountId);
