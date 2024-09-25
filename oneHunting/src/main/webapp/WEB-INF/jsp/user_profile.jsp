@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%-- UserProfileDTO --%>
+<%-- UserProfileDTOの実装 --%>
 <%@ page import="dto.UserProfileDTO" %>
+<%--  --%>
 <%
 UserProfileDTO profile = (UserProfileDTO) request.getAttribute("profile");
 
@@ -44,6 +45,8 @@ if( loginID == null || login == false ) {
 <% if(loginID != null && loginID.equals(profile.getAccountId())){ %>
 <form action="profile_edit" method="get"><input type="submit" value="編集"></form>
 <% } %>
+
+<%-- アイコンの画像を表示する --%>
 <img src ="/oneHunting/icon/<%= profile.getAccountIcon() %>" width="50">
 
 <p>名前</p>
