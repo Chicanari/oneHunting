@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+    
+<%-- エラーメッセージの作成 --%>
 <%
-
 request.setCharacterEncoding("UTF-8");
 String message = (String)request.getAttribute("message");
 
 if(message == null){
 	message = "";
 }
-
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,6 +41,8 @@ if(message == null){
 	<input type="radio" name="ken" value="鹿児島県">鹿児島県　
 	<input type="radio" name="ken" value="沖縄県">沖縄県　
 	</p>
+	
+	
 	
 	<p><input type="submit" value="登録"></p>
 	

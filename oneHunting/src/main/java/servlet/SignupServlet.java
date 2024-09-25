@@ -35,6 +35,17 @@ public class SignupServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		/*
+		//登録完了メールのテスト
+		SignupEmail om = new SignupEmail();
+		try {
+			om.sendSignupMail();
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		*/
+		
 		//ログイン処理も一緒に行う
 		
 		//パラメータの取得
