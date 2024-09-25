@@ -347,6 +347,7 @@ public class AccountDAO {
     		/*
     		 * Q:なぜ１行のみだったらifが適切なのでしょうか？
     		 */
+    		//→whileだと複数行あれば全て取得。ifだと複数行でも最初の行のみ取得する・・・とのこと
     		
     		//プロフィール表示に必要な情報を変数へrs格納
     		//結果が1行のみならif文が適切とのことなので
@@ -405,7 +406,7 @@ public class AccountDAO {
     	 * 　また、「while(rs.next())の処理」ではなく、具体的になにを返してるのか書いてください。
     	 */
     	
-    	//while(rs.next())の処理を結果として返す
+    	//UserProfileDTOのインスタンス化を代入したuserProfileを結果として返す
     	return userProfile;
     }
     
