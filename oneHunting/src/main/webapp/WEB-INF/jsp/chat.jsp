@@ -94,7 +94,19 @@ if( loginID == null || login == false ) {
 		<p>
 			
 			
-			<% for(ChatRecordDTO record :chatList){ %>
+			<%-- 本来のfor文 for(ChatRecordDTO record :chatList){ --%>
+			
+			<% 
+			
+			//５つまでチャットを出す　※本番までの暫定コード　本番では上記の拡張for文で
+			int chat_num = chatList.size();
+			if(chat_num>5) chat_num=5;
+			
+			for(int i = 0; i<chat_num; i++){ 
+			
+				ChatRecordDTO record = chatList.get(i);
+				
+			%>
 			<form action="like" method="post">
 			
 			投稿ID:<%= record.getPostId() %><br>
@@ -122,6 +134,7 @@ if( loginID == null || login == false ) {
 				<% } else { %>
 					<button type="submit" name="like" value="plus">♡</button><br>
 				<% } %>
+				
 			<br>
 			</form>
 			<% } %>
