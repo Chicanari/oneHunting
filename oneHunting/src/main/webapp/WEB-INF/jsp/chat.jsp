@@ -102,59 +102,64 @@ if( loginID == null || login == false ) {
 			<button type="submit" name="chatType" value="chat_miyazaki">宮崎</button><br/>
 			<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
 			<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
-			<button type="submit" name="chatType" value="chat_main">雑談</button><br/>
+			<button type="submit" name="chatType" value="chat_main">全体チャット</button><br/>
 			<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
 			<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
 			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>
 			</div>		
 		</form>	
 			
-		<div class="container">
-			<% for(ChatRecordDTO record :chatList){ %>
-
-			<form action="like" method="post">
+		<div class="main-container">
+			<div class="container-head">
+				<%-- エラーの表示 --%>
+				<%=msg %>
+			</div>
 			
-			
-			<%-- アイコン --%><img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br>
-			<%-- 投稿ID:<%= record.getPostId() %><br> --%>
-			<%-- アカウントID：<%= record.getAccountId() %><br> --%>
-			
-			<input type ="hidden" vale="record.getPostId()">
-			<input type ="hidden" vale="record.getAccountId()">
-			
-			<%-- アカウント名 --%>
-			<span class="get-name"><%= record.getAccountName() %></span>
-			<%-- 投稿日時--%>
-			<span class="get-time"><%= record.getTime() %></span><br>
-			<%-- 投稿画像 --%>
-			<img src="/oneHunting/chat_image/<%= record.getImage() %>"><br>
-			<%-- 投稿内容 --%>
-			<%= record.getText() %><br>
-			
-			<%-- 投稿ID・投稿者アカウントIDを渡す --%>
-			<input type="hidden" id="postId" name="postId" value="<%= record.getPostId() %>" />
-			<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />
-			
-			<%-- TODO:いいねしてるかしていないか分岐を実装する --%>
-
-				<%
-				//この投稿IDのいいねアカウント一覧に、ログインアカウントが含まれているか確認する
-				boolean isLike = false;
-				if(record.getGoodId() != null){
-					isLike = record.getGoodId().contains(loginID);
-				}
+			<div class="main-container-item">
+				<% for(ChatRecordDTO record :chatList){ %>
+				<form action="like" method="post">
 				
-				if(isLike){ %>
-					<button type="submit" name="like" value="minus" class="good-on">♥</button>
-				<% } else { %>
-					<button type="submit" name="like" value="plus" class="good-off">♡</button>
+				<%-- アイコン --%><img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br>
+				<%-- 投稿ID:<%= record.getPostId() %><br> --%>
+				<%-- アカウントID：<%= record.getAccountId() %><br> --%>
+				
+				<input type ="hidden" vale="record.getPostId()">
+				<input type ="hidden" vale="record.getAccountId()">
+				
+				<%-- アカウント名 --%>
+				<span class="get-name"><%= record.getAccountName() %></span>
+				<%-- 投稿日時--%>
+				<span class="get-time"><%= record.getTime() %></span><br>
+				<%-- 投稿画像 --%>
+				<img src="/oneHunting/chat_image/<%= record.getImage() %>"><br>
+				<%-- 投稿内容 --%>
+				<%= record.getText() %><br>
+				
+				<%-- 投稿ID・投稿者アカウントIDを渡す --%>
+				<input type="hidden" id="postId" name="postId" value="<%= record.getPostId() %>" />
+				<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />
+				
+				<%-- TODO:いいねしてるかしていないか分岐を実装する --%>
+	
+					<%
+					//この投稿IDのいいねアカウント一覧に、ログインアカウントが含まれているか確認する
+					boolean isLike = false;
+					if(record.getGoodId() != null){
+						isLike = record.getGoodId().contains(loginID);
+					}
+					
+					if(isLike){ %>
+						<button type="submit" name="like" value="minus" class="good-on">♥</button>
+					<% } else { %>
+						<button type="submit" name="like" value="plus" class="good-off">♡</button>
+					<% } %>
+				
+				<%-- いいね数 --%>
+				<span class="get-good"><%= record.getGoodCount() %></span>
+					
+				</form>
 				<% } %>
-			
-			<%-- いいね数 --%>
-			<span class="get-good"><%= record.getGoodCount() %></span>
-				
-			</form>
-			<% } %>
+			</div>
 	</div>
 
 		<!-- フッター -->
