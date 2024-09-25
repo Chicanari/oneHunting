@@ -30,7 +30,7 @@ public class ProfileViewServlet extends HttpServlet {
 		doPost(request, response);
 	
 	}
-
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		
@@ -40,6 +40,7 @@ public class ProfileViewServlet extends HttpServlet {
 		/**
 		 * Q:account_idはどうやって取ってくる？
 		 */
+		//
 		
 		//AccountDAOの実装とセッションスコープの作成
 		AccountDAO accountDAO = new AccountDAO();
@@ -53,6 +54,7 @@ public class ProfileViewServlet extends HttpServlet {
 		/*
 		 * Q：↑どこから何を取ってくるから書いたの？
 		 */
+		//
 		String accountId = request.getParameter("");
 		
 		
