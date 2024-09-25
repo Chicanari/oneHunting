@@ -159,23 +159,37 @@ public class ChatServlet extends HttpServlet {
 		if(chatType == null) chatType = "chat_main";
 
 		
-		try {
-			/**
-			 * チャットリストを取得
-			 */
-			chatList = cDAO.comment_view(chatType); 
-			
-			/**
-			 * チャットリストをリクエストスコープに保存
-			 */
-			request.setAttribute("chatList", chatList); 
-					
-
-	        
+		try {						        
 			/**
 			 * imageで取得する画像のファイル名を取得
 			 */
 			imageName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+
+		    /**
+		     *  画像ファイルかどうかをチェック
+		     */
+	        if (imageName.isEmpty()) {
+	        	// デフォルト画像を使用
+	            imageName = "default_image.png";
+	            // 画像ファイルかどうかのチェック
+	        } else if (part != null && !model.ProfileErr.isImageFile(part)) {
+				/**
+				 * chatDAOから表示用のメソッド呼び出し
+				 */
+				chatList = cDAO.comment_view(chatType); 
+				
+				/**
+				 * チャットのコメントと一覧をセッションスコープに保存
+				 */
+	            session.setAttribute("chatType", chatType);
+	            session.setAttribute("chatList", chatList); 
+	            msg += "不正なファイルです。";
+	 
+	            request.setAttribute("msg", msg);
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
+	            dispatcher.forward(request, response);
+	            return;
+	        }
 			
 			/**
 			 * リクエストパラメータからチャット投稿情報の取得
@@ -199,6 +213,11 @@ public class ChatServlet extends HttpServlet {
 			 */
 			if(text == null || text.trim().isEmpty()) {
 				/**
+				 * chatDAOから表示用のメソッド呼び出し
+				 */
+				chatList = cDAO.comment_view(chatType); 
+				
+				/**
 				 * チャットのコメント一覧と名前をセッションスコープに保存
 				 */	
 				session.setAttribute("chatType", chatType);
@@ -215,6 +234,11 @@ public class ChatServlet extends HttpServlet {
 		        dispatcher.forward(request, response);
 		        return;
 			}else if(text.length() > 200) {
+				/**
+				 * chatDAOから表示用のメソッド呼び出し
+				 */
+				chatList = cDAO.comment_view(chatType); 
+				
 				/**
 				 * チャットのコメント一覧と名前をセッションスコープに保存
 				 */	
@@ -240,14 +264,22 @@ public class ChatServlet extends HttpServlet {
 			int inCunt = cDAO.comment_insert(chatType,accountId,accountName,icon,text,imageName);			
 			
 			/**
+			 * chatDAOから表示用のメソッド呼び出し
+			 */
+			chatList = cDAO.comment_view(chatType); 
+			
+			/**
 			* アップロードするフォルダを指定
 			*/
 			String path = getServletContext().getRealPath("/image");
-					
-			/**
-			 * ファイルを指定されたフォルダに保存する
-			 */
-			part.write(path + File.separator + imageName);
+			
+			//画像の中身が在る場合にのみ保存する
+			if(!(part == null)) {
+				/**
+				 * ファイルを指定されたフォルダに保存する
+				 */
+				part.write(path + File.separator + imageName);
+			}
 			
 			/**
 			 * チャットのコメント一覧と名前をセッションスコープに保存
