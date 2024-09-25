@@ -68,8 +68,8 @@ if( loginID == null || login == false ) {
 				<form action="search" method="post">
 				<img class="logo" src="image/logo_white.png" alt="oneHuntingのロゴ">
 				<div class="search">
-					<input type="text" name="kensaku">
-					<input type="submit" value="検索">
+					<input type="text" name="kensaku" class="kensaku">
+					<input type="submit" value="検索" class="kensaku_btn">
 				</div>
 				<!-- .header__btn -->
             	<img class="header__btn" src="image/hamburgermenu.png" alt="">
@@ -79,14 +79,15 @@ if( loginID == null || login == false ) {
 			<nav class="nav">
                 <div class="nav__header">
                     <img class="nav__btn" src="image/batten-close.png" alt="">
-                <ul>
-                	<form action="profile_view" method="post">
-					<input type="submit" value="プロフィール" class="profile_view">
-					</form>
-					<form action="logout" method="post">
-						<input type="submit" value="ログアウト" class="logout">
-					</form>
-                </ul>
+                    <div class="nav_item">
+	                	<form action="profile_view" method="post">
+							<input type="submit" value="プロフィール" class="profile_view">
+						</form>
+						<form action="logout" method="post">
+							<input type="submit" value="ログアウト" class="logout">
+						</form>
+						<img class="risu" src="image/risu.png" alt="">
+					</div>
                 </div>
             </nav>
 		</header-menu>
@@ -95,17 +96,17 @@ if( loginID == null || login == false ) {
 			<!-- 左カラム -->
 			<from action="chat" method="get">
 				<div class="side-column">
-				<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
-				<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
-				<button type="submit" name="chatType" value="chat_oita">大分</button><br/>
-				<button type="submit" name="chatType" value="chat_nagasaki">長崎</button><br/>
-				<button type="submit" name="chatType" value="chat_kumamoto">熊本</button><br/>
-				<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
-				<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
-				<button type="submit" name="chatType" value="chat_main">雑談</button><br/>
-				<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
-				<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
-				<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>	
+					<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
+					<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
+					<button type="submit" name="chatType" value="chat_oita">大分</button><br/>
+					<button type="submit" name="chatType" value="chat_nagasaki">長崎</button><br/>
+					<button type="submit" name="chatType" value="chat_kumamoto">熊本</button><br/>
+					<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
+					<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
+					<button type="submit" name="chatType" value="chat_main">雑談</button><br/>
+					<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
+					<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
+					<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>	
 				</div>
 			</from>	
 			
@@ -134,7 +135,7 @@ if( loginID == null || login == false ) {
 			<div class="footer">
 			<%-- チャット投稿form --%>
 				<form action="chat" method="post" enctype="multipart/form-data">
-					<input type="text" name="comment">
+					<p class="comment"><input type="text" name="comment">
 					
 					<%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
 					<%-- ファイルをアップロードする --%>
@@ -146,7 +147,7 @@ if( loginID == null || login == false ) {
 					<button id="fileSelect" type="button">画像</button>
 					
 					<%-- 現在のチャットタイプから書き込むチャットタイプを分岐させる予定 --%>
-					<button type="submit" name="chatType" value="chat_main">送信</button>
+					<button type="submit" name="chatType" value="chat_main">送信</button></p>
 				</form>
 				<br/>
 			</div>

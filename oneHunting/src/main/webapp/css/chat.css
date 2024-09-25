@@ -4,6 +4,7 @@ body{
 	    padding: 0;
 	    height: 100%;
 	    overflow: hidden;
+	    background-color: #FFF7ED;
 }
 
 * {
@@ -13,6 +14,7 @@ body{
 	font-style: normal;
 	line-height: 1.3;
 	color: #A27032;
+	font-size: 1.8rem;
 }
 
 html { font-size: 62.5%;
@@ -33,7 +35,7 @@ header
 }
 
 .search {
-	margin-left: 650px;
+	margin-left: 600px;
 }
 
 
@@ -56,7 +58,7 @@ header
 .nav__btn {
 	height: 22px;
 	width: 22px;
-	margin-left: 142px;
+	margin-left: 180px;
 }
 
 .header_container {
@@ -101,11 +103,38 @@ header
 	  box-shadow: none;
 }
 
+.search {
+/*	 背景色を無色に */
+	  background: transparent;
+/*	   枠線を消す */
+	  border: none;
+/*	   クリックした際に枠線をnone消す */
+	  outline: none;
+/*	   影を消す */
+	  box-shadow: none;
+}
+
+.kensaku {
+	border-radius: 5px;
+	box-shadow: none;
+}
+
+.kensaku_btn {
+/*	 背景色を無色に */
+	  background: transparent;
+/*	   枠線を消す */
+	  border: none;
+/*	   クリックした際に枠線をnone消す */
+	  outline: none;
+/*	   影を消す */
+	  box-shadow: none;
+}
+
 /* ===============================================================
 main
 ================================================================= */
 section{
-    background-color: #FFFF;
+/*    background-color: #FFFF;*/
 	margin-left: 40px;
 }
 
@@ -113,7 +142,7 @@ section{
 	display: inline-block;
 	background-color: #FFEDE9;
 	height: 100vh;
-	width: 300px;
+	padding:60px 100px 459px 30px;
 }
 
 .side-column button {
@@ -125,12 +154,26 @@ section{
 		  outline: none;
 	/*	   影を消す */
 		  box-shadow: none;
+		  line-height: 3rem;
 }
 
 .maindisplay{
 	display: flex;
 }
 
+.nav_item {
+	margin-top: 130px;
+}
+
+.nav_item input{
+	line-height: 6rem;
+}
+
+.risu {
+	margin-top: 200px;
+	width: 302px;
+	height: 226px;
+}
 /* ===============================================================
 footer
 ============================================================ */
@@ -138,11 +181,16 @@ footer
 .footer {
 	text-align: center;
 	background-color: #A39584;
-	padding: 1em;
+/*	padding: 1em;*/
 
     justify-content: space-around;
     position: fixed;
     bottom: 0;
     margin: 0;
     width: 100%;
+}
+
+.comment {
+	margin-top: 10px;
+	margin-bottom: 0;
 }
