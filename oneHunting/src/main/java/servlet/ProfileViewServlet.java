@@ -51,7 +51,7 @@ public class ProfileViewServlet extends HttpServlet {
 		
 		UserProfileDTO userProfile = accountDAO.profileView(accountId);
 		//上記変数をセッションスコープへ格納
-		session.setAttribute("profile", userProfile);
+		request.setAttribute("profile", userProfile);
 		
 		//ログイン画面にフォワードさせる
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/user_profile.jsp");
