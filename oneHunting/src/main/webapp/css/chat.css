@@ -172,14 +172,14 @@ section{
 .side-column {
     width: 250px; /* 左カラムの幅を指定 */
     height: 100vh;
-    background-color: #FFEDE9; /* 背景色を設定 */
+    background-color: #FFEDE9;
 }
 
 .container {
     flex: 1; /* 残りのスペースを占める */
     display: flex;
     flex-direction: column; /* 縦に並べる */
-    gap: 20px; /* 要素間の間隔を指定（任意） */
+    gap: 20px; /* 要素間の間隔を指定 */
 }
 
 /* ===============================================================
