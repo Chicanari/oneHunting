@@ -95,7 +95,7 @@ public class ChatDAO {
 					+ chatType  + "_good_count,"
 					+ chatType  + "_good_id) ");
 			
-			sql += "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";				
+			sql += "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";	
 			
 			/**
 			 * ※postIdとtimeはDAO内で定義して処理する
@@ -118,7 +118,7 @@ public class ChatDAO {
 			ps.setString(6,text);
 			ps.setString(7,image);
 			ps.setInt(8, 0); // good_count
-			ps.setNull(9, java.sql.Types.VARCHAR); // good_id（nullをセット）
+			ps.setNull(9, java.sql.Types.OTHER); // good_id（nullをセット）
 			
 			/**
 			 * エラー確認用
@@ -130,10 +130,6 @@ public class ChatDAO {
 			System.out.println("Time: " + time);
 			System.out.println("Text: " + text);
 			System.out.println("Image: " + image);
-			
-    		
-    		//呼び出したチャットテーブルの格納
-    		ps = con.prepareStatement(sql);
     		
     		//INSERTの実行
     		inCunt = ps.executeUpdate();
