@@ -43,6 +43,15 @@ public class ChatServlet extends HttpServlet {
 		 * HttpSessionのインスタンスの取得
 		 */
 		HttpSession session = request.getSession();
+
+		/**
+		 * アカウント情報から県を取得
+		 * ※sessionに後で保存し県別チャットの表示チェックに使用する
+		 */
+		String accountId = (String)session.getAttribute("loginID");
+		AccountDAO aDAO = new AccountDAO();
+		UserProfileDTO upDTO = aDAO.profileView(accountId);
+		String ken = upDTO.getAccountKen();
 		
 		/**
 		 * 
@@ -102,9 +111,11 @@ public class ChatServlet extends HttpServlet {
 		
 			/**
 			 * チャットのコメント一覧と名前をセッションスコープに保存
+			 *   ※追記：県情報も追加
 			 */	
 			session.setAttribute("chatType", chatType);
 			session.setAttribute("chatList", chatList); 
+			session.setAttribute("ken", ken); 
 			
 			/**
 			* エラーメッセージをリクエストスコープに保存
@@ -128,6 +139,16 @@ public class ChatServlet extends HttpServlet {
 		 * HttpSessionのインスタンスの取得
 		 */
 		HttpSession session = request.getSession();
+		
+		/**
+		 * アカウント情報から県を取得
+		 * ※sessionに後で保存し県別チャットの表示チェックに使用する
+		 * ※この時点でログインIDからアカウントIDを取得している
+		 */
+		String accountId = (String)session.getAttribute("loginID");
+		AccountDAO aDAO = new AccountDAO();
+		UserProfileDTO upDTO = aDAO.profileView(accountId);
+		String ken = upDTO.getAccountKen();
 		
 		
 		/**
@@ -179,10 +200,13 @@ public class ChatServlet extends HttpServlet {
 				chatList = cDAO.comment_view(chatType); 
 				
 				/**
-				 * チャットのコメントと一覧をセッションスコープに保存
-				 */
-	            session.setAttribute("chatType", chatType);
-	            session.setAttribute("chatList", chatList); 
+				 * チャットのコメント一覧と名前をセッションスコープに保存
+				 *   ※追記：県情報も追加
+				 */	
+				session.setAttribute("chatType", chatType);
+				session.setAttribute("chatList", chatList); 
+				session.setAttribute("ken", ken); 
+				
 	            msg += "不正なファイルです。";
 	 
 	            request.setAttribute("msg", msg);
@@ -194,14 +218,9 @@ public class ChatServlet extends HttpServlet {
 			/**
 			 * リクエストパラメータからチャット投稿情報の取得
 			 * accountid,accounName,icon,text
-			 * 
+			 * ※事前にログインIDからアカウントIDを取得している
 			 */
-			//sessionスコープ内のログインIDからアカウントIDを取得
-			String accountId = (String)session.getAttribute("loginID");
-			//アカウントIDから他の情報を取得するためのaccountDAOへの接続
-			AccountDAO aDAO = new AccountDAO();
-			UserProfileDTO upDTO = aDAO.profileView(accountId);
-			//アカウント情報を取得
+			//アカウント名情報を取得
 			String accountName = upDTO.getAccountName();
 			//アイコン情報を取得
 			String icon = upDTO.getAccountIcon();
@@ -219,9 +238,11 @@ public class ChatServlet extends HttpServlet {
 				
 				/**
 				 * チャットのコメント一覧と名前をセッションスコープに保存
+				 *   ※追記：県情報も追加
 				 */	
 				session.setAttribute("chatType", chatType);
 				session.setAttribute("chatList", chatList); 
+				session.setAttribute("ken", ken); 
 				
 				//エラーメッセージの追加
 		    	msg += "文字が入力されていません。";
@@ -241,9 +262,11 @@ public class ChatServlet extends HttpServlet {
 				
 				/**
 				 * チャットのコメント一覧と名前をセッションスコープに保存
+				 *   ※追記：県情報も追加
 				 */	
 				session.setAttribute("chatType", chatType);
 				session.setAttribute("chatList", chatList); 
+				session.setAttribute("ken", ken); 
 				
 				//エラーメッセージの追加
 		    	msg += "200字以内で入力してください。";
@@ -283,9 +306,11 @@ public class ChatServlet extends HttpServlet {
 			
 			/**
 			 * チャットのコメント一覧と名前をセッションスコープに保存
+			 *   ※追記：県情報も追加
 			 */	
 			session.setAttribute("chatType", chatType);
 			session.setAttribute("chatList", chatList); 
+			session.setAttribute("ken", ken); 
 			
 			/**
 			* エラーメッセージをリクエストスコープに保存

@@ -18,6 +18,9 @@ String msg = (String)request.getAttribute("msg");
 //チャットタイプを判別するためのチャットタイプ変数呼び出し
 String chatType = (String)session.getAttribute("chatType");
 
+//件分類を判別するための県情報を呼び出し
+String ken = (String)session.getAttribute("ken");
+
 //nullチェックしてデフォルト値を設定
 if (chatType == null) {
  chatType = "chat_main"; // デフォルトのチャットタイプを設定
@@ -147,20 +150,30 @@ if( loginID == null || login == false ) {
 		
 		<form action="chat" method="get">
 			<div class="side-column">
+			<% if(ken.equals("福岡県")){ %>
 			<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
+			<% }else if(ken.equals("佐賀県")){ %>
 			<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
+			<% }else if(ken.equals("大分県")){ %>
 			<button type="submit" name="chatType" value="chat_oita">大分</button><br/>
+			<% }else if(ken.equals("長崎県")){ %>
 			<button type="submit" name="chatType" value="chat_nagasaki">長崎</button><br/>
+			<% }else if(ken.equals("熊本県")){ %>
 			<button type="submit" name="chatType" value="chat_kumamoto">熊本</button><br/>
+			<% }else if(ken.equals("宮崎県")){ %>
 			<button type="submit" name="chatType" value="chat_miyazaki">宮崎</button><br/>
+			<% }else if(ken.equals("鹿児島県")){ %>
 			<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
+			<% }else if(ken.equals("沖縄県")){ %>
 			<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
+			<% } %>
+			
 			<button type="submit" name="chatType" value="chat_main">雑談</button><br/>
 			<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
 			<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
 			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>
 			</div>		
-		</from>	
+		</form>	
 		<main>
 		<!-- チャット本体部分 -->
 		<section id="main">
