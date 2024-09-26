@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -152,8 +153,10 @@ public class ChatServlet extends HttpServlet {
 		
 		/**
 		 * imageで取得する画像のファイル名を取得するための変数宣言
+		 * originalImageNameは取り込む画像の元画像名を参照する為の変数
 		 */
-		String imageName = null;		
+		String imageName;
+		String originalImageName;
 		
 		/**
 		* エラーメッセージ用の変数宣言
@@ -183,12 +186,16 @@ public class ChatServlet extends HttpServlet {
 			/**
 			 * imageで取得する画像のファイル名を取得
 			 */
-			imageName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+			originalImageName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 
 		    /**
-		     *  画像ファイルかどうかをチェック
+		     *  画像ファイルチェック
+		     *  1:画像ファイル名が空であるかチェックし、空の場合はデフォルト名に設定
+		     *  2:空でない場合、ファイルの拡張子をチェック
+		     *  3:不正な場合はエラーメッセージを返す
+		     *  4:適正な場合、ファイル名に固有名を追加する
 		     */
-	        if (imageName.isEmpty()) {
+	        if (originalImageName.isEmpty()) {
 	        	// デフォルト画像を使用
 	            imageName = "default_image.png";
 	            // 画像ファイルかどうかのチェック
@@ -209,6 +216,13 @@ public class ChatServlet extends HttpServlet {
 	            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
 	            dispatcher.forward(request, response);
 	            return;
+	        }else {
+	            // UUIDを利用してユニークなファイル名を生成
+	            String uniqueID = UUID.randomUUID().toString();
+	            String fileExtension = originalImageName.substring(originalImageName.lastIndexOf('.'));
+	            
+	            // 新しいファイル名
+	            imageName = uniqueID + fileExtension;
 	        }
 			
 			/**

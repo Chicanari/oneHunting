@@ -35,25 +35,25 @@ if(message == null){
 	
 		<p class="name">名前<br>
 		<input type="text" name="name"></p>
-		<p class="id">ID
+		<p class="id">ID<br>
 		<input type="text" name="id"></p>
-		<p class="ps">パスワード
+		<p class="ps">パスワード<br>
 		<input type="password" name="pw">
-		<p class="mail">メールアドレス</p>
-		<input type="text" name="mail">
+		<p class="mail">メールアドレス<br>
+		<input type="text" name="mail"></p>
 		
-		<p class="ken">県名</p><br>
+		<p class="ken">県名</p>
 		<div class="ken-radio">
-		<input type="radio" name="ken" value="福岡県">福岡県　
-		<input type="radio" name="ken" value="大分県">大分県　
-		<input type="radio" name="ken" value="佐賀県">佐賀県　
-		<input type="radio" name="ken" value="長崎県">長崎県　<br>
-		<input type="radio" name="ken" value="熊本県">熊本県　
-		<input type="radio" name="ken" value="宮崎県">宮崎県　
-		<input type="radio" name="ken" value="鹿児島県">鹿児島県　
-		<input type="radio" name="ken" value="沖縄県">沖縄県　
+		<input type="radio" name="ken" value="福岡県">福岡県
+		<input type="radio" name="ken" value="大分県">大分県
+		<input type="radio" name="ken" value="佐賀県">佐賀県
+		<input type="radio" name="ken" value="長崎県">長崎県<br>
+		<input type="radio" name="ken" value="熊本県">熊本県
+		<input type="radio" name="ken" value="宮崎県">宮崎県
+		<input type="radio" name="ken" value="鹿児島県">鹿児島県
+		<input type="radio" name="ken" value="沖縄県">沖縄県
 		</div>
-		<p><input type="submit" value="登録"></p>
+		<input type="submit" value="登録">
 		
 	</form>
 	
