@@ -251,9 +251,13 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 				</form>
 				
 				<% } %>
+				
 			</div>
 			
 			<% } %>
+			
+			<%-- 下部までスクロールさせるためのセクション指定 --%>
+			<div class="target-section"></div>
 			
 	</div>
 
@@ -294,6 +298,7 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 	    fileElem.click();
 	  }
 	}, false);
+	
 	</script>
 
 </body>

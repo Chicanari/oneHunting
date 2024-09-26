@@ -10,5 +10,5 @@
             $('.nav').removeClass('active');
         });
     });
-
+    
 }
