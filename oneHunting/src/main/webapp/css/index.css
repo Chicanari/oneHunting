@@ -77,43 +77,46 @@ body {
 
 
 .login_btn {
-	margin: 60px 0 0 10px;
+	margin: 60px 0 0;
 	border: none;
 	width: 226px;
 	height: 41px;
 	border-radius: 10px;
+	transition: 0.4s;
+	/* カーソルをポインタに */
+	cursor: pointer;
+	/*初期の色*/
 	background-color: #A27032;
+	/*文字*/
+	color: #FFFF;
+}
+
+.login_btn:hover {
+    background-color: #D9B59B;
+	/*ボタン大きさ*/
+	transform: scale(1.1);
 }
 
 
-.register {
+.register_btn {
 	margin-top: 40px;
 	text-align: center;
-}
-
-.login_btn_item,
-.register_btn_item {
-	/* 背景色を無色に */
-	  background: transparent;
-	  /* 枠線を消す */
-	  border: none;
-	  /* クリックした際に枠線をnone消す */
-	  outline: none;
-	  /* 影を消す */
-	  box-shadow: none;
-}
-
-.login_btn_item {
-	color: #FFFF;
-	margin-top: 5px;
-}
-
-.register_btn_item {
+	text-decoration: underline;
+	border: none;
+	background: transparent;
 	color: #A27032;
+	cursor: pointer;
+	transition: 0.4s;
 }
 
-.canvas_wave {
-	width: 100%;
-	height: 50%;
+.register_btn:hover {
+    color: #FFFF;
 }
+
+
+/* js 波の実装 途中*/
+/*.canvas_wave {*/
+/*	width: 100%;*/
+/*	height: 50%;*/
+/*}*/
 

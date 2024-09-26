@@ -4,6 +4,7 @@ body{
 	    padding: 0;
 	    height: 100%;
 	    overflow: hidden;
+	    background-color: #FFF7ED;
 }
 
 * {
@@ -12,10 +13,16 @@ body{
 	font-weight: 500;
 	font-style: normal;
 	line-height: 1.3;
+	color: #A27032;
+	font-size: 1.8rem;
 }
 
 html { font-size: 62.5%;
 }
+
+
+
+
 
 /* ===============================================================
 header
@@ -32,7 +39,7 @@ header
 }
 
 .search {
-	margin-left: 520px;
+	margin-left: 550px;
 }
 
 
@@ -55,10 +62,10 @@ header
 .nav__btn {
 	height: 22px;
 	width: 22px;
-	margin-left: 142px;
+	margin-left: 180px;
 }
 
-.wrapper {
+.header_container {
 /*    margin:auto;*/
     max-width: 100%;
     height: 90px;
@@ -100,49 +107,244 @@ header
 	  box-shadow: none;
 }
 
+.search {
+/*	 背景色を無色に */
+	  background: transparent;
+/*	   枠線を消す */
+	  border: none;
+/*	   クリックした際に枠線をnone消す */
+	  outline: none;
+/*	   影を消す */
+	  box-shadow: none;
+	  position: relative;
+}
+
+.kensaku {
+	border-radius: 5px;
+	box-shadow: none;
+	
+
+	/*枠線を消す */
+	border: none;
+	/*クリックした際に枠線をnone消す */
+	outline: none;
+	
+	width: 400px;
+	
+	padding: 6px;
+	font-size: 18px;
+}
+
+.kensaku::placeholder {
+	color: #BBB;
+}
+
+.search button {
+	position: absolute;
+	right: 1px;
+	border: none;
+	background: none;
+	cursor: pointer;
+}
+
 /* ===============================================================
 main
 ================================================================= */
-.chat-container {
-	height: 100vh;
-	display: flex;
-    flex-direction: column;
-}
-
 section{
-    background-color: #FFFF;
+/*    background-color: #FFFF;*/
+	margin-left: 40px;
 }
 
-section .wrapper{
-	max-width: 800px;
-	display: inline-block;
+.side-column button {
+/*	 背景色を無色に */
+	background: transparent;
+/*	枠線を消す */
+	border: none;
+/*	クリックした際に枠線をnone消す */
+	outline: none;
+/*	影を消す */
+	box-shadow: none;
+	line-height: 4rem;
 }
 
-.side-column{
-	display: inline-block;
-	background-color: #FFEDE9;
-	height: 100vh;
-	width: 300px;
+.nav_item {
+	margin-top: 130px;
 }
 
-.maindisplay{
-	display: flex;
-	margin-left: 0;
+.nav_item input{
+	line-height: 6rem;
 }
 
+.risu {
+	margin-top: 200px;
+	width: 302px;
+	height: 226px;
+}
+
+.maindisplay {
+    flex: 1; /* 利用可能なスペースをすべて占める */
+    display: flex; /* 左カラムとコンテンツを横に並べる */
+}
+
+.side-column {
+    width: 250px; /* 左カラムの幅を指定 */
+    height: 100vh;
+    background-color: #FFEDE9;
+	padding: 30px;
+}
+
+.main-container {
+    flex: 1; /* 残りのスペースを占める */
+    display: flex;
+    flex-direction: column; /* 縦に並べる */
+/*    gap: 20px;  要素間の間隔を指定 */
+	
+	height: 77vh;
+	overflow-y: scroll;
+}
+
+.main-container form {
+	margin-bottom: 40px; /*投稿間のスペース*/
+}
+
+.main-container .main-container-item {
+	padding: 45px 0 0 40px; /*投稿枠のpadding*/
+}
+
+
+.main-container .container-head {
+	width: 78%;
+	height: 30px;
+	background-color: #FDB8A9;
+	color: #FFFF;
+	padding: 5px;
+	position: fixed;
+	top: 90px;
+}
+
+.container::-webkit-scrollbar {
+    background-color: #FFFF; 
+}
+
+.container::-webkit-scrollbar-thumb {
+    background: #A39584;
+    border-radius: 20px;
+}
+
+/* 投稿内容設定　*/
+
+.line-none {
+    border: none;      /* 枠線を消す */
+    background: none;  /* 背景も消す */
+    padding: 0;        /* 余白を消す */
+    cursor: pointer;   /* ポインタを表示（クリックできることを示す） */
+}
+
+
+.get-name {
+	font-weight: bold;
+	font-size: 1.8rem;
+}
+
+.get-time {
+	font-size: 1.6rem;
+	margin-left: 3px;
+	color: #A39584;
+}
+
+.get-good {
+	font-size: 1.6rem;
+}
+
+.good-on,
+.good-off {
+		background: transparent;
+		border: none;
+		color: #FF1493;
+		margin-top: 5px;
+}
+
+/* 検索結果設定*/
+.main-container .get-account {
+	width: 458px;
+	height: 131px;
+	background: #FFFF;
+}
+
+.get-account img {
+	width: 75px;
+	height: 75px;
+}
+
+.get-account {
+    display: flex; /* フレックスボックスを使用 */
+    align-items: center; /* 垂直方向に中央揃え */
+    margin-bottom: 10px; /* 各エントリの間にスペースを追加（必要に応じて調整） */
+}
+
+.get-icon {
+    margin-right: 10px; /* アイコンとテキストの間にスペース */
+}
+
+.account-name,
+.account-ken {
+    margin-right: 10px; /* テキスト要素間のスペース */
+}
+
+.get-account-item {
+	display: flex; /* 縦並びにするためのフレックスボックス */
+    flex-direction: column; /* 縦に配置 */
+}
+
+.get-account {
+/*	display: flex;*/
+/*	align-items: center;*/
+	margin:10px 0 10px 120px;
+}
 
 /* ===============================================================
 footer
 ============================================================ */
 
-.footer {
-	text-align: center;
+footer {
 	background-color: #A39584;
-	padding: 1em;
-
-    justify-content: space-around;
-    position: fixed;
-    bottom: 0;
-    margin: 0;
-    width: 100%;
+	width: 100%;
+ 	height: 70px;
+    position: absolute;/*絶対位置*/
+    bottom: 0; /*下に固定*/
+   	text-align: center;
 }
+
+.footer {
+	margin-top: 20px;
+}
+
+.picture,
+.post {
+	border: none;
+	background: #FFEDE9;
+	cursor: pointer;
+	border-radius: 3px;
+	width: 40px;
+	height: 35px;
+
+}
+
+.comment-box {
+	margin-top: 3px;
+	border: none;
+	outline: none;
+	border-radius: 3px;
+	width: 350px;
+	height: 1.5em;
+}
+
+.footer img {
+	margin-top: 2px;
+}
+
+.footer button {
+	vertical-align: top;
+}
+
+
