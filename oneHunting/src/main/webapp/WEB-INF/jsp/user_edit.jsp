@@ -42,12 +42,12 @@ if( loginID == null || login == false ) {
 <%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
 <form action="profile_edit" method="post" enctype="multipart/form-data">
 
-	<p>名前<br><input type="text" name="id"></p>
-	<p>ID<br></p>
-	<p>メールアドレス<br><input type="password" name="pw"></p>
+	<p><b>名前</b><br><input type="text" name="id"></p>
+	<p><b>ID</b><br><%= %></p>
+	<p><b>メールアドレス</b><br><input type="password" name="pw"></p>
 	
 	<p>
-	県名<br>
+	<b>県名</b><br>
 	<input type="radio" name="ken" value="chat_fukuoka">福岡県　
 	<input type="radio" name="ken" value="chat_oita">大分県　
 	<input type="radio" name="ken" value="chat_saga">佐賀県　
@@ -62,7 +62,7 @@ if( loginID == null || login == false ) {
 	<%-- onchangeタグによりファイルアップロードされた場合にプレビューを表示する --%>
 	<%-- acceptタグによりアップロードできるファイルを指定 --%>
 	<%-- (※ただし、アップロード時に表示されるファイルを指定するだけであり、指定外のファイルアップロードは可能) --%>
-	<p>アイコン　<input type="file" name="icon"  accept="image/*" onchange="previewFile(this);"></p>
+	<p><b>アイコン　</b><input type="file" name="icon"  accept="image/*" onchange="previewFile(this);"></p>
 	<%-- 画像プレビューの呼び出し --%>
 	<img id="preview">
 	<%= msg %>
