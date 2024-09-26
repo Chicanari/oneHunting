@@ -8,6 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import dao.AccountDAO;
+import dto.UserProfileDTO;
 
 /*
  * 
@@ -26,8 +30,36 @@ public class ProfileViewServlet extends HttpServlet {
 		doPost(request, response);
 	
 	}
-
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		
+		// Q:プロフィール表示の検索（SQL）に使う要素はなに？　１つ「　　」　
+		// テーブルに登録しているaccount_id
+		/**
+		 * Q:account_idはどうやって取ってくる？
+		 */
+		//セッションスコープスコープに保存しているログインID
+		
+		//セッションスコープの取得
+		HttpSession session = request.getSession();
+		
+		//AccountDAOの実装
+		AccountDAO accountDAO = new AccountDAO();
+		
+		//リクエストからIDがあるか取得する(チャット欄：名前、アイコンから送信される)
+		String accountId = request.getParameter("postAccountId");
+		
+		//accountIdがnullの場合、自分のアカウントＩＤを代入させる
+		if(accountId == null) {
+			//セッションスコープに保存しているログインIDの取得し、accountIdに格納
+			accountId = (String) session.getAttribute("loginID");
+		}
+		
+		//loginIDを格納している変数「accountId」をaccountDAOで作成したprofileViewメソッドの仮引数に設定
+		UserProfileDTO userProfile = accountDAO.profileView(accountId);
+		//上記変数をリクエストスコープへ格納
+		session.setAttribute("profile", userProfile);
 		
 		//ログイン画面にフォワードさせる
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/user_profile.jsp");
