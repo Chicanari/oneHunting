@@ -290,6 +290,13 @@ public class ChatServlet extends HttpServlet {
 			*/
 			String path = getServletContext().getRealPath("/chat_image");
 			
+		    // パスの存在を確認
+		    File uploadDir = new File(path);
+		    if (!uploadDir.exists()) {
+		        uploadDir.mkdirs();  // ディレクトリが存在しない場合は作成
+		    }
+
+			
 			//画像の中身が在る場合にのみ保存する
 			if(!(part == null)) {
 				/**
@@ -312,6 +319,10 @@ public class ChatServlet extends HttpServlet {
 			
 			//確認用
 			System.out.println("kakikomi:"+chatType);
+			String realPath = getServletContext().getRealPath("/");
+			System.out.println("リアルパス: " + realPath);
+			String actualPath = path + File.separator + imageName;
+			System.out.println("保存先パス: " + actualPath);
 			
 			//チャット画面にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
