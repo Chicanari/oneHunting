@@ -3,8 +3,10 @@ package dto;
 public class UserProfileDTO implements java.io.Serializable {
 	
 	//privateでフィールドを作成してください。
+	//格納用のアイコンファイル名、名前、ID、県名、自己紹介文、現在のいいねポイント数のフィールド
 	private String accountIcon;
 	private String accountName;
+	private String accountMail;
 	private String accountId;
 	private String accountKen;
 	private String accountIntroduction;
@@ -14,37 +16,36 @@ public class UserProfileDTO implements java.io.Serializable {
 	/**
 	 * プロフィール表示で必要な情報を格納するDTO
 	 */
-	public UserProfileDTO(String accountIcon,String accountName,String accountId,
+	//プロフィール画面にて、フィールドで作成した変数をインスタンス化に必要な情報として仮引数に指定
+	public UserProfileDTO(String accountIcon,String accountName,String accountMail,String accountId,
 							String accountKen,String accountIntroduction,String accountGoodPoint) {
 		this.accountIcon = accountIcon;
 		this.accountName = accountName;
+		this.accountMail = accountMail;
 		this.accountId = accountId;
 		this.accountKen = accountKen;
 		this.accountIntroduction = accountIntroduction;
 		this.accountGoodPoint = accountGoodPoint;
 	}
-
-
+	//フィールドで作成した変数のgetterメソッド
+	public String getAccountMail() {
+		return accountMail;
+	}
+	
+	public String setAccountMail() {
+		return accountMail;
+	}
+	
 	public String getAccountIcon() {
 		return accountIcon;
 	}
-
-
-	public void setAccountIcon(String accountIcon) {
-		this.accountIcon = accountIcon;
-	}
-
-
+	
+	
 	public String getAccountName() {
 		return accountName;
 	}
-
-
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
-	}
-
-
+	
+	
 	public String getAccountId() {
 		return accountId;
 	}
@@ -53,36 +54,19 @@ public class UserProfileDTO implements java.io.Serializable {
 	public void setAccountId(String accountId) {
 		this.accountId = accountId;
 	}
-
-
+	
+	
 	public String getAccountKen() {
 		return accountKen;
 	}
-
-
-	public void setAccountKen(String accountKen) {
-		this.accountKen = accountKen;
-	}
-
-
+	
+	
 	public String getAccountIntroduction() {
 		return accountIntroduction;
 	}
-
-
-	public void setAccountIntroduction(String accountIntroduction) {
-		this.accountIntroduction = accountIntroduction;
-	}
-
-
+	
+	
 	public String getAccountGoodPoint() {
 		return accountGoodPoint;
 	}
-
-
-	public void setAccountGoodPoint(String accountGoodPoint) {
-		this.accountGoodPoint = accountGoodPoint;
-	}
-	
-	
 }

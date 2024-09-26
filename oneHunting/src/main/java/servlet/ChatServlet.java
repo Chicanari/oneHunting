@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -43,6 +44,16 @@ public class ChatServlet extends HttpServlet {
 		 * HttpSessionのインスタンスの取得
 		 */
 		HttpSession session = request.getSession();
+		
+		/**
+		 * sessionスコープ内のログインIDからアカウントIDを取得
+		 */
+		String accountId = (String)session.getAttribute("loginID");
+		//アカウントIDから他の情報を取得するためのaccountDAOへの接続
+		AccountDAO aDAO = new AccountDAO();
+		UserProfileDTO upDTO = aDAO.profileView(accountId);
+		//県情報を取得
+		String ken = upDTO.getAccountKen();
 		
 		/**
 		 * 
@@ -101,10 +112,11 @@ public class ChatServlet extends HttpServlet {
 			session.setAttribute("chatType",chatType);
 		
 			/**
-			 * チャットのコメント一覧と名前をセッションスコープに保存
+			 * チャットのコメント一覧・名前・県情報をセッションスコープに保存
 			 */	
 			session.setAttribute("chatType", chatType);
 			session.setAttribute("chatList", chatList); 
+			session.setAttribute("ken", ken); 
 			
 			/**
 			* エラーメッセージをリクエストスコープに保存
@@ -129,11 +141,22 @@ public class ChatServlet extends HttpServlet {
 		 */
 		HttpSession session = request.getSession();
 		
+		/**
+		 * sessionスコープ内のログインIDからアカウントIDを取得
+		 */
+		String accountId = (String)session.getAttribute("loginID");
+		//アカウントIDから他の情報を取得するためのaccountDAOへの接続
+		AccountDAO aDAO = new AccountDAO();
+		UserProfileDTO upDTO = aDAO.profileView(accountId);
+		//県情報を取得
+		String ken = upDTO.getAccountKen();
 		
 		/**
 		 * imageで取得する画像のファイル名を取得するための変数宣言
+		 * originalImageNameは取り込む画像の元画像名を参照する為の変数
 		 */
-		String imageName = null;		
+		String imageName;
+		String originalImageName;
 		
 		/**
 		* エラーメッセージ用の変数宣言
@@ -163,12 +186,16 @@ public class ChatServlet extends HttpServlet {
 			/**
 			 * imageで取得する画像のファイル名を取得
 			 */
-			imageName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+			originalImageName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 
 		    /**
-		     *  画像ファイルかどうかをチェック
+		     *  画像ファイルチェック
+		     *  1:画像ファイル名が空であるかチェックし、空の場合はデフォルト名に設定
+		     *  2:空でない場合、ファイルの拡張子をチェック
+		     *  3:不正な場合はエラーメッセージを返す
+		     *  4:適正な場合、ファイル名に固有名を追加する
 		     */
-	        if (imageName.isEmpty()) {
+	        if (originalImageName.isEmpty()) {
 	        	// デフォルト画像を使用
 	            imageName = "default_image.png";
 	            // 画像ファイルかどうかのチェック
@@ -189,19 +216,21 @@ public class ChatServlet extends HttpServlet {
 	            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
 	            dispatcher.forward(request, response);
 	            return;
+	        }else {
+	            // UUIDを利用してユニークなファイル名を生成
+	            String uniqueID = UUID.randomUUID().toString();
+	            String fileExtension = originalImageName.substring(originalImageName.lastIndexOf('.'));
+	            
+	            // 新しいファイル名
+	            imageName = uniqueID + fileExtension;
 	        }
 			
 			/**
 			 * リクエストパラメータからチャット投稿情報の取得
-			 * accountid,accounName,icon,text
+			 * accounName,icon,text
 			 * 
 			 */
-			//sessionスコープ内のログインIDからアカウントIDを取得
-			String accountId = (String)session.getAttribute("loginID");
-			//アカウントIDから他の情報を取得するためのaccountDAOへの接続
-			AccountDAO aDAO = new AccountDAO();
-			UserProfileDTO upDTO = aDAO.profileView(accountId);
-			//アカウント情報を取得
+			//アカウントの名前情報を取得
 			String accountName = upDTO.getAccountName();
 			//アイコン情報を取得
 			String icon = upDTO.getAccountIcon();
@@ -218,10 +247,11 @@ public class ChatServlet extends HttpServlet {
 				chatList = cDAO.comment_view(chatType); 
 				
 				/**
-				 * チャットのコメント一覧と名前をセッションスコープに保存
+				 * チャットのコメント一覧・名前・県情報をセッションスコープに保存
 				 */	
 				session.setAttribute("chatType", chatType);
 				session.setAttribute("chatList", chatList); 
+				session.setAttribute("ken", ken); 
 				
 				//エラーメッセージの追加
 		    	msg += "文字が入力されていません。";
@@ -240,10 +270,11 @@ public class ChatServlet extends HttpServlet {
 				chatList = cDAO.comment_view(chatType); 
 				
 				/**
-				 * チャットのコメント一覧と名前をセッションスコープに保存
+				 * チャットのコメント一覧・名前・県情報をセッションスコープに保存
 				 */	
 				session.setAttribute("chatType", chatType);
 				session.setAttribute("chatList", chatList); 
+				session.setAttribute("ken", ken); 
 				
 				//エラーメッセージの追加
 		    	msg += "200字以内で入力してください。";
@@ -273,6 +304,13 @@ public class ChatServlet extends HttpServlet {
 			*/
 			String path = getServletContext().getRealPath("/chat_image");
 			
+		    // パスの存在を確認
+		    File uploadDir = new File(path);
+		    if (!uploadDir.exists()) {
+		        uploadDir.mkdirs();  // ディレクトリが存在しない場合は作成
+		    }
+
+			
 			//画像の中身が在る場合にのみ保存する
 			if(!(part == null)) {
 				/**
@@ -282,10 +320,11 @@ public class ChatServlet extends HttpServlet {
 			}
 			
 			/**
-			 * チャットのコメント一覧と名前をセッションスコープに保存
+			 * チャットのコメント一覧・名前・県情報をセッションスコープに保存
 			 */	
 			session.setAttribute("chatType", chatType);
 			session.setAttribute("chatList", chatList); 
+			session.setAttribute("ken", ken); 
 			
 			/**
 			* エラーメッセージをリクエストスコープに保存
@@ -294,6 +333,10 @@ public class ChatServlet extends HttpServlet {
 			
 			//確認用
 			System.out.println("kakikomi:"+chatType);
+			String realPath = getServletContext().getRealPath("/");
+			System.out.println("リアルパス: " + realPath);
+			String actualPath = path + File.separator + imageName;
+			System.out.println("保存先パス: " + actualPath);
 			
 			//チャット画面にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");

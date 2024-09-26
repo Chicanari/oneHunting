@@ -3,7 +3,7 @@
     
 <%-- ChatRecordDTO,Listの呼び出し --%>
 <%@
-page import="dto.ChatRecordDTO,java.util.List"
+page import="dto.ChatRecordDTO,dto.UserRecordDTO,java.util.List,java.util.ArrayList"
 %>
 
 <%-- チャット画面に関する情報の取得 --%>
@@ -18,10 +18,26 @@ String msg = (String)request.getAttribute("msg");
 //チャットタイプを判別するためのチャットタイプ変数呼び出し
 String chatType = (String)session.getAttribute("chatType");
 
+//所在県を判別するためのken変数呼び出し
+String ken = (String)session.getAttribute("ken");
+
 //nullチェックしてデフォルト値を設定
-if (chatType == null) {
- chatType = "chat_main"; // デフォルトのチャットタイプを設定
-}
+if (chatType == null)  chatType = "chat_main"; // デフォルトのチャットタイプを設定
+%>
+
+<%-- 検索機能に関する情報の取得 --%>
+<%
+
+//アカウント検索をしているか判別する
+Boolean searchType = (Boolean)request.getAttribute("searchType");
+
+//検索結果の表示
+ArrayList<UserRecordDTO> searchResults = (ArrayList<UserRecordDTO>) session.getAttribute("search_result");
+
+//nullチェックしてデフォルト値を設定
+if (searchType == null) searchType = false;
+if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
+
 %>
 
 <%-- ログイン情報の取得　※ログインしてない場合はログイン画面へ移動する --%>
@@ -34,10 +50,8 @@ Boolean login = (Boolean)session.getAttribute("login");
 if(login == null)	login = false;
 
 //ログインIDが入っているか、ログインがtrueの時ログインしていると判断する
-if( loginID == null || login == false ) {
-	//ログアウト状態の時は、ログイン画面に移動する
-	response.sendRedirect("/oneHunting");
-}
+//ログアウト状態の時は、ログイン画面に移動する
+if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 
 %>
 
@@ -55,7 +69,7 @@ if( loginID == null || login == false ) {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <!-- CSSファイル  -->
-<link rel="stylesheet" type="text/css" href="css/chat.css"
+<link rel="stylesheet" type="text/css" href="css/chat.css">
 </head>
 
 <body>	
@@ -87,6 +101,7 @@ if( loginID == null || login == false ) {
 						</form>
 						<img class="risu" src="image/risu.png" alt="">
 					</div>
+
                 </div>
             </nav>
 		</header-menu>
@@ -94,14 +109,23 @@ if( loginID == null || login == false ) {
 		<!-- 左カラム -->
 		<form action="chat" method="get">
 			<div class="side-column">
+			<% if(ken.equals("福岡県")){ %>
 			<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
+			<% }else if(ken.equals("佐賀県")){ %>
 			<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
+			<% }else if(ken.equals("大分県")){ %>
 			<button type="submit" name="chatType" value="chat_oita">大分</button><br/>
+			<% }else if(ken.equals("長崎県")){ %>
 			<button type="submit" name="chatType" value="chat_nagasaki">長崎</button><br/>
+			<% }else if(ken.equals("熊本県")){ %>
 			<button type="submit" name="chatType" value="chat_kumamoto">熊本</button><br/>
+			<% }else if(ken.equals("宮崎県")){ %>
 			<button type="submit" name="chatType" value="chat_miyazaki">宮崎</button><br/>
+			<% }else if(ken.equals("鹿児島県")){ %>
 			<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
+			<% }else if(ken.equals("沖縄県")){ %>
 			<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
+			<% } %>	
 			<button type="submit" name="chatType" value="chat_main">全体チャット</button><br/>
 			<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
 			<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
@@ -110,28 +134,95 @@ if( loginID == null || login == false ) {
 		</form>	
 			
 		<div class="main-container">
+		
+			<% if(searchType){ %>
+			
+				<%-- 検索結果を表示する --%>
+	            <% for (UserRecordDTO user : searchResults) { %>
+	            
+	            <div class="get-account">
+	            <form action="profile_view" method="post">
+	            	<div class="get-account-item">
+					<%-- プロフィール	IDを取得し送信する --%>
+					<input type="hidden" id="postAccountId" name="postAccountId" value="<%= user.getAccountId() %>" />
+					<%-- アイコン --%>
+				    <button type="submit" class="line-none"><p class="get-icon"><img src="/oneHunting/icon/<%= user.getAccountIcon() %>" width="60" height="60"></p><br> </button>
+				    <br>
+				    <%-- アカウント名 --%>
+					<p class="get-name">
+					<button type="submit" class="line-none"><%= user.getAccountName() %></button>
+					</p>
+					<p class="get-ken"><%= user.getAccountKen() %></p>
+					</div>
+				</form>
+	           	</div>
+	           	
+	           	<% } %>
+			
+			<% } else { %>
+			
+			<%--　チャットの表示 --%>
 			<div class="container-head">
+				<%-- チャット名の表示 --%>
+				<% String chatName = "全体チャット"; //初期値状態
+				if(chatType.equals("chat_fukuoka")){
+					chatName = "福岡県";
+				}else if(chatType.equals("chat_saga")){
+					chatName = "佐賀県";
+				}else if(chatType.equals("chat_oita")){
+					chatName = "大分県";
+				}else if(chatType.equals("chat_nagasaki")){
+					chatName = "長崎県";
+				}else if(chatType.equals("chat_kumamoto")){
+					chatName = "熊本県";
+				}else if(chatType.equals("chat_miyazaki")){
+					chatName = "宮崎県";
+				}else if(chatType.equals("chat_kagoshima")){
+					chatName = "鹿児島県";
+				}else if(chatType.equals("chat_okinawa")){
+					chatName = "沖縄県";
+				}else if(chatType.equals("chat_shikaku")){
+					chatName = "狩猟資格";
+				}else if(chatType.equals("chat_seika")){
+					chatName = "成果報告";
+				}else if(chatType.equals("chat_item")){
+					chatName = "おすすめアイテム";
+				}else{
+					chatName = "全体チャット";
+				}
+				%>
+				<%=chatName %>
+				     
 				<%-- エラーの表示 --%>
 				<%=msg %>
 			</div>
 			
 			<div class="main-container-item">
+			
 				<% for(ChatRecordDTO record :chatList){ %>
+				
+				<%--　プロフィールを表示させるためのフォーム --%>
+				<form action="profile_view" method="post">
+					<%-- 投稿者のIDを取得し送信する --%>
+					<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />
+					<%-- アイコン --%>
+				    <button type="submit" class="line-none"><img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br></button>
+				    <br>
+				    <%-- アカウント名 --%>
+					<span class="get-name">
+					<button type="submit" class="line-none"><%= record.getAccountName() %></button>
+					</span>
+				</form>
+				
+				<%--　ライクを表示させるためのフォーム --%>
 				<form action="like" method="post">
 				
-				<%-- アイコン --%><img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br>
-				<%-- 投稿ID:<%= record.getPostId() %><br> --%>
-				<%-- アカウントID：<%= record.getAccountId() %><br> --%>
-				
-				<input type ="hidden" vale="record.getPostId()">
-				<input type ="hidden" vale="record.getAccountId()">
-				
-				<%-- アカウント名 --%>
-				<span class="get-name"><%= record.getAccountName() %></span>
 				<%-- 投稿日時--%>
 				<span class="get-time"><%= record.getTime() %></span><br>
 				<%-- 投稿画像 --%>
-				<img src="/oneHunting/chat_image/<%= record.getImage() %>"><br>
+				<% if(!record.getImage().equals("default_image.png")) {%>
+				<img src="chat_image/<%= record.getImage() %>"><br>
+				<% }  %>
 				<%-- 投稿内容 --%>
 				<%= record.getText() %><br>
 				
@@ -158,8 +249,12 @@ if( loginID == null || login == false ) {
 				<span class="get-good"><%= record.getGoodCount() %></span>
 					
 				</form>
+				
 				<% } %>
 			</div>
+			
+			<% } %>
+			
 	</div>
 
 		<!-- フッター -->
@@ -180,9 +275,8 @@ if( loginID == null || login == false ) {
 					<%-- 現在のチャットタイプから書き込むチャットタイプを分岐させる予定 --%>
 					<button type="submit" name="chatType" value="chat_main" class="post"><img src="image/post.png" alt=""></button>
 				</form>
-					<%-- エラーの表示 --%>
-					<%-- <%=msg %> --%><%--  --%>
 			</div>
+		
 		 </footer>
 
 	

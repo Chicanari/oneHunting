@@ -20,6 +20,10 @@ body{
 html { font-size: 62.5%;
 }
 
+
+
+
+
 /* ===============================================================
 header
 ================================================================= */
@@ -125,7 +129,7 @@ header
 	/*クリックした際に枠線をnone消す */
 	outline: none;
 	
-	width: 300px;
+	width: 400px;
 	
 	padding: 6px;
 	font-size: 18px;
@@ -193,10 +197,14 @@ section{
     flex: 1; /* 残りのスペースを占める */
     display: flex;
     flex-direction: column; /* 縦に並べる */
-    gap: 20px; /* 要素間の間隔を指定 */
+/*    gap: 20px;  要素間の間隔を指定 */
 	
 	height: 77vh;
 	overflow-y: scroll;
+}
+
+.main-container form {
+	margin-bottom: 40px; /*投稿間のスペース*/
 }
 
 .main-container .main-container-item {
@@ -224,6 +232,15 @@ section{
 }
 
 /* 投稿内容設定　*/
+
+.line-none {
+    border: none;      /* 枠線を消す */
+    background: none;  /* 背景も消す */
+    padding: 0;        /* 余白を消す */
+    cursor: pointer;   /* ポインタを表示（クリックできることを示す） */
+}
+
+
 .get-name {
 	font-weight: bold;
 	font-size: 1.8rem;
@@ -245,6 +262,44 @@ section{
 		border: none;
 		color: #FF1493;
 		margin-top: 5px;
+}
+
+/* 検索結果設定*/
+.main-container .get-account {
+	width: 458px;
+	height: 131px;
+	background: #FFFF;
+}
+
+.get-account img {
+	width: 75px;
+	height: 75px;
+}
+
+.get-account {
+    display: flex; /* フレックスボックスを使用 */
+    align-items: center; /* 垂直方向に中央揃え */
+    margin-bottom: 10px; /* 各エントリの間にスペースを追加（必要に応じて調整） */
+}
+
+.get-icon {
+    margin-right: 10px; /* アイコンとテキストの間にスペース */
+}
+
+.account-name,
+.account-ken {
+    margin-right: 10px; /* テキスト要素間のスペース */
+}
+
+.get-account-item {
+	display: flex; /* 縦並びにするためのフレックスボックス */
+    flex-direction: column; /* 縦に配置 */
+}
+
+.get-account {
+/*	display: flex;*/
+/*	align-items: center;*/
+	margin:10px 0 10px 120px;
 }
 
 /* ===============================================================

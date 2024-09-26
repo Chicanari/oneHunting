@@ -15,6 +15,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dto.UserProfileDTO;
+import dto.UserProfileEditDTO;
 import dto.UserRecordDTO;
 import json.GoodID;
 import model.PwHash;
@@ -150,8 +151,6 @@ public class AccountDAO {
 		
 		sql += ") VALUES ";
 		sql += "(?,?,?,?,?,?);";
-		
-		
 		//SQL文の実行
 		try(Connection con = DriverManager.getConnection(url,user,password);
 			PreparedStatement ps = con.prepareStatement(sql);				){
@@ -306,8 +305,80 @@ public class AccountDAO {
     /**
      * プロフィール編集機能
      */
-    public void profileEdit() {
+    //仮引数はid,name,mail,ken,icon,introduction
+    public boolean profileEdit(String Id,String name,
+    		String mail,String ken,
+    		String icon,String introduction) {
+    
+    	//データベース操作に必要なオブジェクト3の実装
+    	Connection con = null;
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
     	
+    	//結果を返す変数
+    	UserProfileEditDTO profileEdit = null;
+    	
+    	//
+    	try {
+    		con = DriverManager.getConnection(url,user,password);
+    		
+    		//確認用
+    		System.out.println("名前：" + name);
+    		System.out.println("メール：" + mail);
+    		System.out.println("県：" + ken);
+    		System.out.println("アイコン：" + icon);
+    		System.out.println("自己紹介：" + introduction);
+    		System.out.println("ID：" + Id);
+    		
+    		String sql = "UPDATE account ";
+    		sql += "SET account_name = ?, "; //1
+    		sql += "account_mail = ?, "; //2
+    		sql += "account_ken = ?, "; //3
+    		sql += "account_icon = ?, "; //4
+    		sql += "account_introduction = ? "; //5
+    		sql += "WHERE account_id = ? ;"; //6
+    		ps = con.prepareStatement(sql);
+    		
+    		//パラメータの設定
+    		ps.setString(1, name);          // account_name
+    		ps.setString(2, mail);          // account_mail
+    		ps.setString(3, ken);           // account_ken
+    		ps.setString(4, icon);          // account_icon
+    		ps.setString(5, introduction);   // account_introduction
+    		ps.setString(6, Id);            // WHERE条件の account_id
+    		
+            // 更新を実行
+            ps.executeUpdate();
+            System.out.println("更新を実行できているか");
+    		
+    		
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}finally {
+    		if(con != null) {
+    			try {
+    				con.close();
+    			}catch(Exception e) {
+    				;
+    			}
+    		}
+    		
+    		if(ps != null) {
+    			try {
+    				ps.close();
+    			}catch(Exception e) {
+    				;
+    			}
+    		}
+    		if(rs != null) {
+    			try {
+    				rs.close();
+    			}catch(Exception e){
+    				;
+    			}
+    		}
+    	} 	
+    	return true;
     }
     
     /**
@@ -333,7 +404,7 @@ public class AccountDAO {
     	try {
     		con = DriverManager.getConnection(url,user,password);
     		//sql文の操作
-    		String sql = "SELECT account_icon, account_name, account_id, account_ken, account_introduction, account_good_point ";
+    		String sql = "SELECT account_icon, account_name, account_id, account_mail, account_ken, account_introduction, account_good_point ";
     		sql += "FROM account ";
     		//セキュリティ対策のためaccountIdをプレースホルダー化
     		sql += "WHERE account_id = ? ;";
@@ -357,6 +428,8 @@ public class AccountDAO {
     			String accountIcon = rs.getString("account_icon");
     			//account_nameを格納
     			String accountName = rs.getString("account_name");
+    			//account_mailを格納
+    			String accountMail = rs.getString("account_mail");
     			//AccountIdは重複のためresultを追加、account_idを格納
     			String resultAccountId = rs.getString("account_id");
     			//account_kenを格納
@@ -366,7 +439,7 @@ public class AccountDAO {
     			//account_good_pointを格納
     			String accountGoodPoint = rs.getString("account_good_point");
     			//上記変数を、DTOをインスタンス化する際に代入
-    			userProfile = new UserProfileDTO(accountIcon,accountName,resultAccountId,
+    			userProfile = new UserProfileDTO(accountIcon,accountName,accountMail,resultAccountId,
     											accountKen,accountIntroduction,accountGoodPoint);
     		}
     		
@@ -401,12 +474,7 @@ public class AccountDAO {
     		}
     	}
     	
-    	/*
-    	 * Q:下記のコメントが矛盾しています　書き直してください
-    	 * 　また、「while(rs.next())の処理」ではなく、具体的になにを返してるのか書いてください。
-    	 */
-    	
-    	//UserProfileDTOのインスタンス化を代入したuserProfileを結果として返す
+    	//UserProfileDTOのインスタンス化を、代入したuserProfileを結果として返す
     	return userProfile;
     }
     
@@ -424,7 +492,7 @@ public class AccountDAO {
     	try {
     		con = DriverManager.getConnection(url,user,password);
     		//SQL文で表示結果を操作
-    		String sql = "SELECT account_icon, account_name, account_ken ";
+    		String sql = "SELECT account_id,account_icon, account_name, account_ken ";
     		sql += "FROM account ";
     		sql += "WHERE account_id LIKE ? ";
     		sql += "OR account_name LIKE ? ";
@@ -478,14 +546,15 @@ public class AccountDAO {
     	//検索結果を取得しUserRecordDTOへ格納し、ArrayListへ格納する
     	while(rs.next()) {
     		//結果表示
+    		String accountId = rs.getString("account_id");
     		String accountIcon = rs.getString("account_icon");
     		String accountName = rs.getString("account_name");
     		String accountKen = rs.getString("account_ken");
     		UserRecordDTO userRecord = 
-    				new UserRecordDTO(accountIcon,accountName,accountKen);
+    				new UserRecordDTO(accountId,accountIcon,accountName,accountKen);
     		userRecords.add(userRecord);
     	}
-    	
+    	//
     	return userRecords;
     }
     
