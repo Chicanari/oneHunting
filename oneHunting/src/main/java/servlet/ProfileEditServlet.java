@@ -31,7 +31,8 @@ import javax.servlet.http.Part;
 @WebServlet("/profile_edit")
 public class ProfileEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
+	//user_profile.jspからだとこちらに飛ぶ
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		/**
@@ -49,7 +50,8 @@ public class ProfileEditServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	
 	}
-
+	
+	//user_edit.jspで変更を行うとこちらに飛ぶ
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		/**
