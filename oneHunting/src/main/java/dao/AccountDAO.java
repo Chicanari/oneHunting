@@ -12,6 +12,7 @@ import java.util.List;
 import org.postgresql.util.PSQLException;
 
 import dto.UserProfileDTO;
+import dto.UserProfileEditDTO;
 import dto.UserRecordDTO;
 import model.PwHash;
 
@@ -306,8 +307,56 @@ public class AccountDAO {
     /**
      * プロフィール編集機能
      */
-    public void profileEdit() {
+    //仮引数は後日指定する
+    public UserProfileEditDTO profileEdit(String  accountId) {
+    	//データベース操作に必要なオブジェクト3の実装
+    	Connection con = null;
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+    	//結果を返す変数
+    	UserProfileEditDTO profileEdit = null;
     	
+    	//
+    	try {
+    		con = DriverManager.getConnection(url,user,password);
+    		
+    		String sql = "UPDATE account ";
+    		sql += "SET account_icon = ?, account_name = ?, account_mail = ?, account_ken = ?, account_introduction = ? ";
+    		sql += "WHERE account_id = ? ";
+    		ps = con.prepareStatement(sql);
+    		
+    		//ps.setString(1, );
+    		
+    		
+    	}catch(Exception e) {
+    		e.getStackTrace();
+    	}finally {
+    		if(con != null) {
+    			try {
+    				con.close();
+    			}catch(Exception e) {
+    				;
+    			}
+    		}
+    		
+    		if(ps != null) {
+    			try {
+    				ps.close();
+    			}catch(Exception e) {
+    				;
+    			}
+    		}
+    		if(rs != null) {
+    			try {
+    				rs.close();
+    			}catch(Exception e){
+    				;
+    			}
+    		}
+    	}
+    	
+    	
+    	return profileEdit;
     }
     
     /**
@@ -401,12 +450,7 @@ public class AccountDAO {
     		}
     	}
     	
-    	/*
-    	 * Q:下記のコメントが矛盾しています　書き直してください
-    	 * 　また、「while(rs.next())の処理」ではなく、具体的になにを返してるのか書いてください。
-    	 */
-    	
-    	//UserProfileDTOのインスタンス化を代入したuserProfileを結果として返す
+    	//UserProfileDTOのインスタンス化を、代入したuserProfileを結果として返す
     	return userProfile;
     }
     
@@ -485,7 +529,7 @@ public class AccountDAO {
     				new UserRecordDTO(accountIcon,accountName,accountKen);
     		userRecords.add(userRecord);
     	}
-    	
+    	//
     	return userRecords;
     }
     

@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%-- UserProfileDTO --%>
+<%-- UserProfileDTOの実装 --%>
 <%@ page import="dto.UserProfileDTO" %>
+<%--  --%>
 <%
-UserProfileDTO profile = (UserProfileDTO) request.getAttribute("profile");
+UserProfileDTO profile = (UserProfileDTO) session.getAttribute("profile");
 
 
 %>
@@ -40,10 +41,13 @@ if( loginID == null || login == false ) {
 <body>
 <h1>ユーザープロフィールの表示</h1>
 
-<%-- 実装したUserProfileDTOのメソッドで名前からポイントまで表示 --%>
+<%-- 自身のプロフィールであれば編集ボタンを表示 --%>
 <% if(loginID != null && loginID.equals(profile.getAccountId())){ %>
 <form action="profile_edit" method="get"><input type="submit" value="編集"></form>
 <% } %>
+
+<%-- 実装したUserProfileDTOのメソッドで表示するアイコンファイル名、名前、ID、県名、自己紹介文、現在のポイント数を表示 --%>
+<%-- アイコンの画像を表示・画像幅の調整 --%>
 <img src ="/oneHunting/icon/<%= profile.getAccountIcon() %>" width="50">
 
 <p>名前</p>
