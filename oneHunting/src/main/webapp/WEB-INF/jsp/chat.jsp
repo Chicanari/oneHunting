@@ -123,6 +123,36 @@ if( loginID == null || login == false ) {
 			
 		<div class="main-container">
 			<div class="container-head">
+				<%-- チャット名の表示 --%>
+				<% String chatName = "全体チャット"; //初期値状態
+				if(chatType.equals("chat_fukuoka")){
+					chatName = "福岡県";
+				}else if(chatType.equals("chat_saga")){
+					chatName = "佐賀県";
+				}else if(chatType.equals("chat_oita")){
+					chatName = "大分県";
+				}else if(chatType.equals("chat_nagasaki")){
+					chatName = "長崎県";
+				}else if(chatType.equals("chat_kumamoto")){
+					chatName = "熊本県";
+				}else if(chatType.equals("chat_miyazaki")){
+					chatName = "宮崎県";
+				}else if(chatType.equals("chat_kagoshima")){
+					chatName = "鹿児島県";
+				}else if(chatType.equals("chat_okinawa")){
+					chatName = "沖縄県";
+				}else if(chatType.equals("chat_shikaku")){
+					chatName = "狩猟資格";
+				}else if(chatType.equals("chat_seika")){
+					chatName = "成果報告";
+				}else if(chatType.equals("chat_item")){
+					chatName = "おすすめアイテム";
+				}else{
+					chatName = "全体チャット";
+				}
+				%>
+				<%=chatName %>
+				     
 				<%-- エラーの表示 --%>
 				<%=msg %>
 			</div>
