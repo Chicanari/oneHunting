@@ -41,12 +41,20 @@ public class ProfileViewServlet extends HttpServlet {
 		 */
 		//セッションスコープスコープに保存しているログインID
 		
-		//AccountDAOの実装
-		AccountDAO accountDAO = new AccountDAO();
 		//セッションスコープの取得
 		HttpSession session = request.getSession();
-		//セッションスコープに保存しているログインIDの取得し、accountIdに格納
-		String accountId = (String) session.getAttribute("loginID");
+		
+		//AccountDAOの実装
+		AccountDAO accountDAO = new AccountDAO();
+		
+		//リクエストからIDがあるか取得する(チャット欄：名前、アイコンから送信される)
+		String accountId = request.getParameter("postAccountId");
+		
+		//accountIdがnullの場合、自分のアカウントＩＤを代入させる
+		if(accountId == null) {
+			//セッションスコープに保存しているログインIDの取得し、accountIdに格納
+			accountId = (String) session.getAttribute("loginID");
+		}
 		
 		//loginIDを格納している変数「accountId」をaccountDAOで作成したprofileViewメソッドの仮引数に設定
 		UserProfileDTO userProfile = accountDAO.profileView(accountId);

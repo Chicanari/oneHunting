@@ -189,23 +189,33 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 			</div>
 			
 			<div class="main-container-item">
+			
 				<% for(ChatRecordDTO record :chatList){ %>
+				
+				<%--　プロフィールを表示させるためのフォーム --%>
+				<form action="profile_view" method="post">
+					<%-- 投稿者のIDを取得し送信する --%>
+					<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />
+					<%-- アイコン --%>
+				    <button type="submit" style="border: none; background-color: transparent;">
+				        <img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br>
+				    </button>
+				    <br>
+				    <%-- アカウント名 --%>
+					<span class="get-name">
+					<button type="submit" style="border: none; background-color: transparent;"><%= record.getAccountName() %>
+					</button>
+					</span>
+				</form>
+				
+				<%--　ライクを表示させるためのフォーム --%>
 				<form action="like" method="post">
 				
-				<%-- アイコン --%><img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br>
-				<%-- 投稿ID:<%= record.getPostId() %><br> --%>
-				<%-- アカウントID：<%= record.getAccountId() %><br> --%>
-				
-				<input type ="hidden" vale="record.getPostId()">
-				<input type ="hidden" vale="record.getAccountId()">
-				
-				<%-- アカウント名 --%>
-				<span class="get-name"><%= record.getAccountName() %></span>
 				<%-- 投稿日時--%>
 				<span class="get-time"><%= record.getTime() %></span><br>
 				<%-- 投稿画像 --%>
 				<% if(!record.getImage().equals("default_image.png")) {%>
-				<img src="/oneHunting/chat_image/<%= record.getImage() %>"><br>
+				<img src="chat_image/<%= record.getImage() %>"><br>
 				<% }  %>
 				<%-- 投稿内容 --%>
 				<%= record.getText() %><br>
@@ -233,6 +243,7 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 				<span class="get-good"><%= record.getGoodCount() %></span>
 					
 				</form>
+				
 				<% } %>
 			</div>
 			

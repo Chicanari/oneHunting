@@ -41,7 +41,7 @@ if( loginID == null || login == false ) {
 <h1>ユーザープロフィールの表示</h1>
 
 <%-- 自身のプロフィールであれば編集ボタンを表示 --%>
-<% if(loginID != null && loginID.equals(profile.getAccountId())){ %>
+<% if(loginID.equals(profile.getAccountId())){ %>
 <form action="profile_edit" method="get"><input type="submit" value="編集"></form>
 <% } %>
 
