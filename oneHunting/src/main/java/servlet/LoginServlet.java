@@ -33,12 +33,17 @@ public class LoginServlet extends HttpServlet {
 		String loginID = (String)session.getAttribute("loginID");
 		Boolean login = (Boolean)session.getAttribute("login");
 		
+		//nullチェック
+		if(login == null) login = false;
+		
+		System.out.println(loginID + " " + login);
+		
 		//ログインIDが入っているか、ログインがtrueの時ログインしていると判断する
 		if( loginID != null || login == true ) {
 			//ログイン状態の時は、全体チャットに移動する
 			response.sendRedirect("chat");
 		} else {
-			//ログアウト状態の時は、ログイン画面にリダイレクトさせる
+			//ログアウト状態の時は、ログイン画面にフォワードさせる
 			response.sendRedirect("/oneHunting");
 			
 		}
