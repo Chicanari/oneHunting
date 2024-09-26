@@ -89,9 +89,10 @@ public class ProfileEditServlet extends HttpServlet {
 		 */
 		String accountId = (String)session.getAttribute("loginID");
 		
-		//アカウントIDから他の情報を取得するためのaccountDAOへの接続
+		/**
+		 * AccountDAOのインスタンス化
+		 */
 		AccountDAO aDAO = new AccountDAO();
-		UserProfileDTO upDTO = aDAO.profileView(accountId);
 		
 		/**
 		 * プロフィール情報をリクエストスコープから取得
@@ -123,7 +124,7 @@ public class ProfileEditServlet extends HttpServlet {
 		}
 		
 		//県に関するエラーチェック
-		if(ken == null) {
+		if(ken.length() == 0) {
 			msg += "県を選択してください。<br>";
 		}
 		
@@ -158,7 +159,7 @@ public class ProfileEditServlet extends HttpServlet {
 	     */
         if (originalIconName.isEmpty()) {
         	// デフォルト画像を使用
-            iconName = "default_image.png";
+            iconName = "default_icon.png";
             // 画像ファイルかどうかのチェック
         } else if (part != null && !model.ProfileErr.isImageFile(part)) {
 
@@ -198,8 +199,6 @@ public class ProfileEditServlet extends HttpServlet {
 			part.write(path + File.separator + iconName);
 		}
 		
-		//確認用
-		System.out.println("画像保存までは進んでいる");
 		
 		// プロフィールを更新するDAOメソッドの呼び出し
 		if (!msg.isEmpty()) {
@@ -226,6 +225,12 @@ public class ProfileEditServlet extends HttpServlet {
 	    		return;
 			}
 		}
+		
+		//アカウント情報表示のためのviewを取得
+		UserProfileDTO userProfile = aDAO.profileView(accountId);
+				
+		//上記変数をリクエストスコープへ格納
+		session.setAttribute("profile", userProfile);
 		
 		/**
 		* エラーメッセージのセット
