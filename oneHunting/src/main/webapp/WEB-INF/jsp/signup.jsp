@@ -32,14 +32,14 @@ if(message == null){
 	
 	<p>
 	県名<br>
-	<input type="radio" name="ken" value="福岡県">福岡県　
-	<input type="radio" name="ken" value="大分県">大分県　
-	<input type="radio" name="ken" value="佐賀県">佐賀県　
-	<input type="radio" name="ken" value="長崎県">長崎県　<br>
-	<input type="radio" name="ken" value="熊本県">熊本県　
-	<input type="radio" name="ken" value="宮崎県">宮崎県　
-	<input type="radio" name="ken" value="鹿児島県">鹿児島県　
-	<input type="radio" name="ken" value="沖縄県">沖縄県　
+	<input type="radio" name="ken" value="福岡県">福岡県
+	<input type="radio" name="ken" value="大分県">大分県
+	<input type="radio" name="ken" value="佐賀県">佐賀県
+	<input type="radio" name="ken" value="長崎県">長崎県<br>
+	<input type="radio" name="ken" value="熊本県">熊本県
+	<input type="radio" name="ken" value="宮崎県">宮崎県
+	<input type="radio" name="ken" value="鹿児島県">鹿児島県
+	<input type="radio" name="ken" value="沖縄県">沖縄県
 	</p>
 	
 	<p><input type="submit" value="登録"></p>
