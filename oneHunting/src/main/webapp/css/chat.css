@@ -125,7 +125,7 @@ header
 	/*クリックした際に枠線をnone消す */
 	outline: none;
 	
-	width: 300px;
+	width: 400px;
 	
 	padding: 6px;
 	font-size: 18px;
@@ -200,7 +200,7 @@ section{
 }
 
 .main-container form {
-	margin-bottom: 25px; /*投稿間のスペース*/
+	margin-bottom: 40px; /*投稿間のスペース*/
 }
 
 .main-container .main-container-item {
