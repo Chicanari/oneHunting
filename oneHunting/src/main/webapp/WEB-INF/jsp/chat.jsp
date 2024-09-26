@@ -140,12 +140,25 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 				<%-- 検索結果を表示する --%>
 	            <% for (UserRecordDTO user : searchResults) { %>
 	            
-	           	<div class="get-account">
-		            	<p class="get-icon"><img src="/oneHunting/icon/<%= user.getAccountIcon() %>"></p>
-		            	<div class="get-account-item">
-			            	<p class="get-name"><%= user.getAccountName() %></p>
-			            	<p class="get-ken"><%= user.getAccountKen() %></p>
-			            </div>
+	            <div class="get-account">
+	            <form action="profile_view" method="post">
+					<%-- プロフィール	IDを取得し送信する --%>
+					<input type="hidden" id="postAccountId" name="postAccountId" value="<%= user.getAccountId() %>" />
+					<%-- アイコン --%>
+				    <button type="submit" style="border: none; background-color: transparent;">
+				        <p class="get-icon"><img src="/oneHunting/icon/<%= user.getAccountIcon() %>" width="60" height="60"></p><br>
+				    </button>
+				    <br>
+				    <div class="get-account-item">
+				    <%-- アカウント名 --%>
+					<p class="get-name">
+					<button type="submit" style="border: none; background-color: transparent;">
+					<%= user.getAccountName() %>
+					</button>
+					</p>
+					<p class="get-ken"><%= user.getAccountKen() %></p>
+					</div>
+				</form>
 	           	</div>
 	           	
 	           	<% } %>

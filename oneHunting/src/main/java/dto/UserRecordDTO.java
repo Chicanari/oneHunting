@@ -4,6 +4,7 @@ public class UserRecordDTO implements java.io.Serializable {
 	
 	//privateでフィールドを作成してください。
 	//格納用のアイコンファイル名、名前、県名のフィールド
+	private String accountId;
 	private String accountIcon;
 	private String accountName;
 	private String accountKen;
@@ -13,7 +14,8 @@ public class UserRecordDTO implements java.io.Serializable {
 	 * 検索時に必要な情報を格納するDTO
 	 */
 	//検索結果画面にて、フィールドで作成した変数をインスタンス化に必要な情報として仮引数に指定
-	public UserRecordDTO(String accountIcon,String accountName,String accountKen) {
+	public UserRecordDTO(String accountId,String accountIcon,String accountName,String accountKen) {
+		this.accountId = accountId;
 		this.accountIcon = accountIcon;
 		this.accountName = accountName;
 		this.accountKen = accountKen;
@@ -32,6 +34,10 @@ public class UserRecordDTO implements java.io.Serializable {
 	
 	public String getAccountKen() {
 		return accountKen;
+	}
+
+	public String getAccountId() {
+		return accountId;
 	}
 	
 }
