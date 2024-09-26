@@ -348,12 +348,12 @@ public class AccountDAO {
     		ps.setString(6, Id);            // WHERE条件の account_id
     		
             // 更新を実行
-            int rowsUpdated = ps.executeUpdate();
+            ps.executeUpdate();
             System.out.println("更新を実行できているか");
     		
     		
     	}catch(Exception e) {
-    		e.getStackTrace();
+    		e.printStackTrace();
     	}finally {
     		if(con != null) {
     			try {
