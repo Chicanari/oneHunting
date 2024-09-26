@@ -331,7 +331,7 @@ public class AccountDAO {
     		System.out.println("ID：" + Id);
     		
     		String sql = "UPDATE account ";
-    		sql += "SET account_name = ? "; //1
+    		sql += "SET account_name = ?, "; //1
     		sql += "account_mail = ?, "; //2
     		sql += "account_ken = ?, "; //3
     		sql += "account_icon = ?, "; //4
