@@ -6,7 +6,6 @@
 <%
 UserProfileDTO profile = (UserProfileDTO) request.getAttribute("profile");
 
-
 %>
 
 <%-- ログイン情報の取得　※ログインしてない場合はログイン画面へ移動する --%>
