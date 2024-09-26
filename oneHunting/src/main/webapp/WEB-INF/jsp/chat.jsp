@@ -191,7 +191,7 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 					chatName = "全体チャット";
 				}
 				%>
-				<%=chatName %>
+				　<%=chatName %>　　　
 				     
 				<%-- エラーの表示 --%>
 				<%=msg %>
