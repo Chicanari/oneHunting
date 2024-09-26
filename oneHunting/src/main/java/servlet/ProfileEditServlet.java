@@ -223,6 +223,7 @@ public class ProfileEditServlet extends HttpServlet {
 	    		//プロフィール編集画面にフォワードさせる
 	    		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/user_edit.jsp");
 	    		dispatcher.forward(request, response);
+	    		return;
 			}
 		}
 		
