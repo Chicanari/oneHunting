@@ -139,13 +139,13 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 			<%-- 検索結果を表示する --%>
             <% for (UserRecordDTO user : searchResults) { %>
             
-            	<table>
-            		<tr>
-		            	<th><img src="chat_image/<%= user.getAccountIcon() %>" ></th>
-			            <th><%= user.getAccountName() %></th>
-			            <th><%= user.getAccountKen() %></th>
-            		</tr>
-            	</table>
+            	<div class="get-account">
+		            	<p class="get-icon"><img src="/oneHunting/icon/<%= user.getAccountIcon() %>"></p>
+		            	<div class="get-account-item">
+			            	<p class="get-name"><%= user.getAccountName() %></p>
+			            	<p class="get-ken"><%= user.getAccountKen() %></p>
+			            </div>
+            	</div>
 	            
             <% } %>
 		
