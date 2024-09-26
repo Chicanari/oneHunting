@@ -141,7 +141,7 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
             
             	<table>
             		<tr>
-		            	<th><img src="chat_image/<%= user.getAccountIcon() %>" ></th>
+		            	<th><img src="/oneHunting/icon/<%= user.getAccountIcon() %>" width="50"></th>
 			            <th><%= user.getAccountName() %></th>
 			            <th><%= user.getAccountKen() %></th>
             		</tr>
