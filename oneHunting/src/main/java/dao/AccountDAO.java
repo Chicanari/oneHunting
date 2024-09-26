@@ -349,6 +349,7 @@ public class AccountDAO {
     		
             // 更新を実行
             int rowsUpdated = ps.executeUpdate();
+            System.out.println("更新を実行できているか");
     		
     		
     	}catch(Exception e) {

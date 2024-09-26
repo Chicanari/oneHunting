@@ -224,6 +224,7 @@ if( loginID == null || login == false ) {
 					<button type="submit" name="chatType" value="chat_main" class="post"><img src="image/post.png" alt=""></button>
 				</form>
 			</div>
+		
 		 </footer>
 
 	
