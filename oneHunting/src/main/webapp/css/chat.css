@@ -125,7 +125,7 @@ header
 	/*クリックした際に枠線をnone消す */
 	outline: none;
 	
-	width: 300px;
+	width: 400px;
 	
 	padding: 6px;
 	font-size: 18px;
@@ -193,10 +193,14 @@ section{
     flex: 1; /* 残りのスペースを占める */
     display: flex;
     flex-direction: column; /* 縦に並べる */
-    gap: 20px; /* 要素間の間隔を指定 */
+/*    gap: 20px;  要素間の間隔を指定 */
 	
 	height: 77vh;
 	overflow-y: scroll;
+}
+
+.main-container form {
+	margin-bottom: 40px; /*投稿間のスペース*/
 }
 
 .main-container .main-container-item {

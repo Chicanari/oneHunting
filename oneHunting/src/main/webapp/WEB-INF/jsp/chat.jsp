@@ -69,7 +69,7 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <!-- CSSファイル  -->
-<link rel="stylesheet" type="text/css" href="css/chat.css"
+<link rel="stylesheet" type="text/css" href="css/chat.css">
 </head>
 
 <body>	

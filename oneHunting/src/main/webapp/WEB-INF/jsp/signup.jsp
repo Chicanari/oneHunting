@@ -12,14 +12,20 @@ if(message == null){
 
 %>
 <!DOCTYPE html>
-<html>
+<%-- 言語を日本語に指定 --%>
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<%-- webフォント --%>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<!-- CSSファイル  -->
+<link rel="stylesheet" type="text/css" href="css/signup.css">
+<title>新規登録</title>
 </head>
 <body>
 
-<h1>新規登録</h1>
 <%= message %>
 <form action="signup" method="post">
 
