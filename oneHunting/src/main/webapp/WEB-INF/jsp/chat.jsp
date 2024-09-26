@@ -215,7 +215,7 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 				</form>
 				
 				<%--　ライクを表示させるためのフォーム --%>
-				<form action="like" method="post">
+				<form id="like-form-<%= record.getPostId() %>" action="like" method="post">
 				
 				<%-- 投稿日時--%>
 				<span class="get-time"><%= record.getTime() %></span><br>
@@ -226,12 +226,11 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 				<%-- 投稿内容 --%>
 				<%= record.getText() %><br>
 				
-				<%-- 投稿ID・投稿者アカウントIDを渡す --%>
-				<input type="hidden" id="postId" name="postId" value="<%= record.getPostId() %>" />
-				<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />
+				<%-- 投稿ID・投稿者アカウントID・いいね数（JS用）を渡す --%>
+				    <input type="hidden" class="postId" value="<%= record.getPostId() %>" />
+				    <input type="hidden" class="postAccountId" value="<%= record.getAccountId() %>" />
+				    <input type="hidden" class="goodCount" value="<%= record.getGoodCount() %>" />
 				
-				<%-- TODO:いいねしてるかしていないか分岐を実装する --%>
-	
 					<%
 					//この投稿IDのいいねアカウント一覧に、ログインアカウントが含まれているか確認する
 					boolean isLike = false;
@@ -240,13 +239,13 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 					}
 					
 					if(isLike){ %>
-						<button type="submit" name="like" value="minus" class="good-on">♥</button>
+						<button type="button" name="like" value="minus" class="good-on like-button">♥</button>
 					<% } else { %>
-						<button type="submit" name="like" value="plus" class="good-off">♡</button>
+						<button type="button" name="like" value="plus" class="good-off like-button">♡</button>
 					<% } %>
 				
 				<%-- いいね数 --%>
-				<span class="get-good"><%= record.getGoodCount() %></span>
+				<span  id="good-count-<%= record.getPostId() %>" class="get-good" ><%= record.getGoodCount() %></span>
 					
 				</form>
 				
@@ -255,9 +254,6 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 			</div>
 			
 			<% } %>
-			
-			<%-- 下部までスクロールさせるためのセクション指定 --%>
-			<div class="target-section"></div>
 			
 	</div>
 

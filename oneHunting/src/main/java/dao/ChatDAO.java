@@ -375,6 +375,41 @@ public class ChatDAO {
 		} 
     	
     }
+
+    /**
+     * いいね数を取得するメソッド
+     */
+	public int getLikeCount(String postId,String chatType) {
+		
+		
+		//戻り値の初期化
+		int likeCount = 0;
+		
+		/* SQL文の作成 */
+		//SQLでPWを取得
+		String sql = "SELECT "+ chatType +"_good_count FROM "+ chatType +" WHERE "+ chatType +"_post_id = ?;";
+		
+		
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(sql);){
+				
+				//プレースホルダを設定
+				ps.setString(1, postId );
+				
+				// SELECT文の実行
+		        try (ResultSet rs = ps.executeQuery()) {
+		            if (rs.next()) {
+		                likeCount = rs.getInt(chatType + "_good_count");
+		            }
+		        }
+				
+			} catch (SQLException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
+		
+		return likeCount;
+	}
     
     
     
