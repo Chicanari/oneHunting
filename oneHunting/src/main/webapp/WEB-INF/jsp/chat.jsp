@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+
 <%-- ChatRecordDTO,Listの呼び出し --%>
 <%@
 page import="dto.ChatRecordDTO,dto.UserRecordDTO,java.util.List,java.util.ArrayList"
@@ -8,51 +8,38 @@ page import="dto.ChatRecordDTO,dto.UserRecordDTO,java.util.List,java.util.ArrayL
 
 <%-- チャット画面に関する情報の取得 --%>
 <% 
-
 //チャット画面に表示する情報（ChatRecordDTO）をリクエストスコープから取得
 List<ChatRecordDTO> chatList = (List<ChatRecordDTO>)session.getAttribute("chatList");
-
 //エラーメッセージ用変数読み込み
 String msg = (String)request.getAttribute("msg");
-
 //チャットタイプを判別するためのチャットタイプ変数呼び出し
 String chatType = (String)session.getAttribute("chatType");
-
 //所在県を判別するためのken変数呼び出し
 String ken = (String)session.getAttribute("ken");
-
 //nullチェックしてデフォルト値を設定
 if (chatType == null)  chatType = "chat_main"; // デフォルトのチャットタイプを設定
 %>
 
 <%-- 検索機能に関する情報の取得 --%>
 <%
-
 //アカウント検索をしているか判別する
 Boolean searchType = (Boolean)request.getAttribute("searchType");
-
 //検索結果の表示
 ArrayList<UserRecordDTO> searchResults = (ArrayList<UserRecordDTO>) session.getAttribute("search_result");
-
 //nullチェックしてデフォルト値を設定
 if (searchType == null) searchType = false;
 if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
-
 %>
 
 <%-- ログイン情報の取得　※ログインしてない場合はログイン画面へ移動する --%>
 <%
-
 String loginID = (String)session.getAttribute("loginID");
 Boolean login = (Boolean)session.getAttribute("login");
-
 //nullチェック
 if(login == null)	login = false;
-
 //ログインIDが入っているか、ログインがtrueの時ログインしていると判断する
 //ログアウト状態の時は、ログイン画面に移動する
 if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
-
 %>
 
 <!DOCTYPE html>
@@ -88,7 +75,7 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
             	<img class="header__btn" src="image/hamburgermenu.png" alt="">
             	</form>
 			</div>
-			
+
 			<nav class="nav">
                 <div class="nav__header">
                     <img class="nav__btn" src="image/batten-close.png" alt="">
@@ -132,14 +119,14 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>
 			</div>		
 		</form>	
-			
+
 		<div class="main-container">
-		
+
 			<% if(searchType){ %>
-			
+
 				<%-- 検索結果を表示する --%>
 	            <% for (UserRecordDTO user : searchResults) { %>
-	            
+
 	            <div class="get-account">
 	            <form action="profile_view" method="post">
 	            	<div class="get-account-item">
@@ -157,11 +144,11 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 					</div>
 				</form>
 	           	</div>
-	           	
+
 	           	<% } %>
-			
+
 			<% } else { %>
-			
+
 			<%--　チャットの表示 --%>
 			<div class="container-head">
 				<%-- チャット名の表示 --%>
@@ -192,16 +179,20 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 					chatName = "全体チャット";
 				}
 				%>
-				　<%=chatName %>　　　
-				     
+				<%=chatName %>
+
 				<%-- エラーの表示 --%>
 				<%=msg %>
 			</div>
-			
+
 		<div class="main-container-item">
-			
+		
 			<% for(ChatRecordDTO record :chatList){ %>
-				
+			
+			
+			
+			
+			
 			<%--　プロフィールを表示させるためのフォーム --%>
 			<form action="profile_view" method="post">
 			<%-- 投稿者のIDを取得し送信する --%>
@@ -214,6 +205,16 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 					<button type="submit" class="line-none"><img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br></button>
 					<br>
 				</div>
+				
+				
+				
+				
+				<%-- 投稿ID・投稿者アカウントIDを渡す --%>
+				<input type="hidden" id="postId" name="postId" value="<%= record.getPostId() %>" />
+				<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />
+				
+				
+				
 				
 				<%-- アカウント名 --%>
 				<div class="text-container">
@@ -235,36 +236,42 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 							
 					<%-- 投稿ID・投稿者アカウントIDを渡す --%>
 					<input type="hidden" id="postId" name="postId" value="<%= record.getPostId() %>" />
-					<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />
-							
+					<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />		
 					<%-- TODO:いいねしてるかしていないか分岐を実装する --%>
-				
-
+					
+					
+					
+					
 					<%
 					//この投稿IDのいいねアカウント一覧に、ログインアカウントが含まれているか確認する
 					boolean isLike = false;
 					if(record.getGoodId() != null){
 						isLike = record.getGoodId().contains(loginID);
 					}
-								
-					if(isLike){ %>
-
-						<button type="button" name="like" value="minus" class="good-on like-button">♥</button>
-					<% } else { %>
-						<button type="button" name="like" value="plus" class="good-off like-button">♡</button>
-					<% } %>
-				
-				<%-- いいね数 --%>
-				<span  id="good-count-<%= record.getPostId() %>" class="get-good" ><%= record.getGoodCount() %></span>
 					
-				</form>
-				
-				<% } %>
-				
+					
+					if(isLike){ %>
+						<button type="submit" name="like" value="minus" class="good-on">♥</button>
+					<% } else { %>
+					
+					
+					
+					<button type="submit" name="like" value="plus" class="good-off">♡</button>
+					<% } %>
 
+
+
+					<%-- いいね数 --%>
+					<span class="get-good"><%= record.getGoodCount() %></span>
+				</div>			
+			</form>	
 			</div>
-				<% } %>
+			
+			
+					<% } %>
 			<% } %>
+			
+			
 		</div>
 	</div>
 
@@ -274,7 +281,7 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 			<%-- チャット投稿form --%>
 				<form action="chat" method="post" enctype="multipart/form-data">
 					<input type="text" name="comment" class="comment-box">
-					
+
 					<%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
 					<%-- ファイルをアップロードする --%>
 					<%-- onchangeタグによりファイルアップロードされた場合にプレビューを表示する --%>
@@ -282,32 +289,29 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 					<%-- (※ただし、アップロード時に表示されるファイルを指定するだけであり、指定外のファイルアップロードは可能) --%>
 					<input type="file" name="image" id="fileElem" multiple accept="image/*" style="display:none" />
 					<button id="fileSelect" type="button" class="picture"><img src="image/picture.png" alt=""></button>
-					
+
 					<%-- 現在のチャットタイプから書き込むチャットタイプを分岐させる予定 --%>
 					<button type="submit" name="chatType" value="chat_main" class="post"><img src="image/post.png" alt=""></button>
 				</form>
 			</div>
-		
+
 		 </footer>
 
-	
+
 	<!-- body直前でjQueryと自作のJSファイルの読み込み  -->
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js"
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="js/chat.js"></script>
-	
+
 	<%-- ファイルが選択されていませんを見た目上消し去るスクリプト構文 --%>
 	<script>
 	const fileSelect = document.getElementById("fileSelect");
 	const fileElem = document.getElementById("fileElem");
-
 	fileSelect.addEventListener("click", (e) => {
 	  if (fileElem) {
 	    fileElem.click();
 	  }
 	}, false);
-	
 	</script>
 
 </body>
-</html>
