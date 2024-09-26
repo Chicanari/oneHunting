@@ -45,14 +45,17 @@ public class UserSearchServlet extends HttpServlet {
 			session.setAttribute("search_result", new ArrayList<UserRecordDTO>());
 		}else {
 			//通常検索を表示
-		List<UserRecordDTO> sRecord = accountDAO.userSearch(searchQuery);
-		session.setAttribute("search_result", sRecord);
+			List<UserRecordDTO> sRecord = accountDAO.userSearch(searchQuery);
+			session.setAttribute("search_result", sRecord);
 		}
+		
+		//検索後、サーチタイプを設定し、trueの時はチャット画面を検索画面に切り替える
+		request.setAttribute("searchType", true);
 		
 		//全体チャットにフォワードさせる ※search_result.jspに飛ばすように後々変更要
 		//仮作成のWEB-INF直下search.jspで動作確認済。jsp作成時確認要。
 		//caht.jspから"WEB-INF/jsp/search_result.jsp"へ画面遷移は確認済
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/search.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
 		dispatcher.forward(request, response);
 	}
 

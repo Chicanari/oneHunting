@@ -3,7 +3,7 @@
     
 <%-- ChatRecordDTO,Listの呼び出し --%>
 <%@
-page import="dto.ChatRecordDTO,java.util.List"
+page import="dto.ChatRecordDTO,dto.UserRecordDTO,java.util.List,java.util.ArrayList"
 %>
 
 <%-- チャット画面に関する情報の取得 --%>
@@ -22,9 +22,22 @@ String chatType = (String)session.getAttribute("chatType");
 String ken = (String)session.getAttribute("ken");
 
 //nullチェックしてデフォルト値を設定
-if (chatType == null) {
- chatType = "chat_main"; // デフォルトのチャットタイプを設定
-}
+if (chatType == null)  chatType = "chat_main"; // デフォルトのチャットタイプを設定
+%>
+
+<%-- 検索機能に関する情報の取得 --%>
+<%
+
+//アカウント検索をしているか判別する
+Boolean searchType = (Boolean)request.getAttribute("searchType");
+
+//検索結果の表示
+ArrayList<UserRecordDTO> searchResults = (ArrayList<UserRecordDTO>) session.getAttribute("search_result");
+
+//nullチェックしてデフォルト値を設定
+if (searchType == null) searchType = false;
+if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
+
 %>
 
 <%-- ログイン情報の取得　※ログインしてない場合はログイン画面へ移動する --%>
@@ -37,10 +50,8 @@ Boolean login = (Boolean)session.getAttribute("login");
 if(login == null)	login = false;
 
 //ログインIDが入っているか、ログインがtrueの時ログインしていると判断する
-if( loginID == null || login == false ) {
-	//ログアウト状態の時は、ログイン画面に移動する
-	response.sendRedirect("/oneHunting");
-}
+//ログアウト状態の時は、ログイン画面に移動する
+if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 
 %>
 
@@ -122,6 +133,26 @@ if( loginID == null || login == false ) {
 		</form>	
 			
 		<div class="main-container">
+		
+			<% if(searchType){ %>
+			
+			<%-- 検索結果を表示する --%>
+            <% for (UserRecordDTO user : searchResults) { %>
+            
+            	<table>
+            		<tr>
+		            	<th><img src="chat_image/<%= user.getAccountIcon() %>" ></th>
+			            <th><%= user.getAccountName() %></th>
+			            <th><%= user.getAccountKen() %></th>
+            		</tr>
+            	</table>
+	            
+            <% } %>
+		
+			
+			<% } else { %>
+			
+			<%--　チャットの表示 --%>
 			<div class="container-head">
 				<%-- エラーの表示 --%>
 				<%=msg %>
@@ -172,6 +203,9 @@ if( loginID == null || login == false ) {
 				</form>
 				<% } %>
 			</div>
+			
+			<% } %>
+			
 	</div>
 
 		<!-- フッター -->
