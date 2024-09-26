@@ -247,10 +247,10 @@ section{
 /* 投稿内容設定　*/
 
 .line-none {
-    border: none;       /*枠線を消す*/ 
-    background: none;   /*背景も消す*/ 
-    padding: 0;         /*余白を消す*/ 
-    cursor: pointer;    /*ポインタを表示（クリックできることを示す）*/ 
+    border: none;      /* 枠線を消す */
+    background: none;  /* 背景も消す */
+    padding: 0;        /* 余白を消す */
+    cursor: pointer;   /* ポインタを表示（クリックできることを示す） */
 	font-weight: bold;
 }
 
@@ -302,15 +302,24 @@ section{
 .account-name,
 .account-ken {
     margin-right: 10px; /* テキスト要素間のスペース */
+
 }
+
+.get-account-infomation {
+	display: flex;
+	flex-direction: column; /* 縦並びにする */
+	margin:10px 0 0 10px; /* アイコンとの間隔を調整 */
+}
+
 
 .get-account-item {
 	display: flex; /* 縦並びにするためのフレックスボックス */
-    flex-direction: column; /* 縦に配置 */
+	margin: 50px 0 0 20px;
 }
 
 .get-account {
-	margin:10px 0 10px 120px;
+	margin:10px 0 10px 220px;
+
 }
 
 /* ===============================================================

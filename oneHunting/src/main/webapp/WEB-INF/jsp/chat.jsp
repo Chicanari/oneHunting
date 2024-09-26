@@ -135,12 +135,22 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 					<%-- アイコン --%>
 				    <button type="submit" class="line-none"><p class="get-icon"><img src="/oneHunting/icon/<%= user.getAccountIcon() %>" width="60" height="60"></p><br> </button>
 				    <br>
+<<<<<<< HEAD
 				    <%-- アカウント名 --%>
 					<p class="get-name">
 					<button type="submit" class="line-none"><%= user.getAccountName() %></button>
 					</p>
 					<%-- 県名 --%>
 					<p class="get-ken"><%= user.getAccountKen() %></p>
+=======
+				    <div class="get-account-infomation">
+					    <%-- アカウント名 --%>
+						<p class="get-name">
+						<button type="submit" class="line-none"><%= user.getAccountName() %></button>
+						</p>
+						<p class="get-ken"><%= user.getAccountKen() %></p>
+					</div>
+>>>>>>> refs/heads/develop
 					</div>
 				</form>
 	           	</div>
