@@ -136,19 +136,18 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 		
 			<% if(searchType){ %>
 			
-			<%-- 検索結果を表示する --%>
-            <% for (UserRecordDTO user : searchResults) { %>
-            
-            	<table>
-            		<tr>
-		            	<th><img src="/oneHunting/icon/<%= user.getAccountIcon() %>" width="50"></th>
-			            <th><%= user.getAccountName() %></th>
-			            <th><%= user.getAccountKen() %></th>
-            		</tr>
-            	</table>
+				<%-- 検索結果を表示する --%>
+	            <% for (UserRecordDTO user : searchResults) { %>
 	            
-            <% } %>
-		
+	           	<div class="get-account">
+		            	<p class="get-icon"><img src="/oneHunting/icon/<%= user.getAccountIcon() %>"></p>
+		            	<div class="get-account-item">
+			            	<p class="get-name"><%= user.getAccountName() %></p>
+			            	<p class="get-ken"><%= user.getAccountKen() %></p>
+			            </div>
+	           	</div>
+	           	
+	           	<% } %>
 			
 			<% } else { %>
 			
@@ -204,7 +203,9 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 				<%-- 投稿日時--%>
 				<span class="get-time"><%= record.getTime() %></span><br>
 				<%-- 投稿画像 --%>
+				<% if(!record.getImage().equals("default_image.png")) {%>
 				<img src="/oneHunting/chat_image/<%= record.getImage() %>"><br>
+				<% }  %>
 				<%-- 投稿内容 --%>
 				<%= record.getText() %><br>
 				

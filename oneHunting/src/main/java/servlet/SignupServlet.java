@@ -49,37 +49,48 @@ public class SignupServlet extends HttpServlet {
 		ProfileErr profileErr = new ProfileErr();
 		String message = profileErr.account_InputValueCheck(name,id,pw,mail,ken);
 		
-		//DAOの接続
-		AccountDAO accountDAO = new AccountDAO();
-		//登録完了・失敗メッセージの表示
-		message += accountDAO.userSignup(name,id,pw,mail,ken);
-		
-		System.out.println("メッセージ："+message);
-		
-		//リクエストスコープに格納する
-		request.setAttribute("message", message);
-		
-		if(message.equals("")) {
-			
-			//ログインさせる
-			HttpSession session = request.getSession();
-			session.setAttribute("loginID", id);
-			session.setAttribute("login", true);
-			
-			String loginID = (String)session.getAttribute("loginID");
-			Boolean login = (Boolean)session.getAttribute("login");
-			System.out.println("signup:"+loginID+" "+login);
-			
-			//登録完了にフォワードさせる
-			System.out.println("登録完了！"+message);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/search_result.jsp");
-			dispatcher.forward(request, response);
-			
-		}else {
-			//新規登録画面にフォワードさせる
+		if(!message.equals("")) {
+			//リクエストスコープに格納する
+			request.setAttribute("message", message);
+			//エラーがあった場合は登録画面にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/signup.jsp");
 			dispatcher.forward(request, response);
+		}else {
+			/**
+			 * エラーがない場合だけ登録に進む
+			 */
+			//DAOの接続
+			AccountDAO accountDAO = new AccountDAO();
+			//登録完了・失敗メッセージの表示
+			message += accountDAO.userSignup(name,id,pw,mail,ken);
+			
+			//リクエストスコープに格納する
+			request.setAttribute("message", message);
+			
+			if(message.equals("")) {
+				
+				//ログインさせる
+				HttpSession session = request.getSession();
+				session.setAttribute("loginID", id);
+				session.setAttribute("login", true);
+				
+				String loginID = (String)session.getAttribute("loginID");
+				Boolean login = (Boolean)session.getAttribute("login");
+				System.out.println("signup:"+loginID+" "+login);
+				
+				//登録完了にフォワードさせる
+				System.out.println("登録完了！"+message);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/search_result.jsp");
+				dispatcher.forward(request, response);
+				
+			}else {
+				//新規登録画面にフォワードさせる
+				RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/signup.jsp");
+				dispatcher.forward(request, response);
+			}
 		}
+		
+		
 		
 		
 	}

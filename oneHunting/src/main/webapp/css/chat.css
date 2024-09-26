@@ -247,6 +247,44 @@ section{
 		margin-top: 5px;
 }
 
+/* 検索結果設定*/
+.main-container .get-account {
+	width: 458px;
+	height: 131px;
+	background: #FFFF;
+}
+
+.get-account img {
+	width: 75px;
+	height: 75px;
+}
+
+.get-account {
+    display: flex; /* フレックスボックスを使用 */
+    align-items: center; /* 垂直方向に中央揃え */
+    margin-bottom: 10px; /* 各エントリの間にスペースを追加（必要に応じて調整） */
+}
+
+.get-icon {
+    margin-right: 10px; /* アイコンとテキストの間にスペース */
+}
+
+.account-name,
+.account-ken {
+    margin-right: 10px; /* テキスト要素間のスペース */
+}
+
+.get-account-item {
+	display: flex; /* 縦並びにするためのフレックスボックス */
+    flex-direction: column; /* 縦に配置 */
+}
+
+.get-account {
+/*	display: flex;*/
+/*	align-items: center;*/
+	margin:10px 0 10px 120px;
+}
+
 /* ===============================================================
 footer
 ============================================================ */
