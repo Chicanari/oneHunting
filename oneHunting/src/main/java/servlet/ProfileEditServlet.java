@@ -78,6 +78,7 @@ public class ProfileEditServlet extends HttpServlet {
 		 */
 		HttpSession session = request.getSession();
 		
+		
 		/**
 		* エラーメッセージ用の変数宣言
 		*/
@@ -91,6 +92,45 @@ public class ProfileEditServlet extends HttpServlet {
 		//アカウントIDから他の情報を取得するためのaccountDAOへの接続
 		AccountDAO aDAO = new AccountDAO();
 		UserProfileDTO upDTO = aDAO.profileView(accountId);
+		
+		/**
+		 * プロフィール情報をリクエストスコープから取得
+		 *  名前・メール・県・自己紹介
+		 */
+		String name = request.getParameter("name");
+		String mail = request.getParameter("mail");
+		String ken = request.getParameter("ken");
+		String introduction = request.getParameter("introduction");
+		
+		//確認用
+		System.out.println("Name: " + name);
+		System.out.println("Mail: " + mail);
+		System.out.println("Ken: " + ken);
+		System.out.println("Introduction: " + introduction);
+		
+		//名前に関するエラーチェック
+		if(name.length() == 0) {
+			msg += "名前を入力してください。<br>";
+		}else if(name.length() > 200) {
+			msg += "文字数が200字を超えています。<br>";
+		}
+		
+		//mailに関するエラーチェック
+		if(mail.length() == 0) {
+			msg += "メールアドレスを入力してください。<br>";
+		}else if(name.contains("@")) {
+			msg += "入力された文字列がメールアドレスではありません。<br>";
+		}
+		
+		//県に関するエラーチェック
+		if(ken == null) {
+			msg += "県を選択してください。<br>";
+		}
+		
+		//自己紹介文に関するエラーチェック
+		if(introduction.length() > 200) {
+			msg += "自己紹介の文字数が200字を超えています。<br>";
+		}
 		
 		/**
 		 * iconで取得する画像のファイル名を取得するための変数宣言
@@ -122,7 +162,7 @@ public class ProfileEditServlet extends HttpServlet {
             // 画像ファイルかどうかのチェック
         } else if (part != null && !model.ProfileErr.isImageFile(part)) {
 
-            msg += "不正なファイルです。";
+            msg += "不正なファイルです。<br>";
  
             request.setAttribute("msg", msg);
             
@@ -158,6 +198,9 @@ public class ProfileEditServlet extends HttpServlet {
 			part.write(path + File.separator + iconName);
 		}
 		
+		//確認用
+		System.out.println("画像保存までは進んでいる");
+		
 		// プロフィールを更新するDAOメソッドの呼び出し
 		if (!msg.isEmpty()) {
 			// エラーメッセージがある場合は何もしない
@@ -165,15 +208,21 @@ public class ProfileEditServlet extends HttpServlet {
 			//仮引数はid,name,mail,ken,icon,introduction
 			boolean updateSuccess = aDAO.profileEdit(
 					accountId, 
-					upDTO.getAccountName(),
-					upDTO.getAccountMail(), 
-					upDTO.getAccountKen(),
+					name,
+					mail, 
+					ken,
 					iconName, 
-					upDTO.getAccountIntroduction());
+					introduction);
 			if (updateSuccess) {
 				msg = "プロフィールが更新されました。";
 			} else {
 				msg = "プロフィールの更新に失敗しました。";
+				
+	            request.setAttribute("msg", msg);
+	            
+	    		//プロフィール編集画面にフォワードさせる
+	    		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/user_edit.jsp");
+	    		dispatcher.forward(request, response);
 			}
 		}
 		

@@ -322,13 +322,21 @@ public class AccountDAO {
     	try {
     		con = DriverManager.getConnection(url,user,password);
     		
+    		//確認用
+    		System.out.println("名前：" + name);
+    		System.out.println("メール：" + mail);
+    		System.out.println("県：" + ken);
+    		System.out.println("アイコン：" + icon);
+    		System.out.println("自己紹介：" + introduction);
+    		System.out.println("ID：" + Id);
+    		
     		String sql = "UPDATE account ";
     		sql += "SET account_name = ? "; //1
     		sql += "account_mail = ?, "; //2
     		sql += "account_ken = ?, "; //3
     		sql += "account_icon = ?, "; //4
     		sql += "account_introduction = ? "; //5
-    		sql += "WHERE account_id = ? "; //6
+    		sql += "WHERE account_id = ? ;"; //6
     		ps = con.prepareStatement(sql);
     		
     		//パラメータの設定
