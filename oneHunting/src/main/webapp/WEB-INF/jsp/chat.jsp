@@ -141,20 +141,16 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 	            <% for (UserRecordDTO user : searchResults) { %>
 	            
 	            <div class="get-account">
-	            <form action="profile_view" method="post">
+	            <form action="profile_view" method="post" class="padding-none">
+	            	<div class="get-account-item">
 					<%-- プロフィール	IDを取得し送信する --%>
 					<input type="hidden" id="postAccountId" name="postAccountId" value="<%= user.getAccountId() %>" />
 					<%-- アイコン --%>
-				    <button type="submit" style="border: none; background-color: transparent;">
-				        <p class="get-icon"><img src="/oneHunting/icon/<%= user.getAccountIcon() %>" width="60" height="60"></p><br>
-				    </button>
+				    <button type="submit" class="line-none"><p class="get-icon"><img src="/oneHunting/icon/<%= user.getAccountIcon() %>" width="60" height="60"></p><br> </button>
 				    <br>
-				    <div class="get-account-item">
 				    <%-- アカウント名 --%>
 					<p class="get-name">
-					<button type="submit" style="border: none; background-color: transparent;">
-					<%= user.getAccountName() %>
-					</button>
+					<button type="submit" class="line-none"><%= user.getAccountName() %></button>
 					</p>
 					<p class="get-ken"><%= user.getAccountKen() %></p>
 					</div>
@@ -206,18 +202,15 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 				<% for(ChatRecordDTO record :chatList){ %>
 				
 				<%--　プロフィールを表示させるためのフォーム --%>
-				<form action="profile_view" method="post">
+				<form action="profile_view" method="post" class="padding-none">
 					<%-- 投稿者のIDを取得し送信する --%>
 					<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />
 					<%-- アイコン --%>
-				    <button type="submit" style="border: none; background-color: transparent;">
-				        <img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br>
-				    </button>
+				    <button type="submit" class="line-none"><img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br></button>
 				    <br>
 				    <%-- アカウント名 --%>
 					<span class="get-name">
-					<button type="submit" style="border: none; background-color: transparent;"><%= record.getAccountName() %>
-					</button>
+					<button type="submit" class="line-none"><%= record.getAccountName() %></button>
 					</span>
 				</form>
 				
