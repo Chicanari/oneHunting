@@ -32,7 +32,6 @@ public class ProfileViewServlet extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		
 		
 		// Q:プロフィール表示の検索（SQL）に使う要素はなに？　１つ「　　」　
@@ -40,45 +39,18 @@ public class ProfileViewServlet extends HttpServlet {
 		/**
 		 * Q:account_idはどうやって取ってくる？
 		 */
-		//
+		//セッションスコープスコープに保存しているログインID
 		
-		//AccountDAOの実装とセッションスコープの作成
+		//AccountDAOの実装
 		AccountDAO accountDAO = new AccountDAO();
+		//セッションスコープの取得
 		HttpSession session = request.getSession();
+		//セッションスコープに保存しているログインIDの取得し、accountIdに格納
+		String accountId = (String) session.getAttribute("loginID");
 		
-		
-		//Q：これはどこからなにを取るためのgetParameter？？
-		//HTTPリクエストから送られてくるパラメータ(formの入力フィールドやURLのクエリパラメータ)を取得する
-		//jspで記述したname属性を記述すること。jsp作成時に記述。
-		
-		/*
-		 * Q：↑どこから何を取ってくるから書いたの？
-		 */
-		//
-		String accountId = request.getParameter("");
-		
-		
-		//Q：なにをしてるかコメント書いてみて
-		
-		
-		//request.getParameterを格納しているaccountIdを、profileViewの引数として使用。
-		//スコープへ格納し、送り先に転送する
-		//→アカウントIDを使用してプロフィールを表示
-		
-		/*
-		 * >>request.getParameterを格納しているaccountIdを、profileViewの引数として使用。
-		 * Q:ここでなにを取得しているから、profileViewの引数にしているの？
-		 * 　上記の「テーブルに登録しているaccount_id」と矛盾していない？
-		 * 
-		 * >>スコープへ格納
-		 * Q:何スコープに格納？また、そのスコープに格納する理由はなぜ？
-		 * 
-		 * >>送り先に転送する
-		 * Q:送り先ってなに？もっと詳しくコメントしてください。
-		 */
-		
+		//loginIDを格納している変数「accountId」をaccountDAOで作成したprofileViewメソッドの仮引数に設定
 		UserProfileDTO userProfile = accountDAO.profileView(accountId);
-		//上記変数をセッションスコープへ格納
+		//上記変数をリクエストスコープへ格納
 		session.setAttribute("profile", userProfile);
 		
 		//ログイン画面にフォワードさせる
