@@ -192,7 +192,7 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 					chatName = "全体チャット";
 				}
 				%>
-				<%=chatName %>
+				　<%=chatName %>　　　
 				     
 				<%-- エラーの表示 --%>
 				<%=msg %>
@@ -239,6 +239,7 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 							
 					<%-- TODO:いいねしてるかしていないか分岐を実装する --%>
 				
+
 					<%
 					//この投稿IDのいいねアカウント一覧に、ログインアカウントが含まれているか確認する
 					boolean isLike = false;
@@ -247,15 +248,20 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 					}
 								
 					if(isLike){ %>
-						<button type="submit" name="like" value="minus" class="good-on">♥</button>
-						<% } else { %>
-						<button type="submit" name="like" value="plus" class="good-off">♡</button>
-						<% } %>
-							
-					<%-- いいね数 --%>
-					<span class="get-good"><%= record.getGoodCount() %></span>
-				</div>			
-			</form>	
+
+						<button type="button" name="like" value="minus" class="good-on like-button">♥</button>
+					<% } else { %>
+						<button type="button" name="like" value="plus" class="good-off like-button">♡</button>
+					<% } %>
+				
+				<%-- いいね数 --%>
+				<span  id="good-count-<%= record.getPostId() %>" class="get-good" ><%= record.getGoodCount() %></span>
+					
+				</form>
+				
+				<% } %>
+				
+
 			</div>
 				<% } %>
 			<% } %>
@@ -300,6 +306,7 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 	    fileElem.click();
 	  }
 	}, false);
+	
 	</script>
 
 </body>
