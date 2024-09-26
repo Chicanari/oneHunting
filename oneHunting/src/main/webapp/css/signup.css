@@ -24,10 +24,10 @@ html { font-size: 62.5%;
 
 .signup_frame {
 	position: relative;
-	height: 650px;
+	height: 680px;
 	width: 500px;	
 	display: block;
-	margin:25px auto 0;	
+	margin:0 auto;	
 }
 
 .signup-container {
@@ -56,6 +56,18 @@ html { font-size: 62.5%;
 	border-radius: 10px;
 }
 
-.name input {
+.name input,
+.id input,
+.ps input,
+.mail input{
 	width: 300px;
+	margin-bottom: 20px;
+}
+
+.signup-container p {
+	text-align: left;
+}
+
+.ken-radio {
+	gap: 10px;
 }

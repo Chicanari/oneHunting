@@ -141,7 +141,7 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 	            <% for (UserRecordDTO user : searchResults) { %>
 	            
 	            <div class="get-account">
-	            <form action="profile_view" method="post" class="padding-none">
+	            <form action="profile_view" method="post">
 	            	<div class="get-account-item">
 					<%-- プロフィール	IDを取得し送信する --%>
 					<input type="hidden" id="postAccountId" name="postAccountId" value="<%= user.getAccountId() %>" />
@@ -202,7 +202,7 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 				<% for(ChatRecordDTO record :chatList){ %>
 				
 				<%--　プロフィールを表示させるためのフォーム --%>
-				<form action="profile_view" method="post" class="padding-none">
+				<form action="profile_view" method="post">
 					<%-- 投稿者のIDを取得し送信する --%>
 					<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />
 					<%-- アイコン --%>
