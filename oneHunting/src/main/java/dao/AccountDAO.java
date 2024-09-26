@@ -147,10 +147,9 @@ public class AccountDAO {
 		/*5*/ sql += ",account_ken";
 		
 		/*6*/ sql += ",account_good_point";
-		/*7*/ sql += ",account_good_id";
 		
 		sql += ") VALUES ";
-		sql += "(?,?,?,?,?,?,?);";
+		sql += "(?,?,?,?,?,?);";
 		
 		
 		//SQL文の実行
@@ -165,7 +164,6 @@ public class AccountDAO {
 			ps.setString(5, ken );
 			
 			ps.setInt(6, 0 );
-			ps.setString(7, null );
 			
 			//INSERT文の実行
 			int rowsAffected = ps.executeUpdate();
@@ -187,7 +185,6 @@ public class AccountDAO {
 			
 		}
 		
-		System.out.println("userSignup:登録に失敗しました");
 		return "";
     }
     
@@ -282,7 +279,6 @@ public class AccountDAO {
 					db_pw = rs.getString("account_password");
 				}else {
 					//一致するidがなかった場合はエラーメッセージを返す
-					System.out.println("登録がありません。");
 					return "登録がありません。";
 				}
             }
@@ -340,7 +336,7 @@ public class AccountDAO {
     		String sql = "SELECT account_icon, account_name, account_id, account_ken, account_introduction, account_good_point ";
     		sql += "FROM account ";
     		//セキュリティ対策のためaccountIdをプレースホルダー化
-    		sql += "WHERE account_id = ? ";
+    		sql += "WHERE account_id = ? ;";
     		//実行前にコンパイル処理
     		ps = con.prepareStatement(sql);
     		//プレースホルダーへ仮引数accountIdを格納
@@ -538,7 +534,6 @@ public class AccountDAO {
 				if(rs.next()) {
 					//JSONファイルが存在しない場合はnull、存在する場合はStringを返す
 					goodId_Json = rs.getString("account_good_id");
-					System.out.println("account goodId_Json:"+goodId_Json);
 				}
             }
 			

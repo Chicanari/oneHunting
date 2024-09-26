@@ -15,8 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import dao.AccountDAO;
 import dao.ChatDAO;
 import dto.ChatRecordDTO;
+import dto.UserProfileDTO;
 
 /*
  * 
@@ -43,15 +45,26 @@ public class ChatServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		/**
+		 * sessionスコープ内のログインIDからアカウントIDを取得
+		 */
+		String accountId = (String)session.getAttribute("loginID");
+		//アカウントIDから他の情報を取得するためのaccountDAOへの接続
+		AccountDAO aDAO = new AccountDAO();
+		UserProfileDTO upDTO = aDAO.profileView(accountId);
+		//県情報を取得
+		String ken = upDTO.getAccountKen();
+		
+		/**
 		 * 
 		 * 最後に見ていたチャットを表示する
 		 * 自動遷移時、メインチャットを表示する
 		 * 
-		 */
-		
+		 */	
 		//左カラムから送られてきたチャット名を取得する
 		String chatType = request.getParameter("chatType");
-		 
+
+		System.out.println("ChatServlet chatType:"+chatType);
+				 
 		//上記がnullだった場合
 		if(chatType == null) {
 			
@@ -64,13 +77,13 @@ public class ChatServlet extends HttpServlet {
 			}
 			
 		}
-		
-		
+	
 		/**
 		 * 
 		 * 左カラムチャットより遷移するチャットを取得し返却する
 		 * 
-		 */
+		 */	
+
 		
 		/**
 		* エラーメッセージ用の変数宣言
@@ -81,16 +94,15 @@ public class ChatServlet extends HttpServlet {
          * chatDAOのインスタンス生成
          */
 		ChatDAO cDAO = new ChatDAO();
-				
-        /**
-         * chatDAOから表示用のメソッド呼び出し
-         */
 		
 		/**
 		 * チャットリストを取得
 		 */
 		List<ChatRecordDTO> chatList;
 		try {
+	        /**
+	         * chatDAOから表示用のメソッド呼び出し
+	         */
 			chatList = cDAO.comment_view(chatType);
 			
 			/**
@@ -99,21 +111,17 @@ public class ChatServlet extends HttpServlet {
 			session.setAttribute("chatType",chatType);
 		
 			/**
-			 * チャットのコメント一覧と名前をセッションスコープに保存
-			 */
-			
+			 * チャットのコメント一覧・名前・県情報をセッションスコープに保存
+			 */	
 			session.setAttribute("chatType", chatType);
 			session.setAttribute("chatList", chatList); 
+			session.setAttribute("ken", ken); 
 			
 			/**
 			* エラーメッセージをリクエストスコープに保存
 			*/
 			request.setAttribute("msg", msg);
 			
-			/**
-			* チャットタイプを判別するための変数をリクエストスコープに保存
-			*/
-			request.setAttribute("chatType", chatType);
 	        
 			//チャット画面にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
@@ -122,13 +130,26 @@ public class ChatServlet extends HttpServlet {
 		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
-		}
-		
-		
+		}	
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
+		/**
+		 * HttpSessionのインスタンスの取得
+		 */
+		HttpSession session = request.getSession();
+		
+		/**
+		 * sessionスコープ内のログインIDからアカウントIDを取得
+		 */
+		String accountId = (String)session.getAttribute("loginID");
+		//アカウントIDから他の情報を取得するためのaccountDAOへの接続
+		AccountDAO aDAO = new AccountDAO();
+		UserProfileDTO upDTO = aDAO.profileView(accountId);
+		//県情報を取得
+		String ken = upDTO.getAccountKen();
+		
 		/**
 		 * imageで取得する画像のファイル名を取得するための変数宣言
 		 */
@@ -151,66 +172,72 @@ public class ChatServlet extends HttpServlet {
 				
         /**
          * chatDAOから表示用のメソッド呼び出し
-         * 
+         * 現在の情報を取得したいのでセッションスコープから取り出す
          */
-		String chatType = request.getParameter("chatType");
+		String chatType = (String)session.getAttribute("chatType");
 		List<ChatRecordDTO> chatList;
-		if(chatType == null) {
-			chatType = "chat_main";
-		}
+		if(chatType == null) chatType = "chat_main";
+
 		
-		try {
-			/**
-			 * チャットリストを取得
-			 */
-			chatList = cDAO.comment_view(chatType); 
-			
-			/**
-			 * チャットリストをリクエストスコープに保存
-			 */
-			request.setAttribute("chatList", chatList); 
-					
-		    /**
-		     *  画像ファイルかどうかをチェック
-		     */
-		    if (!model.ProfileErr.isImageFile(part)) {
-		        //チャットリストをリクエストスコープに保存
-				request.setAttribute("chatList", chatList);
-				
-				//エラーメッセージの追加
-		    	msg += "不正なファイルです。";
-		    	
-		    	//エラーメッセージをリクエストスコープに保存
-		        request.setAttribute("msg",msg);
-		        
-				//チャットタイプを判別するための変数をリクエストスコープに保存
-				request.setAttribute("chatType", chatType);
-		        
-		        //チャット画面にフォワード
-		        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
-		        dispatcher.forward(request, response);
-		        return;
-		    }
-	        
+		try {						        
 			/**
 			 * imageで取得する画像のファイル名を取得
 			 */
 			imageName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+
+		    /**
+		     *  画像ファイルかどうかをチェック
+		     */
+	        if (imageName.isEmpty()) {
+	        	// デフォルト画像を使用
+	            imageName = "default_image.png";
+	            // 画像ファイルかどうかのチェック
+	        } else if (part != null && !model.ProfileErr.isImageFile(part)) {
+				/**
+				 * chatDAOから表示用のメソッド呼び出し
+				 */
+				chatList = cDAO.comment_view(chatType); 
+				
+				/**
+				 * チャットのコメントと一覧をセッションスコープに保存
+				 */
+	            session.setAttribute("chatType", chatType);
+	            session.setAttribute("chatList", chatList); 
+	            msg += "不正なファイルです。";
+	 
+	            request.setAttribute("msg", msg);
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
+	            dispatcher.forward(request, response);
+	            return;
+	        }
 			
 			/**
 			 * リクエストパラメータからチャット投稿情報の取得
+			 * accounName,icon,text
+			 * 
 			 */
-			String accountId = request.getParameter("accountId");
-			String accountName = request.getParameter("accountName");
-			String icon = request.getParameter("icon");
-			String text = request.getParameter("text");
+			//アカウントの名前情報を取得
+			String accountName = upDTO.getAccountName();
+			//アイコン情報を取得
+			String icon = upDTO.getAccountIcon();
+			//リクエストスコープから本文を取得
+			String text = request.getParameter("comment");
 			
 			/**
 			 * textが200字より多いの場合と0の場合にエラーを返す
 			 */
 			if(text == null || text.trim().isEmpty()) {
-		        //チャットリストをリクエストスコープに保存
-				request.setAttribute("chatList", chatList);
+				/**
+				 * chatDAOから表示用のメソッド呼び出し
+				 */
+				chatList = cDAO.comment_view(chatType); 
+				
+				/**
+				 * チャットのコメント一覧・名前・県情報をセッションスコープに保存
+				 */	
+				session.setAttribute("chatType", chatType);
+				session.setAttribute("chatList", chatList); 
+				session.setAttribute("ken", ken); 
 				
 				//エラーメッセージの追加
 		    	msg += "文字が入力されていません。";
@@ -218,25 +245,28 @@ public class ChatServlet extends HttpServlet {
 		    	//エラーメッセージをリクエストスコープに保存
 		        request.setAttribute("msg",msg);
 		        
-				//チャットタイプを判別するための変数をリクエストスコープに保存
-				request.setAttribute("chatType", chatType);
-		        
 		        //チャット画面にフォワード
 		        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
 		        dispatcher.forward(request, response);
 		        return;
 			}else if(text.length() > 200) {
-		        //チャットリストをリクエストスコープに保存
-				request.setAttribute("chatList", chatList);
+				/**
+				 * chatDAOから表示用のメソッド呼び出し
+				 */
+				chatList = cDAO.comment_view(chatType); 
+				
+				/**
+				 * チャットのコメント一覧・名前・県情報をセッションスコープに保存
+				 */	
+				session.setAttribute("chatType", chatType);
+				session.setAttribute("chatList", chatList); 
+				session.setAttribute("ken", ken); 
 				
 				//エラーメッセージの追加
 		    	msg += "200字以内で入力してください。";
 		    	
 		    	//エラーメッセージをリクエストスコープに保存
 		        request.setAttribute("msg",msg);
-		        
-				//チャットタイプを判別するための変数をリクエストスコープに保存
-				request.setAttribute("chatType", chatType);
 		        
 		        //チャット画面にフォワード
 		        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
@@ -251,29 +281,48 @@ public class ChatServlet extends HttpServlet {
 			int inCunt = cDAO.comment_insert(chatType,accountId,accountName,icon,text,imageName);			
 			
 			/**
-			* アップロードするフォルダを指定
-			*/
-			String path = getServletContext().getRealPath("/image");
-					
-			/**
-			 * ファイルを指定されたフォルダに保存する
+			 * chatDAOから表示用のメソッド呼び出し
 			 */
-			part.write(path + File.separator + imageName);
+			chatList = cDAO.comment_view(chatType); 
 			
 			/**
-			* チャトリストをリクエストスコープに保存
+			* アップロードするフォルダを指定
 			*/
-			request.setAttribute("chatList", chatList); 
+			String path = getServletContext().getRealPath("/chat_image");
+			
+		    // パスの存在を確認
+		    File uploadDir = new File(path);
+		    if (!uploadDir.exists()) {
+		        uploadDir.mkdirs();  // ディレクトリが存在しない場合は作成
+		    }
+
+			
+			//画像の中身が在る場合にのみ保存する
+			if(!(part == null)) {
+				/**
+				 * ファイルを指定されたフォルダに保存する
+				 */
+				part.write(path + File.separator + imageName);
+			}
+			
+			/**
+			 * チャットのコメント一覧・名前・県情報をセッションスコープに保存
+			 */	
+			session.setAttribute("chatType", chatType);
+			session.setAttribute("chatList", chatList); 
+			session.setAttribute("ken", ken); 
 			
 			/**
 			* エラーメッセージをリクエストスコープに保存
 			*/
 			request.setAttribute("msg", msg);
 			
-			/**
-			 * チャットタイプを判別するための変数をリクエストスコープに保存
-			 */
-			request.setAttribute("chatType", chatType);
+			//確認用
+			System.out.println("kakikomi:"+chatType);
+			String realPath = getServletContext().getRealPath("/");
+			System.out.println("リアルパス: " + realPath);
+			String actualPath = path + File.separator + imageName;
+			System.out.println("保存先パス: " + actualPath);
 			
 			//チャット画面にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
