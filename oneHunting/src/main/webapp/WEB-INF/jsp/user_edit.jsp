@@ -42,8 +42,8 @@ if( loginID == null || login == false ) {
 <%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
 <form action="profile_edit" method="post" enctype="multipart/form-data">
 
-	<p><b>名前</b><br><input type="text" name="id"></p>
-	<p><b>ID</b><br><%= %></p>
+	<p><b>名前</b><br><input type="text" name="name"></p>
+	<p><b>ID</b><br><%=loginID %></p>
 	<p><b>メールアドレス</b><br><input type="password" name="pw"></p>
 	
 	<p>
@@ -58,16 +58,26 @@ if( loginID == null || login == false ) {
 	<input type="radio" name="ken" value="chat_okinawa">沖縄県　	
 	</p>
 	
+
+	<p>
+	<b>アイコン　</b>
+	<input type="file" name="icon"  id="fileElem" multiple accept="image/*" onchange="previewFile(this);"  style="display:none" />
+	<button id="fileSelect" type="button" class="picture"><img src="image/picture.png" alt=""></button>
+	</p>
+	
+	
+	<%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
 	<%-- ファイルをアップロードする --%>
 	<%-- onchangeタグによりファイルアップロードされた場合にプレビューを表示する --%>
 	<%-- acceptタグによりアップロードできるファイルを指定 --%>
 	<%-- (※ただし、アップロード時に表示されるファイルを指定するだけであり、指定外のファイルアップロードは可能) --%>
-	<p><b>アイコン　</b><input type="file" name="icon"  accept="image/*" onchange="previewFile(this);"></p>
+	<input type="file" name="image" id="fileElem" multiple accept="image/*" style="display:none" />
+					
 	<%-- 画像プレビューの呼び出し --%>
 	<img id="preview">
 	<%= msg %>
 	
-	<p>自己紹介<br><textarea rows="10" cols="50"></textarea></p>
+	<p><b>自己紹介</b><br><textarea rows="10" cols="50"></textarea></p>
 	
 	<p><input type="submit" value="登録"></p>
 </form>
@@ -80,6 +90,18 @@ function previewFile(hoge){
 	document.getElementById('preview').src = fileData.result;
 	});
 	fileData.readAsDataURL(hoge.files[0]);}
+</script>
+
+<%-- ファイルが選択されていませんを見た目上消し去るスクリプト構文 --%>
+<script>
+const fileSelect = document.getElementById("fileSelect");
+const fileElem = document.getElementById("fileElem");
+
+fileSelect.addEventListener("click", (e) => {
+	if (fileElem) {
+	fileElem.click();
+	}
+}, false);
 </script>
 
 </body>

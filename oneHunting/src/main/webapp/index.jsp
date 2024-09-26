@@ -47,17 +47,16 @@ if( loginID != null || login == true ) {
 <div class="item">
 	<div class="err"><%= message %></div>
 	<form action="login" method="post">
+	
 	<p class="id">ID</p>
 	<input type="text" name="id" class="id_box">
 	<p class="ps">パスワード</p>
-	<input type="password" name="pw" class="ps_box"></p>
-	<p class="login_btn"><input type="submit" value="ログイン" class="login_btn_item"></p>	
+	<input type="password" name="pw" class="ps_box"></br>
+	<input type="submit" value="ログイン" class="login_btn"></br>	
 	</form>
 
 	<form action="signup" method="get">
-	<div class="register">
-	<input type="submit" value="新規登録" class="register_btn_item">
-	</div>
+	<input type="submit" value="新規登録" class="register_btn">
 	</form>
 </div>
 

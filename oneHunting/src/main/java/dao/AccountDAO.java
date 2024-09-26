@@ -11,9 +11,13 @@ import java.util.List;
 
 import org.postgresql.util.PSQLException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import dto.UserProfileDTO;
 import dto.UserProfileEditDTO;
 import dto.UserRecordDTO;
+import json.GoodID;
 import model.PwHash;
 
 
@@ -144,12 +148,9 @@ public class AccountDAO {
 		/*5*/ sql += ",account_ken";
 		
 		/*6*/ sql += ",account_good_point";
-		/*7*/ sql += ",account_good_id";
 		
 		sql += ") VALUES ";
-		sql += "(?,?,?,?,?,?,?);";
-		
-		
+		sql += "(?,?,?,?,?,?);";
 		//SQL文の実行
 		try(Connection con = DriverManager.getConnection(url,user,password);
 			PreparedStatement ps = con.prepareStatement(sql);				){
@@ -162,7 +163,6 @@ public class AccountDAO {
 			ps.setString(5, ken );
 			
 			ps.setInt(6, 0 );
-			ps.setString(7, null );
 			
 			//INSERT文の実行
 			int rowsAffected = ps.executeUpdate();
@@ -184,7 +184,6 @@ public class AccountDAO {
 			
 		}
 		
-		System.out.println("userSignup:登録に失敗しました");
 		return "";
     }
     
@@ -279,7 +278,6 @@ public class AccountDAO {
 					db_pw = rs.getString("account_password");
 				}else {
 					//一致するidがなかった場合はエラーメッセージを返す
-					System.out.println("登録がありません。");
 					return "登録がありません。";
 				}
             }
@@ -307,12 +305,16 @@ public class AccountDAO {
     /**
      * プロフィール編集機能
      */
-    //仮引数は後日指定する
-    public UserProfileEditDTO profileEdit(String  accountId) {
+    //仮引数はid,name,mail,ken,icon,introduction
+    public boolean profileEdit(String Id,String name,
+    		String mail,String ken,
+    		String icon,String introduction) {
+    
     	//データベース操作に必要なオブジェクト3の実装
     	Connection con = null;
     	PreparedStatement ps = null;
     	ResultSet rs = null;
+    	
     	//結果を返す変数
     	UserProfileEditDTO profileEdit = null;
     	
@@ -321,11 +323,24 @@ public class AccountDAO {
     		con = DriverManager.getConnection(url,user,password);
     		
     		String sql = "UPDATE account ";
-    		sql += "SET account_icon = ?, account_name = ?, account_mail = ?, account_ken = ?, account_introduction = ? ";
-    		sql += "WHERE account_id = ? ";
+    		sql += "SET account_name = ? "; //1
+    		sql += "account_mail = ?, "; //2
+    		sql += "account_ken = ?, "; //3
+    		sql += "account_icon = ?, "; //4
+    		sql += "account_introduction = ? "; //5
+    		sql += "WHERE account_id = ? "; //6
     		ps = con.prepareStatement(sql);
     		
-    		//ps.setString(1, );
+    		//パラメータの設定
+    		ps.setString(1, name);          // account_name
+    		ps.setString(2, mail);          // account_mail
+    		ps.setString(3, ken);           // account_ken
+    		ps.setString(4, icon);          // account_icon
+    		ps.setString(5, introduction);   // account_introduction
+    		ps.setString(6, Id);            // WHERE条件の account_id
+    		
+            // 更新を実行
+            int rowsUpdated = ps.executeUpdate();
     		
     		
     	}catch(Exception e) {
@@ -353,10 +368,8 @@ public class AccountDAO {
     				;
     			}
     		}
-    	}
-    	
-    	
-    	return profileEdit;
+    	} 	
+    	return true;
     }
     
     /**
@@ -382,10 +395,10 @@ public class AccountDAO {
     	try {
     		con = DriverManager.getConnection(url,user,password);
     		//sql文の操作
-    		String sql = "SELECT account_icon, account_name, account_id, account_ken, account_introduction, account_good_point ";
+    		String sql = "SELECT account_icon, account_name, account_id, account_mail, account_ken, account_introduction, account_good_point ";
     		sql += "FROM account ";
     		//セキュリティ対策のためaccountIdをプレースホルダー化
-    		sql += "WHERE account_id = ? ";
+    		sql += "WHERE account_id = ? ;";
     		//実行前にコンパイル処理
     		ps = con.prepareStatement(sql);
     		//プレースホルダーへ仮引数accountIdを格納
@@ -406,6 +419,8 @@ public class AccountDAO {
     			String accountIcon = rs.getString("account_icon");
     			//account_nameを格納
     			String accountName = rs.getString("account_name");
+    			//account_mailを格納
+    			String accountMail = rs.getString("account_mail");
     			//AccountIdは重複のためresultを追加、account_idを格納
     			String resultAccountId = rs.getString("account_id");
     			//account_kenを格納
@@ -415,7 +430,7 @@ public class AccountDAO {
     			//account_good_pointを格納
     			String accountGoodPoint = rs.getString("account_good_point");
     			//上記変数を、DTOをインスタンス化する際に代入
-    			userProfile = new UserProfileDTO(accountIcon,accountName,resultAccountId,
+    			userProfile = new UserProfileDTO(accountIcon,accountName,accountMail,resultAccountId,
     											accountKen,accountIntroduction,accountGoodPoint);
     		}
     		
@@ -534,19 +549,139 @@ public class AccountDAO {
     }
     
     /**
-     * 仮：いいねを追加するメソッド
+     * アカウントテーブルのいいねポイントを追加・削除、いいねした投稿の一覧を操作するメソッド
+     * @throws JsonProcessingException 
      */
-    public void like_add() {
+    public void like_update(String postId, String postAccountId, String updateType) throws JsonProcessingException {
+    	
+    	/**
+    	 * このメソッドでは下記の順番・方法でいいね更新を実現しています。
+    	 * 
+    	 * ①チャットテーブルをpostId（投稿ID）で検索し、****_good_idに格納されているJSONファイルを取得する。
+    	 * ②取得したJSONファイルがnullの場合は新規JSONファイルを作成する。
+    	 * ③取得したJSONファイルがnullではない場合は、jsonパッケージのGoodIDクラスを使用する。
+    	 * ④２、３、いずれかのＪＳＯＮファイルに、ログインＩＤを追加・減少する。
+    	 * ⑤ＤＢにＪＳＯＮファイルを格納し、いいね数を増加・減少させる。
+    	 * 
+    	 */
+    	
+    	
+    	/**
+    	 * ①投稿からJSON形式のいいね一覧を取得する 例：{"goodID": ["id1", "id2", "id3"]}
+    	 */
+    	String JsonSql = "SELECT account_good_id FROM account WHERE account_id = ?;";
+    	
+    	//SQL文でJSONファイルをStringで受け取るための変数
+    	String goodId_Json = "";
+	    
+	    // DBに格納されたJSON形式のデータを扱うためのJSONクラス
+    	GoodID goodId = new GoodID();
+    	
+    	// ObjectMapperを初期化
+	    ObjectMapper objectMapper = new ObjectMapper();
+    	
+    	
+    	//SQL文の実行
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(JsonSql);			){
+			
+			//プレースホルダを設定
+			ps.setString(1, postAccountId );
+			
+			//SELECT文の実行
+			try (ResultSet rs = ps.executeQuery()) {
+				if(rs.next()) {
+					//JSONファイルが存在しない場合はnull、存在する場合はStringを返す
+					goodId_Json = rs.getString("account_good_id");
+				}
+            }
+			
+			
+			/**
+			 *  いいねボタンを押下をしたpostIdを、****_good_idに追加・削除する
+			 */
+			
+			if(updateType.equals("plus")) {
+				
+				if(goodId_Json == null) {
+					//②④goodIdsがnullの場合は、新しくJSONファイルを作成し、追加する
+			        goodId.addIds(postId);
+				}else {
+					//③goodIdsがnullでない場合は、JSONファイルにuserIDを追加する
+					
+					//JSON形式のStringをGoodIDオブジェクトに変換
+				    goodId = objectMapper.readValue(goodId_Json, GoodID.class);
+				    
+				    //④IDを追加する
+				    goodId.addIds(postId);
+				}
+				
+			} else if(updateType.equals("minus")) {
+				
+				//③JSONファイルのuserIDを削除する
+				
+				//JSON形式のStringをGoodIDオブジェクトに変換
+			    goodId = objectMapper.readValue(goodId_Json, GoodID.class);
+			    
+			    //④IDを削除する
+			    goodId.removeIds(postId);
+				
+			}
+
+		} catch (SQLException e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+		}
+		
+		
+		/**
+		 * 加工したJSONファイルを更新する
+		 */
+		
+		//GoodIDクラスのオブジェクトを、String形式のJSONファイルに変換する
+		String jsonString = objectMapper.writeValueAsString(goodId);
+		
+		//更新するためのSQLを格納する変数
+		String UpdateSql ="";
+		
+		if(updateType.equals("plus")) {
+	    	/**
+	    	 *  ⑤一致するIDのいいねの数を１増やし、JSONファイルのいいねアカウント一覧を更新する
+	    	 */
+	    	UpdateSql = "UPDATE account SET account_good_point = ";
+	    	/*1*/UpdateSql += "account_good_point+1 ,account_good_id = ?::json ";
+	    	/*2*/UpdateSql += "WHERE account_id = ? ;";
+		}else if(updateType.equals("minus")) {
+			/**
+	    	 *  ⑤一致するIDのいいねの数を１減らし、JSONファイルのいいねアカウント一覧を更新する
+	    	 */
+			UpdateSql = "UPDATE account SET account_good_point = ";
+	    	/*1*/UpdateSql += "account_good_point-1 ,account_good_id = ?::json ";
+	    	/*2*/UpdateSql += "WHERE account_id = ? ;";
+		}
+		
+		
+		//SQL文の実行
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(UpdateSql);			){
+			
+			//プレースホルダを設定
+			ps.setString(1, jsonString );
+			ps.setString(2, postAccountId );
+			
+			//INSERT文の実行
+			ps.executeUpdate();
+			
+		} catch (PSQLException e) {
+			System.err.println("SQLエラー: " + e.getMessage()); // 詳細なエラー情報を表示
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+    	
     	
     }
     
     
-    /**
-     * 仮：いいねを削除するメソッド
-     */
-    public void like_delete() {
-    	
-    }
 
 
 }
