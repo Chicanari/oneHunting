@@ -308,12 +308,52 @@ public class AccountDAO {
      * プロフィール編集機能
      */
     //仮引数は後日指定する
-    public UserProfileEditDTO profileEdit() {
+    public UserProfileEditDTO profileEdit(String  accountId) {
     	//データベース操作に必要なオブジェクト3の実装
     	Connection con = null;
     	PreparedStatement ps = null;
     	ResultSet rs = null;
+    	//結果を返す変数
     	UserProfileEditDTO profileEdit = null;
+    	
+    	//
+    	try {
+    		con = DriverManager.getConnection(url,user,password);
+    		
+    		String sql = "UPDATE account ";
+    		sql += "SET account_icon = ?, account_name = ?, account_mail = ?, account_ken = ?, account_introduction = ? ";
+    		sql += "WHERE account_id = ? ";
+    		ps = con.prepareStatement(sql);
+    		
+    		//ps.setString(1, );
+    		
+    		
+    	}catch(Exception e) {
+    		e.getStackTrace();
+    	}finally {
+    		if(con != null) {
+    			try {
+    				con.close();
+    			}catch(Exception e) {
+    				;
+    			}
+    		}
+    		
+    		if(ps != null) {
+    			try {
+    				ps.close();
+    			}catch(Exception e) {
+    				;
+    			}
+    		}
+    		if(rs != null) {
+    			try {
+    				rs.close();
+    			}catch(Exception e){
+    				;
+    			}
+    		}
+    	}
     	
     	
     	return profileEdit;
