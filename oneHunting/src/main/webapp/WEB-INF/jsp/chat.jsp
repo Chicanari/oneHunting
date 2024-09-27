@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<<<<<<< HEAD
-  
-=======
 
->>>>>>> refs/heads/yamasaki
 <%-- ChatRecordDTO,Listの呼び出し --%>
 <%@
 page import="dto.ChatRecordDTO,dto.UserRecordDTO,java.util.List,java.util.ArrayList"
@@ -52,22 +48,10 @@ if (searchType == null) searchType = false;
 if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 %>
 
-<<<<<<< HEAD
-=======
-<%-- ログイン情報の取得　※ログインしてない場合はログイン画面へ移動する --%>
-<%
-String loginID = (String)session.getAttribute("loginID");
-Boolean login = (Boolean)session.getAttribute("login");
-//nullチェック
-if(login == null)	login = false;
-//ログインIDが入っているか、ログインがtrueの時ログインしていると判断する
-//ログアウト状態の時は、ログイン画面に移動する
-if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
-%>
 
 <!DOCTYPE html>
 
->>>>>>> refs/heads/yamasaki
+
 <%-- 言語を日本語に指定 --%>
 <html lang="ja">
 <title>チャット画面</title>
