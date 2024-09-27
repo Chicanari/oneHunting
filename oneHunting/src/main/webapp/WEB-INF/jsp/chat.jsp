@@ -111,6 +111,7 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 			<!-- 左カラム -->
 			<form action="chat" method="get">
 			<div class="side-column">
+				
 				<% if(ken.equals("福岡県")){ %>
 				<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
 				<% }else if(ken.equals("佐賀県")){ %>
@@ -127,11 +128,20 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 				<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
 				<% }else if(ken.equals("沖縄県")){ %>
 				<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
-				<% } %>	
+				<% } %>
+				
+				
 				<button type="submit" name="chatType" value="chat_main">全体チャット</button><br/>
-				<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
-				<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
-				<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>
+				
+				<button type="button" class="toggle-btn"><span style="font-size:1rem;">▼　</span>話題別チャット</button>
+				<div class="hidden-content">
+    				<div class="chat-buttons">
+					<button type="submit" name="chatType" value="chat_shikaku">　狩猟資格</button><br/>
+					<button type="submit" name="chatType" value="chat_seika">　成果報告</button><br/>
+					<button type="submit" name="chatType" value="chat_item">　おすすめアイテム</button><br/>
+					</div><!-- chat-buttons -->
+				</div><!-- hidden-content -->
+				
 			</div><!-- side-column -->
 			</form>	
 	
@@ -216,7 +226,7 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 				<div class="post-box">
 						<%-- アイコン --%>
 						<div class="icon-container">
-							<button type="submit" class="line-none"><img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br></button>
+							<button type="submit" class="line-none"><img src="/oneHunting/icon/<%= record.getIcon() %>" class="circle-image"><br></button>
 							<br>
 						</div><!-- icon-container -->
 								
@@ -236,7 +246,7 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 						<span class="get-time"><%= record.getTime() %></span><br>
 						<%-- 投稿画像 --%>
 						<% if(!record.getImage().equals("default_image.png")) {%>
-						<img src="chat_image/<%= record.getImage() %>"><br>
+						<img src="chat_image/<%= record.getImage() %>" height="150"><br>
 						<% }  %>
 						<%-- 投稿内容 --%>
 						<%= record.getText() %><br>

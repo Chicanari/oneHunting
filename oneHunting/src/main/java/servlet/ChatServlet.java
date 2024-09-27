@@ -312,7 +312,7 @@ public class ChatServlet extends HttpServlet {
 
 			
 			//画像の中身が在る場合にのみ保存する
-			if(!(part == null)) {
+			if(part != null && part.getSize() > 0) {
 				/**
 				 * ファイルを指定されたフォルダに保存する
 				 */

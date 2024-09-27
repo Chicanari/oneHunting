@@ -218,7 +218,19 @@ section{
 }
 
 
+/* 話題別チャットの中身が初期は隠れているように設定する */
+.hidden-content {
+    display: none; /* 初期状態は非表示 */
+    margin-top: 10px;
+}
 
+/* 画像を円形に表示する */
+.circle-image {
+    width: 60px; /* 円の直径 */
+    height: 60px; /* 円の直径 */
+    border-radius: 50%; /* 正円にする */
+    object-fit: cover; /* 画像の切り抜き方を指定 */
+}
 
 .main-container .main-container-item {
 	padding: 45px 0 0 40px; /*投稿枠のpadding*/
