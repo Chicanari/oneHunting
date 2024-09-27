@@ -32,13 +32,18 @@ if( loginID == null || login == false ) {
 %>
     
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>ユーザープロフィールの表示</title>
+<%-- webフォント --%>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<!-- CSSファイル  -->
+<link rel="stylesheet" type="text/css" href="css/chat.css">
 </head>
 <body>
-<h1>ユーザープロフィールの表示</h1>
 
 <%-- 自身のプロフィールであれば編集ボタンを表示 --%>
 <% if(loginID.equals(profile.getAccountId())){ %>
