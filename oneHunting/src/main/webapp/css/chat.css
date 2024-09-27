@@ -218,6 +218,11 @@ section{
 }
 
 
+/* 話題別チャットの中身が初期は隠れているように設定する */
+.hidden-content {
+    display: none; /* 初期状態は非表示 */
+    margin-top: 10px;
+}
 
 
 .main-container .main-container-item {

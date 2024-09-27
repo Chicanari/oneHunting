@@ -72,7 +72,18 @@ document.querySelectorAll('.like-button').forEach(button => {
     });
 });
 
+// 「話題別チャット」をクリックしたときの動作
+const toggleButton = document.querySelector('.toggle-btn');
+const hiddenContent = document.querySelector('.hidden-content');
 
+toggleButton.addEventListener('click', function() {
+    // hidden-contentの表示・非表示を切り替える
+    if (hiddenContent.style.display === "none" || hiddenContent.style.display === "") {
+        hiddenContent.style.display = "block"; // 表示
+    } else {
+        hiddenContent.style.display = "none"; // 非表示
+    }
+});
 
 
 /* hamburger */
