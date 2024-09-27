@@ -18,7 +18,9 @@ body{
 	font-size: 1.8rem;
 }
 
-html { font-size: 62.5%;
+html { 
+	font-size: 62.5%;
+	z-index: 1; /* 背景としての役割を持たせる */
 }
 
 .signup_frame {
@@ -30,9 +32,46 @@ html { font-size: 62.5%;
 }
 
 .user_profile-container {
-		position: absolute;
-	top:10px;
-	left:39%;
-	margin-top: 0px;
-	width: 500px;
+	position: absolute; /* 絶対位置指定 */   
+    top:50px;
+	left:43%;
+    z-index: 10; /* signup_frameより上に表示 */
+    /* 他のスタイルも必要に応じて追加 */
+}
+
+.edit {
+	text-align: right;
+}
+
+.edit_button{
+/*	 背景色を無色に */
+	  background: transparent;
+/*	   枠線を消す */
+	  border: none;
+/*	   クリックした際に枠線をnone消す */
+	  outline: none;
+	  color: #FFF;
+	  background-color: #A27032;
+	  width: 60px;
+	  height: 33px;
+	  border-radius: 2px;
+}
+
+.icon {
+	text-align: center;
+	margin-top: 50px;
+}
+
+.return {
+	text-align: center;
+}
+
+.return_button {
+/*	 背景色を無色に */
+	  background: transparent;
+/*	   枠線を消す */
+	  border: none;
+/*	   クリックした際に枠線をnone消す */
+	  outline: none;
+	  text-decoration: underline;
 }

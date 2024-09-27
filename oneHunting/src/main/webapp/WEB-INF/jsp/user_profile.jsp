@@ -47,15 +47,17 @@ if( loginID == null || login == false ) {
 
 <img class="signup_frame" src="image/signup_frame.png" alt="">
 
-<div clas="user_profile-container">
+<div class="user_profile-container">
 	<%-- 自身のプロフィールであれば編集ボタンを表示 --%>
 	<% if(loginID.equals(profile.getAccountId())){ %>
-	<form action="profile_edit" method="get"><input type="submit" value="編集"></form>
+	<div class="edit">
+	<form action="profile_edit" method="get"><input type="submit" value="編集" class="edit_button"></form>
+	</div>
 	<% } %>
 	
 	<%-- 実装したUserProfileDTOのメソッドで表示するアイコンファイル名、名前、ID、県名、自己紹介文、現在のポイント数を表示 --%>
 	<%-- アイコンの画像を表示・画像幅の調整 --%>
-	<img src ="/oneHunting/icon/<%= profile.getAccountIcon() %>" width="50">
+	<div class="icon"><img src ="/oneHunting/icon/<%= profile.getAccountIcon() %>" width="50"></div>
 	
 	<p>名前</p>
 	<%= profile.getAccountName() %>
@@ -68,7 +70,7 @@ if( loginID == null || login == false ) {
 	<p>獲得ポイント</p>
 	<%= profile.getAccountGoodPoint() %>
 	
-	<form action="chat" method="get"><input type="submit" value="戻る"></form>
+	<div class="return"><form action="chat" method="get"><input type="submit" value="戻る" class="return_button"></form></div>
 
 </div>
 

@@ -88,7 +88,7 @@ html { font-size: 62.5%;
 }
 
 .register {
-	margin-top: 45px;
+	margin-top: 20px;
 	background: none;
 	width: 329px;
 	height: 41px;
@@ -101,5 +101,5 @@ html { font-size: 62.5%;
 }
 
 .signup-container .return {
-	margin-top: 18px;
+	margin-top: 10px;
 }

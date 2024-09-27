@@ -62,241 +62,247 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 <body>	
 	<div class="chat-container">
 		<!-- ヘッダー-->
-		<header-menu>
-			<div class="header_container">
-				<form action="search" method="post">
-				<img class="logo" src="image/logo_white.png" alt="oneHuntingのロゴ">
-				<div class="search">
-					<input type="text" name="kensaku" class="kensaku" placeholder="Search">
-					<!-- <input type="submit" value="検索" class="kensaku_btn"> -->
-					<button type="submit"><img src="image/serch.png" alt=""></button>
-				</div>
+		
+		<!-- <header-menu> -->
+		
+		
+		<div class="header_container">
+			<form action="search" method="post">
+			<img class="logo" src="image/logo_white.png" alt="oneHuntingのロゴ">
+			<div class="search">
+				<input type="text" name="kensaku" class="kensaku" placeholder="Search">
+				<!-- <input type="submit" value="検索" class="kensaku_btn"> -->
+				<button type="submit"><img src="image/serch.png" alt=""></button>
+			</div><!-- search -->
 				<!-- .header__btn -->
-            	<img class="header__btn" src="image/hamburgermenu.png" alt="">
-            	</form>
-			</div>
-
-			<nav class="nav">
-                <div class="nav__header">
-                    <img class="nav__btn" src="image/batten-close.png" alt="">
-                    <div class="nav_item">
-	                	<form action="profile_view" method="post">
-							<input type="submit" value="プロフィール" class="profile_view">
-						</form>
-						<form action="logout" method="post">
-							<input type="submit" value="ログアウト" class="logout">
-						</form>
-						<img class="risu" src="image/risu.png" alt="">
-					</div>
-
-                </div>
-            </nav>
-		</header-menu>
+	            <img class="header__btn" src="image/hamburgermenu.png" alt="">
+	            </form>
+		</div><!-- header_container -->
+	
+		<nav class="nav">
+	    <div class="nav__header">
+	         <img class="nav__btn" src="image/batten-close.png" alt="">
+	         <div class="nav_item">
+	         
+		        <form action="profile_view" method="post">
+					<input type="submit" value="プロフィール" class="profile_view">
+				</form>
+				
+				<form action="logout" method="post">
+					<input type="submit" value="ログアウト" class="logout">
+				</form>
+				<img class="risu" src="image/risu.png" alt="">
+			</div><!-- nav_item -->
+	     </div><!-- nav__header -->
+	     </nav>
+	     
+		<!-- </header-menu> -->
+		
+		
 	<div class="maindisplay">
-		<!-- 左カラム -->
-		<form action="chat" method="get">
+			<!-- 左カラム -->
+			<form action="chat" method="get">
 			<div class="side-column">
-			<% if(ken.equals("福岡県")){ %>
-			<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
-			<% }else if(ken.equals("佐賀県")){ %>
-			<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
-			<% }else if(ken.equals("大分県")){ %>
-			<button type="submit" name="chatType" value="chat_oita">大分</button><br/>
-			<% }else if(ken.equals("長崎県")){ %>
-			<button type="submit" name="chatType" value="chat_nagasaki">長崎</button><br/>
-			<% }else if(ken.equals("熊本県")){ %>
-			<button type="submit" name="chatType" value="chat_kumamoto">熊本</button><br/>
-			<% }else if(ken.equals("宮崎県")){ %>
-			<button type="submit" name="chatType" value="chat_miyazaki">宮崎</button><br/>
-			<% }else if(ken.equals("鹿児島県")){ %>
-			<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
-			<% }else if(ken.equals("沖縄県")){ %>
-			<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
-			<% } %>	
-			<button type="submit" name="chatType" value="chat_main">全体チャット</button><br/>
-			<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
-			<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
-			<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>
-			</div>		
-		</form>	
-
+				<% if(ken.equals("福岡県")){ %>
+				<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
+				<% }else if(ken.equals("佐賀県")){ %>
+				<button type="submit" name="chatType" value="chat_saga">佐賀</button><br/>
+				<% }else if(ken.equals("大分県")){ %>
+				<button type="submit" name="chatType" value="chat_oita">大分</button><br/>
+				<% }else if(ken.equals("長崎県")){ %>
+				<button type="submit" name="chatType" value="chat_nagasaki">長崎</button><br/>
+				<% }else if(ken.equals("熊本県")){ %>
+				<button type="submit" name="chatType" value="chat_kumamoto">熊本</button><br/>
+				<% }else if(ken.equals("宮崎県")){ %>
+				<button type="submit" name="chatType" value="chat_miyazaki">宮崎</button><br/>
+				<% }else if(ken.equals("鹿児島県")){ %>
+				<button type="submit" name="chatType" value="chat_kagoshima">鹿児島</button><br/>
+				<% }else if(ken.equals("沖縄県")){ %>
+				<button type="submit" name="chatType" value="chat_okinawa">沖縄</button><br/>
+				<% } %>	
+				<button type="submit" name="chatType" value="chat_main">全体チャット</button><br/>
+				<button type="submit" name="chatType" value="chat_shikaku">狩猟資格</button><br/>
+				<button type="submit" name="chatType" value="chat_seika">成果報告</button><br/>
+				<button type="submit" name="chatType" value="chat_item">おすすめアイテム</button><br/>
+			</div><!-- side-column -->
+			</form>	
+	
 		<div class="main-container">
-
+	
 			<% if(searchType){ %>
-
-				<%-- 検索結果を表示する --%>
-	            <% for (UserRecordDTO user : searchResults) { %>
-
-	            <div class="get-account">
-	            <form action="profile_view" method="post">
-	            	<div class="get-account-item">
+	
+			<%-- 検索結果を表示する --%>
+			<% for (UserRecordDTO user : searchResults) { %>
+	
+		     <div class="get-account">
+		     <form action="profile_view" method="post">
+		         <div class="get-account-item">
 					<%-- プロフィール	IDを取得し送信する --%>
 					<input type="hidden" id="postAccountId" name="postAccountId" value="<%= user.getAccountId() %>" />
 					<%-- アイコン --%>
-				    <button type="submit" class="line-none"><p class="get-icon"><img src="/oneHunting/icon/<%= user.getAccountIcon() %>" width="60" height="60"></p><br> </button>
-				    <br>
-
-				    <div class="get-account-infomation">
-					    <%-- アカウント名 --%>
+					<button type="submit" class="line-none"><p class="get-icon"><img src="/oneHunting/icon/<%= user.getAccountIcon() %>" width="60" height="60"></p><br> </button>
+					<br>
+	
+					 <div class="get-account-infomation">
+						<%-- アカウント名 --%>
 						<p class="get-name">
-						<button type="submit" class="line-none"><%= user.getAccountName() %></button>
+							<button type="submit" class="line-none"><%= user.getAccountName() %></button>
 						</p>
 						<%-- 県名 --%>
 						<p class="get-ken"><%= user.getAccountKen() %></p>
-					</div>
-
-					</div>
-				</form>
-	           	</div>
-
-	           	<% } %>
-
-			<% } else { %>
-
+					</div><!-- get-account-infomation -->
+					
+				</div><!-- get-account-item -->
+			</div><!-- get-account -->
+			</form>
+		    <% } %>
+		    <% } else { %>
+	
 			<%--　チャットの表示 --%>
 			<div class="container-head">
 				<%-- チャット名の表示 --%>
 				<% String chatName = "全体チャット"; //初期値状態
 				if(chatType.equals("chat_fukuoka")){
-					chatName = "福岡県";
+						chatName = "福岡県";
 				}else if(chatType.equals("chat_saga")){
-					chatName = "佐賀県";
+						chatName = "佐賀県";
 				}else if(chatType.equals("chat_oita")){
-					chatName = "大分県";
+						chatName = "大分県";
 				}else if(chatType.equals("chat_nagasaki")){
-					chatName = "長崎県";
+						chatName = "長崎県";
 				}else if(chatType.equals("chat_kumamoto")){
-					chatName = "熊本県";
+						chatName = "熊本県";
 				}else if(chatType.equals("chat_miyazaki")){
-					chatName = "宮崎県";
+						chatName = "宮崎県";
 				}else if(chatType.equals("chat_kagoshima")){
-					chatName = "鹿児島県";
+						chatName = "鹿児島県";
 				}else if(chatType.equals("chat_okinawa")){
-					chatName = "沖縄県";
+						chatName = "沖縄県";
 				}else if(chatType.equals("chat_shikaku")){
-					chatName = "狩猟資格";
+						chatName = "狩猟資格";
 				}else if(chatType.equals("chat_seika")){
-					chatName = "成果報告";
+						chatName = "成果報告";
 				}else if(chatType.equals("chat_item")){
-					chatName = "おすすめアイテム";
+						chatName = "おすすめアイテム";
 				}else{
-					chatName = "全体チャット";
+						chatName = "全体チャット";
 				}
 				%>
 				<%=chatName %>
-
+			
 				<%-- エラーの表示 --%>
 				<%=msg %>
-			</div>
-
-		<div class="main-container-item">
+			</div><!-- container-head -->
+	
+			<div class="main-container-item">
+				
+					<% for(ChatRecordDTO record :chatList){ %>
+					
+					<%--　プロフィールを表示させるためのフォーム① --%>
+					<form action="profile_view" method="post">
+					
+					<%-- 投稿者のIDを取得し送信する --%>
+					<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />
+									
+									
+				<div class="post-box">
+						<%-- アイコン --%>
+						<div class="icon-container">
+							<button type="submit" class="line-none"><img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br></button>
+							<br>
+						</div><!-- icon-container -->
+								
+						<%-- アカウント名 --%>
+					<div class="text-container">
+							<span class="get-name">
+								<button type="submit" class="line-none"><%= record.getAccountName() %></button>
+							</span>
+					</form><%--　プロフィールを表示させるためのフォーム② --%>
+				
+				
+								
+						<%--　ライクを表示させるためのフォーム①--%>
+						<form id="like-form-<%= record.getPostId() %>" action="like" method="post">
+						
+						<%-- 投稿日時--%>
+						<span class="get-time"><%= record.getTime() %></span><br>
+						<%-- 投稿画像 --%>
+						<% if(!record.getImage().equals("default_image.png")) {%>
+						<img src="chat_image/<%= record.getImage() %>"><br>
+						<% }  %>
+						<%-- 投稿内容 --%>
+						<%= record.getText() %><br>
+									
+						<%-- 投稿ID・投稿者アカウントIDを渡す --%>
+						<input type="hidden" class="postId" value="<%= record.getPostId() %>" />
+						<input type="hidden" class="postAccountId" value="<%= record.getAccountId() %>" />		
+						<input type="hidden" class="goodCount" value="<%= record.getGoodCount() %>" />
+							
+						<%
+						//この投稿IDのいいねアカウント一覧に、ログインアカウントが含まれているか確認する
+						boolean isLike = false;
+						if(record.getGoodId() != null){
+							isLike = record.getGoodId().contains(loginID);
+						}
+							
+						if(isLike){ %>
+							<button type="button" name="like" value="minus" class="good-on like-button">♥</button>
+						<% } else { %>
+							<button type="button" name="like" value="plus" class="good-off like-button">♡</button>
+						<% } %>
+			
+			
+						<%-- いいね数 --%>
+						<span  id="good-count-<%= record.getPostId() %>" class="get-good" ><%= record.getGoodCount() %></span>
+					</div><!-- text-container -->
+					
+					</form><%--　ライクを表示させるためのフォーム② --%>
+				</div><!-- post-box -->
+					
+					
+					<% } %>
+					<% } %>
+					
+			</div><!-- main-container-item -->		
+		</div><!-- main-container -->
+	</div><!-- maindisplay -->
+	
+	<!-- フッター -->
+	<footer>
+		<div class="footer">
+		<%-- チャット投稿form --%>
+			<form action="chat" method="post" enctype="multipart/form-data">
+				<input type="text" name="comment" class="comment-box">
 		
-			<% for(ChatRecordDTO record :chatList){ %>
-			
-			<%--　プロフィールを表示させるためのフォーム --%>
-			<form action="profile_view" method="post">
-			
-			<%-- 投稿者のIDを取得し送信する --%>
-			<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />
-						
-						
-		<div class="post-box">
-				<%-- アイコン --%>
-				<div class="icon-container">
-					<button type="submit" class="line-none"><img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br></button>
-					<br>
-				</div>
-				
-				<%-- アカウント名 --%>
-			<div class="text-container">
-				<span class="get-name">
-					<button type="submit" class="line-none"><%= record.getAccountName() %></button>
-				</span>
+				<%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
+				<%-- ファイルをアップロードする --%>
+				<%-- onchangeタグによりファイルアップロードされた場合にプレビューを表示する --%>
+				<%-- acceptタグによりアップロードできるファイルを指定 --%>
+				<%-- (※ただし、アップロード時に表示されるファイルを指定するだけであり、指定外のファイルアップロードは可能) --%>
+				<input type="file" name="image" id="fileElem" multiple accept="image/*" style="display:none" />
+				<button id="fileSelect" type="button" class="picture"><img src="image/picture.png" alt=""></button>
+		
+				<%-- 現在のチャットタイプから書き込むチャットタイプを分岐させる予定 --%>
+				<button type="submit" name="chatType" value="chat_main" class="post"><img src="image/post.png" alt=""></button>
 			</form>
-						
-			<%--　ライクを表示させるためのフォーム --%>
-			<form id="like-form-<%= record.getPostId() %>" action="like" method="post">
-			
-				<%-- 投稿日時--%>
-				<span class="get-time"><%= record.getTime() %></span><br>
-				<%-- 投稿画像 --%>
-				<% if(!record.getImage().equals("default_image.png")) {%>
-				<img src="chat_image/<%= record.getImage() %>"><br>
-				<% }  %>
-				<%-- 投稿内容 --%>
-				<%= record.getText() %><br>
-						
-				<%-- 投稿ID・投稿者アカウントIDを渡す --%>
-				<input type="hidden" class="postId" value="<%= record.getPostId() %>" />
-				<input type="hidden" class="postAccountId" value="<%= record.getAccountId() %>" />		
-				<input type="hidden" class="goodCount" value="<%= record.getGoodCount() %>" />
-				
-				<%
-				//この投稿IDのいいねアカウント一覧に、ログインアカウントが含まれているか確認する
-				boolean isLike = false;
-				if(record.getGoodId() != null){
-					isLike = record.getGoodId().contains(loginID);
-				}
-				
-				if(isLike){ %>
-					<button type="button" name="like" value="minus" class="good-on like-button">♥</button>
-				<% } else { %>
-					<button type="button" name="like" value="plus" class="good-off　like-button">♡</button>
-				<% } %>
-
-
-
-				<%-- いいね数 --%>
-				<span  id="good-count-<%= record.getPostId() %>" class="get-good" ><%= record.getGoodCount() %></span>
-				</div>	
-			</form>	
-		</div>
-			
-			
-					-<% } %>
-			<% } %>
-			
-			
-		</div>
-	</div>
-
-		<!-- フッター -->
-		<footer>
-			<div class="footer">
-			<%-- チャット投稿form --%>
-				<form action="chat" method="post" enctype="multipart/form-data">
-					<input type="text" name="comment" class="comment-box">
-
-					<%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
-					<%-- ファイルをアップロードする --%>
-					<%-- onchangeタグによりファイルアップロードされた場合にプレビューを表示する --%>
-					<%-- acceptタグによりアップロードできるファイルを指定 --%>
-					<%-- (※ただし、アップロード時に表示されるファイルを指定するだけであり、指定外のファイルアップロードは可能) --%>
-					<input type="file" name="image" id="fileElem" multiple accept="image/*" style="display:none" />
-					<button id="fileSelect" type="button" class="picture"><img src="image/picture.png" alt=""></button>
-
-					<%-- 現在のチャットタイプから書き込むチャットタイプを分岐させる予定 --%>
-					<button type="submit" name="chatType" value="chat_main" class="post"><img src="image/post.png" alt=""></button>
-				</form>
-			</div>
-
-		 </footer>
-
-
-	<!-- body直前でjQueryと自作のJSファイルの読み込み  -->
-	<script src="https://code.jquery.com/jquery-3.7.0.min.js"
-        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-    <script src="js/chat.js"></script>
-
-	<%-- ファイルが選択されていませんを見た目上消し去るスクリプト構文 --%>
-	<script>
-	const fileSelect = document.getElementById("fileSelect");
-	const fileElem = document.getElementById("fileElem");
-	fileSelect.addEventListener("click", (e) => {
-	  if (fileElem) {
-	    fileElem.click();
-	  }
-	}, false);
-	</script>
+		</div><!-- footer -->
+	 </footer>
+	
+	
+		<!-- body直前でjQueryと自作のJSファイルの読み込み  -->
+		<script src="https://code.jquery.com/jquery-3.7.0.min.js"
+	        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+	    <script src="js/chat.js"></script>
+	
+		<%-- ファイルが選択されていませんを見た目上消し去るスクリプト構文 --%>
+		<script>
+		const fileSelect = document.getElementById("fileSelect");
+		const fileElem = document.getElementById("fileElem");
+		fileSelect.addEventListener("click", (e) => {
+		  if (fileElem) {
+		    fileElem.click();
+		  }
+		}, false);
+		</script>
 
 </body>
