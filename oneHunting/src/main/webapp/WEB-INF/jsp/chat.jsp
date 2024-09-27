@@ -200,7 +200,7 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 			<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />
 						
 						
-			<div class="post-box">
+		<div class="post-box">
 				<%-- アイコン --%>
 				<div class="icon-container">
 					<button type="submit" class="line-none"><img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br></button>
@@ -208,7 +208,7 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 				</div>
 				
 				<%-- アカウント名 --%>
-				<div class="text-container">
+			<div class="text-container">
 				<span class="get-name">
 					<button type="submit" class="line-none"><%= record.getAccountName() %></button>
 				</span>
@@ -217,43 +217,43 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 			<%--　ライクを表示させるためのフォーム --%>
 			<form id="like-form-<%= record.getPostId() %>" action="like" method="post">
 			
-					<%-- 投稿日時--%>
-					<span class="get-time"><%= record.getTime() %></span><br>
-					<%-- 投稿画像 --%>
-					<% if(!record.getImage().equals("default_image.png")) {%>
-					<img src="chat_image/<%= record.getImage() %>"><br>
-					<% }  %>
-					<%-- 投稿内容 --%>
-					<%= record.getText() %><br>
-							
-					<%-- 投稿ID・投稿者アカウントIDを渡す --%>
-					<input type="hidden" class="postId" value="<%= record.getPostId() %>" />
-					<input type="hidden" class="postAccountId" value="<%= record.getAccountId() %>" />		
-					<input type="hidden" class="goodCount" value="<%= record.getGoodCount() %>" />
-					
-					<%
-					//この投稿IDのいいねアカウント一覧に、ログインアカウントが含まれているか確認する
-					boolean isLike = false;
-					if(record.getGoodId() != null){
-						isLike = record.getGoodId().contains(loginID);
-					}
-					
-					if(isLike){ %>
-						<button type="button" name="like" value="minus" class="good-on like-button">♥</button>
-					<% } else { %>
-						<button type="button" name="like" value="plus" class="good-off　like-button">♡</button>
-					<% } %>
+				<%-- 投稿日時--%>
+				<span class="get-time"><%= record.getTime() %></span><br>
+				<%-- 投稿画像 --%>
+				<% if(!record.getImage().equals("default_image.png")) {%>
+				<img src="chat_image/<%= record.getImage() %>"><br>
+				<% }  %>
+				<%-- 投稿内容 --%>
+				<%= record.getText() %><br>
+						
+				<%-- 投稿ID・投稿者アカウントIDを渡す --%>
+				<input type="hidden" class="postId" value="<%= record.getPostId() %>" />
+				<input type="hidden" class="postAccountId" value="<%= record.getAccountId() %>" />		
+				<input type="hidden" class="goodCount" value="<%= record.getGoodCount() %>" />
+				
+				<%
+				//この投稿IDのいいねアカウント一覧に、ログインアカウントが含まれているか確認する
+				boolean isLike = false;
+				if(record.getGoodId() != null){
+					isLike = record.getGoodId().contains(loginID);
+				}
+				
+				if(isLike){ %>
+					<button type="button" name="like" value="minus" class="good-on like-button">♥</button>
+				<% } else { %>
+					<button type="button" name="like" value="plus" class="good-off　like-button">♡</button>
+				<% } %>
 
 
 
-					<%-- いいね数 --%>
-					<span  id="good-count-<%= record.getPostId() %>" class="get-good" ><%= record.getGoodCount() %></span>
-				</div>			
+				<%-- いいね数 --%>
+				<span  id="good-count-<%= record.getPostId() %>" class="get-good" ><%= record.getGoodCount() %></span>
+				</div>	
 			</form>	
-			</div>
+		</div>
 			
 			
-					<% } %>
+					-<% } %>
 			<% } %>
 			
 			
