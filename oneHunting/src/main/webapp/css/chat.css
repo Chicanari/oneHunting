@@ -151,7 +151,6 @@ header
 main
 ================================================================= */
 section{
-/*    background-color: #FFFF;*/
 	margin-left: 40px;
 }
 
@@ -197,15 +196,29 @@ section{
     flex: 1; /* 残りのスペースを占める */
     display: flex;
     flex-direction: column; /* 縦に並べる */
-/*    gap: 20px;  要素間の間隔を指定 */
 	
 	height: 77vh;
 	overflow-y: scroll;
 }
 
-.main-container form {
-	margin-bottom: 40px; /*投稿間のスペース*/
+/*一つのポスト単位のブロック*/
+.post-box {
+	margin-bottom: 40px;
+	display: flex;
+	align-items: flex-start; /* アイコンとテキストの整列 */
 }
+
+.icon-container {
+    margin-right: 10px; /* アイコンとテキストの間のスペース */
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column; /* 縦並びにする */
+}
+
+
+
 
 .main-container .main-container-item {
 	padding: 45px 0 0 40px; /*投稿枠のpadding*/
@@ -219,7 +232,7 @@ section{
 	color: #FFFF;
 	padding: 5px;
 	position: fixed;
-	top: 90px;
+	top: 90px; /* チャット種別バナーの固定位置　*/
 }
 
 .container::-webkit-scrollbar {
@@ -249,7 +262,6 @@ section{
 
 .get-time {
 	font-size: 1.6rem;
-	margin-left: 3px;
 	color: #A39584;
 }
 
@@ -306,9 +318,8 @@ section{
 }
 
 .get-account {
-/*	display: flex;*/
-/*	align-items: center;*/
 	margin:10px 0 10px 220px;
+
 }
 
 /* ===============================================================

@@ -24,7 +24,7 @@ html { font-size: 62.5%;
 
 .signup_frame {
 	position: relative;
-	height: 680px;
+	height: 740px;
 	width: 500px;	
 	display: block;
 	margin:0 auto;	
@@ -32,15 +32,30 @@ html { font-size: 62.5%;
 
 .signup-container {
 	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	text-align: center;
+	top:10px;
+	left:39%;
+/*	top: 10%;*/
+/*	left: 10%;*/
+/*	transform: translate(-10%, -10%);*/
+/*	text-align: center;*/
 	margin-top: 0px;
+	width: 500px;
+/*	padding-left: 200px;*/
 }
 
 .signup-container  img {
-	margin-bottom: 120px;
+	margin-bottom: 20px;
+	margin-left: 100px;
+}
+
+.err {
+	font-size: 1.4rem;
+	text-align: left;
+	color: #FF0303;
+}
+
+.name {
+	margin-top: 10px;	
 }
 
 .name,
@@ -60,7 +75,7 @@ html { font-size: 62.5%;
 .id input,
 .ps input,
 .mail input{
-	width: 300px;
+	width: 329px;
 	margin-bottom: 20px;
 }
 
@@ -70,4 +85,21 @@ html { font-size: 62.5%;
 
 .ken-radio {
 	gap: 10px;
+}
+
+.register {
+	margin-top: 20px;
+	background: none;
+	width: 329px;
+	height: 41px;
+	background-color: #A27032;
+	color: #FFF;
+}
+
+.return {
+	margin-left: 150px;
+}
+
+.signup-container .return {
+	margin-top: 10px;
 }

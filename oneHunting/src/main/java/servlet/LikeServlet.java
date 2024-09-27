@@ -48,7 +48,6 @@ public class LikeServlet extends HttpServlet {
 	    
 	    //JSON形式のStringをGoodIDオブジェクトに変換
 	    likeInfo = objectMapperInfo.readValue(likeInfoJSON, LikeInfo.class);
-
 		
 		//パラメータの取得
 		String like = likeInfo.getLike();
@@ -75,7 +74,7 @@ public class LikeServlet extends HttpServlet {
 		
 		// 新しいいいね数を取得する
         int newLikeCount = chatDAO.getLikeCount(postId,chatType);
-        
+        System.out.println(newLikeCount);
 		
 		/**/
 		
@@ -91,6 +90,7 @@ public class LikeServlet extends HttpServlet {
 	    likeCount.setNewLikeCount(newLikeCount);
 	    //GoodIDクラスのオブジェクトを、String形式のJSONファイルに変換する
   		String jsonString = objectMapperCount.writeValueAsString(likeCount);
+  		System.out.println(jsonString);
   		
         response.getWriter().write(jsonString);
 		
