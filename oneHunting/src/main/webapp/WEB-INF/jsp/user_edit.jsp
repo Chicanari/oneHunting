@@ -66,7 +66,7 @@ if( loginID == null || login == false ) {
 		
 		<div class="icon-container">
 			<%-- アイコンの画像を表示 --%>
-			<img src ="/oneHunting/icon/<%=initialIcon %>" class="icon">
+			<img src="/oneHunting/icon/<%=initialIcon %>" class="icon circle-image"  id="preview">
 		</div>
 		
 		<p>
@@ -82,7 +82,7 @@ if( loginID == null || login == false ) {
 		<input type="file" name="image" id="fileElem" multiple accept="image/*" style="display:none" />
 						
 		<%-- 画像プレビューの呼び出し --%>
-		<img id="preview">
+		<!-- <img id="preview" class="circle-image">  -->
 	
 		<p><b>名前</b><br><input type="text" name="name" value="<%=initialName %>"></p>
 		<p><b>ID</b><br><%=loginID %></p>
@@ -109,10 +109,13 @@ if( loginID == null || login == false ) {
 	<%-- 画像プレビューを表示するためのスクリプト構文 --%>
 	<script>
 	function previewFile(hoge){
+		
 		var fileData = new FileReader();
+		
 		fileData.onload = (function() {
 		document.getElementById('preview').src = fileData.result;
 		});
+		
 		fileData.readAsDataURL(hoge.files[0]);}
 	</script>
 	
