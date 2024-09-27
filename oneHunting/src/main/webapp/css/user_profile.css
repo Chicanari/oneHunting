@@ -21,3 +21,18 @@ body{
 html { font-size: 62.5%;
 }
 
+.signup_frame {
+	position: relative;
+	height: 841px;
+	width: 460px;	
+	display: block;
+	margin:0 auto;	
+}
+
+.user_profile-container {
+		position: absolute;
+	top:10px;
+	left:39%;
+	margin-top: 0px;
+	width: 500px;
+}

@@ -41,31 +41,36 @@ if( loginID == null || login == false ) {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <!-- CSSファイル  -->
-<link rel="stylesheet" type="text/css" href="css/chat.css">
+<link rel="stylesheet" type="text/css" href="css/user_profile.css">
 </head>
 <body>
 
-<%-- 自身のプロフィールであれば編集ボタンを表示 --%>
-<% if(loginID.equals(profile.getAccountId())){ %>
-<form action="profile_edit" method="get"><input type="submit" value="編集"></form>
-<% } %>
+<img class="signup_frame" src="image/signup_frame.png" alt="">
 
-<%-- 実装したUserProfileDTOのメソッドで表示するアイコンファイル名、名前、ID、県名、自己紹介文、現在のポイント数を表示 --%>
-<%-- アイコンの画像を表示・画像幅の調整 --%>
-<img src ="/oneHunting/icon/<%= profile.getAccountIcon() %>" width="50">
+<div clas="user_profile-container">
+	<%-- 自身のプロフィールであれば編集ボタンを表示 --%>
+	<% if(loginID.equals(profile.getAccountId())){ %>
+	<form action="profile_edit" method="get"><input type="submit" value="編集"></form>
+	<% } %>
+	
+	<%-- 実装したUserProfileDTOのメソッドで表示するアイコンファイル名、名前、ID、県名、自己紹介文、現在のポイント数を表示 --%>
+	<%-- アイコンの画像を表示・画像幅の調整 --%>
+	<img src ="/oneHunting/icon/<%= profile.getAccountIcon() %>" width="50">
+	
+	<p>名前</p>
+	<%= profile.getAccountName() %>
+	<p>ID</p>
+	<%= profile.getAccountId() %>
+	<p>県名</p>
+	<%= profile.getAccountKen() %>
+	<p>自己紹介</p>
+	<%= profile.getAccountIntroduction() %>
+	<p>獲得ポイント</p>
+	<%= profile.getAccountGoodPoint() %>
+	
+	<form action="chat" method="get"><input type="submit" value="戻る"></form>
 
-<p>名前</p>
-<%= profile.getAccountName() %>
-<p>ID</p>
-<%= profile.getAccountId() %>
-<p>県名</p>
-<%= profile.getAccountKen() %>
-<p>自己紹介</p>
-<%= profile.getAccountIntroduction() %>
-<p>獲得ポイント</p>
-<%= profile.getAccountGoodPoint() %>
-
-<form action="chat" method="get"><input type="submit" value="戻る"></form>
+</div>
 
 </body>
 </html>
