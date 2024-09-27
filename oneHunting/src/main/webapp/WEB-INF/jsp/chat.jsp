@@ -246,7 +246,7 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 						<span class="get-time"><%= record.getTime() %></span><br>
 						<%-- 投稿画像 --%>
 						<% if(!record.getImage().equals("default_image.png")) {%>
-						<img src="chat_image/<%= record.getImage() %>"><br>
+						<img src="chat_image/<%= record.getImage() %>" height="150"><br>
 						<% }  %>
 						<%-- 投稿内容 --%>
 						<%= record.getText() %><br>
