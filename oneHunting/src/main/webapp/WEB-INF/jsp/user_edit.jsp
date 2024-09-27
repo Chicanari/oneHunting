@@ -103,7 +103,7 @@ if( loginID == null || login == false ) {
 		
 		<p><b>自己紹介</b><br><textarea name="introduction" style="width:400px; height:100px;"><%=initialText %></textarea></p>
 		
-		<input type="submit" value="登録" class="register">
+		<p class="register"><input type="submit" value="登録"></p>
 	</form>
 	
 	<%-- 画像プレビューを表示するためのスクリプト構文 --%>
