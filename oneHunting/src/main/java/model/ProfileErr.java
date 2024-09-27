@@ -92,8 +92,74 @@ public class ProfileErr {
 		
 	}
 	
-
-
+	
+	/**
+	 * アカウント編集時、入力値をチェックするためのメソッド
+	 * 
+	 * id
+	 *	重複チェックDAOのアクセス用
+	 * name:
+	 *   文字数チェック（2-12）
+	 * メールアドレス:
+	 *   入力規則チェック（6-319）
+	 *   重複チェック　※DAOで行う。
+	 * 県名:
+	 *    未選択チェック
+	 * 自己紹介文
+	 *	  文字数チェック (0～200)
+	 * id,name,mail,ken						
+	 * 
+	 */
+	public String account_EditValueCheck(String name, String mail,String ken,String text) {
+		
+		//画面上部にまとめて出すため、String＋<br>で作成し戻します
+		String errmessage = "";	
+		
+		//nullチェック
+		if (name == null) 	name="";
+		if (mail == null) 	mail ="";
+		if (ken == null) 	ken ="";
+		if (text == null) 	text ="";
+		
+		/*
+		 * 名前
+		 */
+		//文字数チェック（2-12）
+		Pattern Pattern_nameMojisu = Pattern.compile("^.{2,12}$");
+		Matcher nameMojisu = Pattern_nameMojisu.matcher(name);
+		if(!nameMojisu.find()) errmessage += "名前は2～12文字で登録してください。<br>";
+		
+		//半角チェック
+		Pattern Pattern_idHankaku = Pattern.compile("^[a-zA-Z_0-9@_.-]{2,26}$");
+				
+		/*
+		 * メールアドレス　
+		 */
+		//入力規則チェック（6-319）
+		//ローカルパートが64文字、ドメインパートが254文字で、合計の長さは@を入れて319文字
+		String local = "[a-z0-9]{1}[a-z0-9_.-]{0,63}"; //[a-z0-9]{1}→記号以外英数字　[a-z0-9_.-]{0,63}→記号含む英数字
+		String domein = "[a-z0-9_.-]{4,254}";	// a.jp　ドメイン１文字、ドット、国ID（２文字）＝４文字が最小
+		Pattern Pattern_mailKisoku = Pattern.compile("^"+local+"[@]"+domein+"$");
+		Matcher mailKisoku = Pattern_mailKisoku.matcher(mail);
+		if(!mailKisoku.find()) errmessage += "正しいメールアドレスを入力してください。<br>";
+		
+		
+		/*
+		 * 県名
+		 */
+		if(ken.equals("")) errmessage += "県名を設定してください。<br>";
+		
+		
+		/*
+		 * /自己紹介文
+		 */
+		if(text.length() > 200) {
+			errmessage += "200文字以内で設定してください。<br>";
+		}
+		
+		return errmessage;
+		
+	}
 	
 	/**
 	 * 

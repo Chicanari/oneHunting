@@ -220,7 +220,7 @@ public class AccountDAO {
 		
 		
 		/*
-    	 * account_mailの重複の確認 
+		 * account_mailの重複の確認 
     	 */
     	String mailSQL = "SELECT account_id FROM Account WHERE account_mail = ?;";
     	//SQL文の実行
@@ -248,6 +248,47 @@ public class AccountDAO {
 		return errMessage;
     	
     }
+    
+    
+    /**
+     * mail重複確認用のメソッド
+     * 
+     */
+    public String mail_tyoufukuCheck(String id, String mail) {
+    	
+    	//戻り値のメッセージ
+    	String errMessage = "";
+    	
+		/*
+		 * account_mailの重複の確認 
+    	 */
+    	String mailSQL = "SELECT account_id FROM Account WHERE account_mail = ?;";
+    	//SQL文の実行
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(mailSQL);				){
+			
+			//プレースホルダを設定
+			ps.setString(1, mail );
+			
+			//SELECT文の実行
+			try (ResultSet rs = ps.executeQuery()) {
+				
+				//リザルトセットの中にデータがある場合
+		        if (rs.next()) {
+		            // データが存在する場合の処理
+		            errMessage += "メールアドレスが既に存在します。<br>";
+		        }
+				
+            }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		
+		return errMessage;
+    	
+    }
+    
     
     /**
      * ログイン機能

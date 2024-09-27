@@ -6,6 +6,15 @@
 	String msg = (String)request.getAttribute("msg");
 %>
 
+<%-- 初期値入力用の変数 --%>
+<%
+	String initialName = (String)request.getAttribute("initialName");
+	String initialIcon = (String)request.getAttribute("initialIcon");
+	String initialMail = (String)request.getAttribute("initialMail");
+	String initialKen = (String)request.getAttribute("initialKen");
+	String initialText = (String)request.getAttribute("initialText");
+%>
+
 <%-- ログイン情報の取得　※ログインしてない場合はログイン画面へ移動する --%>
 <%
 
@@ -39,32 +48,22 @@ if( loginID == null || login == false ) {
 <body>
 <h1>プロフィール編集画面</h1>
 
+
+
 <%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
 <form action="profile_edit" method="post" enctype="multipart/form-data">
-
-	<p><b>名前</b><br><input type="text" name="name"></p>
-	<p><b>ID</b><br><%=loginID %></p>
-	<p><b>メールアドレス</b><br><input type="text" name="mail"></p>
 	
-	<p>
-	<b>県名</b><br>
-	<input type="radio" name="ken" value="福岡県">福岡県　
-	<input type="radio" name="ken" value="大分県">大分県　
-	<input type="radio" name="ken" value="佐賀県">佐賀県　
-	<input type="radio" name="ken" value="長崎県">長崎県　<br>
-	<input type="radio" name="ken" value="熊本県">熊本県　
-	<input type="radio" name="ken" value="宮崎県">宮崎県　
-	<input type="radio" name="ken" value="鹿児島県">鹿児島県　
-	<input type="radio" name="ken" value="沖縄県">沖縄県　	
-	</p>
+	<%-- エラーメッセージ表示 --%>
+	<%=msg %>
 	
-
+	<%-- アイコンの画像を表示・画像幅の調整 --%>
+	<img src ="/oneHunting/icon/<%=initialIcon %>" width="50">
+	
 	<p>
 	<b>アイコン　</b>
 	<input type="file" name="icon"  id="fileElem" multiple accept="image/*" onchange="previewFile(this);"  style="display:none" />
 	<button id="fileSelect" type="button" class="picture"><img src="image/picture.png" alt=""></button>
 	</p>
-	
 	
 	<%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
 	<%-- ファイルをアップロードする --%>
@@ -75,9 +74,25 @@ if( loginID == null || login == false ) {
 					
 	<%-- 画像プレビューの呼び出し --%>
 	<img id="preview">
-	<%= msg %>
+
+	<p><b>名前</b><br><input type="text" name="name" value="<%=initialName %>"></p>
+	<p><b>ID</b><br><%=loginID %></p>
+	<p><b>メールアドレス</b><br><input type="text" name="mail" value="<%=initialMail %>"></p>
 	
-	<p><b>自己紹介</b><br><input type="text" name="introduction" rows="10" cols="50"></textarea></p>
+	<p>
+	<b>県名</b><br>
+	<input type="radio" name="ken" value="福岡県" <%= "福岡県".equals(initialKen) ? "checked" : "" %>>福岡県　
+	<input type="radio" name="ken" value="大分県" <%= "大分県".equals(initialKen) ? "checked" : "" %>>大分県　
+	<input type="radio" name="ken" value="佐賀県" <%= "佐賀県".equals(initialKen) ? "checked" : "" %>>佐賀県　
+	<input type="radio" name="ken" value="長崎県" <%= "長崎県".equals(initialKen) ? "checked" : "" %>>長崎県　<br>
+	<input type="radio" name="ken" value="熊本県" <%= "熊本県".equals(initialKen) ? "checked" : "" %>>熊本県　
+	<input type="radio" name="ken" value="宮崎県" <%= "宮崎県".equals(initialKen) ? "checked" : "" %>>宮崎県　
+	<input type="radio" name="ken" value="鹿児島県" <%= "鹿児島県".equals(initialKen) ? "checked" : "" %>>鹿児島県
+	<input type="radio" name="ken" value="沖縄県" <%= "沖縄県".equals(initialKen) ? "checked" : "" %>>沖縄県　	
+	</p>
+	
+	
+	<p><b>自己紹介</b><br><textarea name="introduction" style="width:400px; height:100px;"><%=initialText %></textarea></p>
 	
 	<p><input type="submit" value="登録"></p>
 </form>
