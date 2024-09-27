@@ -1,20 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%-- エラーメッセージ用変数読み込み --%>
-<%
-	String msg = (String)request.getAttribute("msg");
-%>
-
-<%-- 初期値入力用の変数 --%>
-<%
-	String initialName = (String)request.getAttribute("initialName");
-	String initialIcon = (String)request.getAttribute("initialIcon");
-	String initialMail = (String)request.getAttribute("initialMail");
-	String initialKen = (String)request.getAttribute("initialKen");
-	String initialText = (String)request.getAttribute("initialText");
-%>
-
 <%-- ログイン情報の取得　※ログインしてない場合はログイン画面へ移動する --%>
 <%
 
@@ -30,6 +16,20 @@ if( loginID == null || login == false ) {
 	response.sendRedirect("/oneHunting");
 }
 
+%>
+
+<%-- エラーメッセージ用変数読み込み --%>
+<%
+	String msg = (String)request.getAttribute("msg");
+%>
+
+<%-- 初期値入力用の変数 --%>
+<%
+	String initialName = (String)request.getAttribute("initialName");
+	String initialIcon = (String)request.getAttribute("initialIcon");
+	String initialMail = (String)request.getAttribute("initialMail");
+	String initialKen = (String)request.getAttribute("initialKen");
+	String initialText = (String)request.getAttribute("initialText");
 %>
 
 <!DOCTYPE html>

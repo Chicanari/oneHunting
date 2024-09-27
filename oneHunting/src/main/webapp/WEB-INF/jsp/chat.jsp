@@ -1,9 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+  
 <%-- ChatRecordDTO,Listの呼び出し --%>
 <%@
 page import="dto.ChatRecordDTO,java.util.List"
+%>
+
+<%-- ログイン情報の取得　※ログインしてない場合はログイン画面へ移動する --%>
+<%
+
+String loginID = (String)session.getAttribute("loginID");
+Boolean login = (Boolean)session.getAttribute("login");
+
+//nullチェック
+if(login == null)	login = false;
+
+//ログインIDが入っているか、ログインがtrueの時ログインしていると判断する
+if( loginID == null || login == false ) {
+	//ログアウト状態の時は、ログイン画面に移動する
+	response.sendRedirect("/oneHunting");
+}
+
 %>
 
 <%-- チャット画面に関する情報の取得 --%>
@@ -25,23 +42,6 @@ String ken = (String)session.getAttribute("ken");
 if (chatType == null) {
  chatType = "chat_main"; // デフォルトのチャットタイプを設定
 }
-%>
-
-<%-- ログイン情報の取得　※ログインしてない場合はログイン画面へ移動する --%>
-<%
-
-String loginID = (String)session.getAttribute("loginID");
-Boolean login = (Boolean)session.getAttribute("login");
-
-//nullチェック
-if(login == null)	login = false;
-
-//ログインIDが入っているか、ログインがtrueの時ログインしていると判断する
-if( loginID == null || login == false ) {
-	//ログアウト状態の時は、ログイン画面に移動する
-	response.sendRedirect("/oneHunting");
-}
-
 %>
 
 <!DOCTYPE html>
