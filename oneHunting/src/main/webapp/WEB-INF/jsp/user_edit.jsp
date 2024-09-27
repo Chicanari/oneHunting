@@ -57,6 +57,7 @@ if( loginID == null || login == false ) {
 	<%=msg %>
 	
 	<%-- アイコンの画像を表示・画像幅の調整 --%>
+	<!-- TODO：chat.css / user_profile.css　の class="circle-image"　を指定してください。 -->
 	<img src ="/oneHunting/icon/<%=initialIcon %>" width="50">
 	
 	<p>

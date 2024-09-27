@@ -57,6 +57,14 @@ html {
 	  border-radius: 2px;
 }
 
+/* 画像を円形に表示する */
+.circle-image {
+    width: 60px; /* 円の直径 */
+    height: 60px; /* 円の直径 */
+    border-radius: 50%; /* 正円にする */
+    object-fit: cover; /* 画像の切り抜き方を指定 */
+}
+
 .icon {
 	text-align: center;
 	margin-top: 50px;
