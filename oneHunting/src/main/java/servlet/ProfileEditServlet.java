@@ -149,6 +149,7 @@ public class ProfileEditServlet extends HttpServlet {
 		System.out.println("Mail: " + mail);
 		System.out.println("Ken: " + ken);
 		System.out.println("Introduction: " + introduction);
+		System.out.println("initialIcon " + initialIcon);
 		
 		//入力値チェック
 		ProfileErr profileErr = new ProfileErr();
@@ -188,8 +189,8 @@ public class ProfileEditServlet extends HttpServlet {
 	     *  4:適正な場合、ファイル名に固有名を追加する
 	     */
         if (originalIconName.isEmpty()) {
-        	// デフォルト画像を使用
-            iconName = "default_icon.png";
+        	// ファイルが入っていない場合、DBに登録されている元のファイル名を設定
+            iconName = initialIcon;
             // 画像ファイルかどうかのチェック
         } else if (part != null && !model.ProfileErr.isImageFile(part)) {
     		
@@ -231,7 +232,7 @@ public class ProfileEditServlet extends HttpServlet {
 	    }
 	    
 		//画像の中身が在る場合にのみ保存する
-		if(!(part == null)) {
+		if(part != null && part.getSize() > 0) {
 			/**
 			 * ファイルを指定されたフォルダに保存する
 			 */
