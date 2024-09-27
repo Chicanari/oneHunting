@@ -238,7 +238,7 @@ public class ChatServlet extends HttpServlet {
 			String text = request.getParameter("comment");
 			
 			/**
-			 * textが200字より多いの場合と0の場合にエラーを返す
+			 * textが200字より多い場合と0の場合にエラーを返す
 			 */
 			if(text == null || text.trim().isEmpty()) {
 				/**
