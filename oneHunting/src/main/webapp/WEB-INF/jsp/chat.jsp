@@ -158,7 +158,7 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 					<%-- プロフィール	IDを取得し送信する --%>
 					<input type="hidden" id="postAccountId" name="postAccountId" value="<%= user.getAccountId() %>" />
 					<%-- アイコン --%>
-					<button type="submit" class="line-none"><p class="get-icon"><img src="/oneHunting/icon/<%= user.getAccountIcon() %>" width="60" height="60"></p><br> </button>
+					<button type="submit" class="line-none"><p class="get-icon"><img src="/oneHunting/icon/<%= user.getAccountIcon() %>"  class="circle-image"></p><br> </button>
 					<br>
 	
 					 <div class="get-account-infomation">
