@@ -70,7 +70,21 @@ html {
 	margin-top: 50px;
 }
 
+.icon img {
+	width: 100px;
+	height: 100px;
+}
+
+p.name {
+	margin-top: 30px;
+}
+
+.user_profile-container p {
+	margin-top: 20px;
+}
+
 .return {
+	margin-top: 30px;
 	text-align: center;
 }
 
@@ -82,4 +96,13 @@ html {
 /*	   クリックした際に枠線をnone消す */
 	  outline: none;
 	  text-decoration: underline;
+}
+
+.register {
+/*	 背景色を無色に */
+	  background: transparent;
+/*	   枠線を消す */
+	  border: none;
+/*	   クリックした際に枠線をnone消す */
+	  outline: none;
 }

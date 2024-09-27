@@ -51,7 +51,7 @@ if( loginID == null || login == false ) {
 	<%-- 自身のプロフィールであれば編集ボタンを表示 --%>
 	<% if(loginID.equals(profile.getAccountId())){ %>
 	<div class="edit">
-	<form action="profile_edit" method="get"><input type="submit" value="編集" class="edit_button"></form>
+		<form action="profile_edit" method="get"><input type="submit" value="編集" class="edit_button"></form>
 	</div>
 	<% } %>
 	
@@ -59,7 +59,7 @@ if( loginID == null || login == false ) {
 	<%-- アイコンの画像を表示・画像幅の調整 --%>
 	<div class="icon"><img src ="/oneHunting/icon/<%= profile.getAccountIcon() %>" class="circle-image"></div>
 	
-	<p>名前</p>
+	<p class="name">名前</p>
 	<%= profile.getAccountName() %>
 	<p>ID</p>
 	<%= profile.getAccountId() %>
