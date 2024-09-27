@@ -12,12 +12,14 @@ document.querySelectorAll('.like-button').forEach(button => {
 	/* いいねボタン（.like-button）が押された時、画面を遷移せずにいいねを増やす */
     button.addEventListener('click', function (event) {
 		
+		console.log("いいねが押されました");
         event.preventDefault(); // ページ遷移を防ぐ
         
         // ボタンが押された時に、フォームデータを取得する
         const form = this.closest('form'); // ボタンの親フォームを取得
         //投稿コメントのIDを取得する
         const postId = form.querySelector('.postId').value;
+        console.log("Post ID:", postId);
         //ポストしたアカウントのIDを取得する
         const postAccountId = form.querySelector('.postAccountId').value;
         
@@ -26,7 +28,6 @@ document.querySelectorAll('.like-button').forEach(button => {
         
          // いいね数を表示する要素を取得
         const goodCountElement = document.getElementById(`good-count-${postId}`);
-        
 
         // Fetch APIを使って非同期リクエストを送信
         fetch('/oneHunting/like', {
@@ -46,6 +47,7 @@ document.querySelectorAll('.like-button').forEach(button => {
 			})
         .then(data => {
 			
+			console.log("Response data:", data);
             // サーバーからのレスポンスで、いいねのカウントを更新
             goodCountElement.textContent = data.newLikeCount;
             

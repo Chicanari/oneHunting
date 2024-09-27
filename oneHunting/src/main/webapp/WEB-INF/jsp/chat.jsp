@@ -193,12 +193,9 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 		
 			<% for(ChatRecordDTO record :chatList){ %>
 			
-			
-			
-			
-			
 			<%--　プロフィールを表示させるためのフォーム --%>
 			<form action="profile_view" method="post">
+			
 			<%-- 投稿者のIDを取得し送信する --%>
 			<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />
 						
@@ -210,16 +207,6 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 					<br>
 				</div>
 				
-				
-				
-				
-				<%-- 投稿ID・投稿者アカウントIDを渡す --%>
-				<input type="hidden" id="postId" name="postId" value="<%= record.getPostId() %>" />
-				<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />
-				
-				
-				
-				
 				<%-- アカウント名 --%>
 				<div class="text-container">
 				<span class="get-name">
@@ -228,7 +215,8 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 			</form>
 						
 			<%--　ライクを表示させるためのフォーム --%>
-			<form action="like" method="post">
+			<form id="like-form-<%= record.getPostId() %>" action="like" method="post">
+			
 					<%-- 投稿日時--%>
 					<span class="get-time"><%= record.getTime() %></span><br>
 					<%-- 投稿画像 --%>
@@ -239,12 +227,9 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 					<%= record.getText() %><br>
 							
 					<%-- 投稿ID・投稿者アカウントIDを渡す --%>
-					<input type="hidden" id="postId" name="postId" value="<%= record.getPostId() %>" />
-					<input type="hidden" id="postAccountId" name="postAccountId" value="<%= record.getAccountId() %>" />		
-					<%-- TODO:いいねしてるかしていないか分岐を実装する --%>
-					
-					
-					
+					<input type="hidden" class="postId" value="<%= record.getPostId() %>" />
+					<input type="hidden" class="postAccountId" value="<%= record.getAccountId() %>" />		
+					<input type="hidden" class="goodCount" value="<%= record.getGoodCount() %>" />
 					
 					<%
 					//この投稿IDのいいねアカウント一覧に、ログインアカウントが含まれているか確認する
@@ -253,20 +238,16 @@ if( loginID == null || login == false ) response.sendRedirect("/oneHunting");
 						isLike = record.getGoodId().contains(loginID);
 					}
 					
-					
 					if(isLike){ %>
-						<button type="submit" name="like" value="minus" class="good-on">♥</button>
+						<button type="button" name="like" value="minus" class="good-on like-button">♥</button>
 					<% } else { %>
-					
-					
-					
-					<button type="submit" name="like" value="plus" class="good-off">♡</button>
+						<button type="button" name="like" value="plus" class="good-off　like-button">♡</button>
 					<% } %>
 
 
 
 					<%-- いいね数 --%>
-					<span class="get-good"><%= record.getGoodCount() %></span>
+					<span  id="good-count-<%= record.getPostId() %>" class="get-good" ><%= record.getGoodCount() %></span>
 				</div>			
 			</form>	
 			</div>
