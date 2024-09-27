@@ -226,7 +226,7 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 				<div class="post-box">
 						<%-- アイコン --%>
 						<div class="icon-container">
-							<button type="submit" class="line-none"><img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br></button>
+							<button type="submit" class="line-none"><img src="/oneHunting/icon/<%= record.getIcon() %>" class="circle-image"><br></button>
 							<br>
 						</div><!-- icon-container -->
 								
