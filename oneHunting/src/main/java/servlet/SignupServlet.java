@@ -44,6 +44,7 @@ public class SignupServlet extends HttpServlet {
 		String pw = request.getParameter("pw");
 		String mail = request.getParameter("mail");
 		String ken = request.getParameter("ken");
+		String icon = request.getParameter("icon");
 		
 		//入力値チェック
 		ProfileErr profileErr = new ProfileErr();
@@ -62,7 +63,7 @@ public class SignupServlet extends HttpServlet {
 			//DAOの接続
 			AccountDAO accountDAO = new AccountDAO();
 			//登録完了・失敗メッセージの表示
-			message += accountDAO.userSignup(name,id,pw,mail,ken);
+			message += accountDAO.userSignup(name,id,pw,mail,ken,icon);
 			
 			//リクエストスコープに格納する
 			request.setAttribute("message", message);

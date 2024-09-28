@@ -32,6 +32,8 @@ if( loginID == null || login == false ) {
 	String initialText = (String)request.getAttribute("initialText");
 %>
 
+
+
 <!DOCTYPE html>
 
 <%-- 言語を日本語に指定 --%>

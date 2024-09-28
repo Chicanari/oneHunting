@@ -49,11 +49,14 @@ public class ChatServlet extends HttpServlet {
 		 * sessionスコープ内のログインIDからアカウントIDを取得
 		 */
 		String accountId = (String)session.getAttribute("loginID");
+		System.out.println(accountId);
+		
 		//アカウントIDから他の情報を取得するためのaccountDAOへの接続
 		AccountDAO aDAO = new AccountDAO();
 		UserProfileDTO upDTO = aDAO.profileView(accountId);
 		//県情報を取得
 		String ken = upDTO.getAccountKen();
+		System.out.println(ken);
 		
 		/**
 		 * 

@@ -72,7 +72,7 @@ public class AccountDAO {
     /**
      * アカウントをDBに追加するDAOメソッド
      */
-    public String userSignup(String name, String id, String pw, String mail, String ken) {
+    public String userSignup(String name, String id, String pw, String mail, String ken, String icon) {
     	
     	//既に登録があるか判定するためのString
     	String isRegistered = "";
@@ -91,13 +91,10 @@ public class AccountDAO {
 		/*5*/ sql += ",account_ken";
 		
 		/*6*/ sql += ",account_good_point";
-		/*7*/ sql += ",chat_main_icon";
+		/*7*/ sql += ",account_icon";
 		
 		sql += ") VALUES ";
 		sql += "(?,?,?,?,?,?,?);";
-		
-		//アイコンイメージを抽選する
-		String iconImage = iconLottery();
 		
 		//SQL文の実行
 		try(Connection con = DriverManager.getConnection(url,user,password);
@@ -111,7 +108,7 @@ public class AccountDAO {
 			ps.setString(5, ken );
 			
 			ps.setInt(6, 0 );
-			ps.setString(7, iconImage );
+			ps.setString(7, icon );
 			
 			//INSERT文の実行
 			int rowsAffected = ps.executeUpdate();
@@ -134,16 +131,6 @@ public class AccountDAO {
 		}
 		
 		return "";
-    }
-    
-    private String iconLottery() {
-    	
-    	String[] iconimage = {};
-    	
-    	
-    	
-    	return "";
-    	
     }
     
     private String mailID_tyoufukuCheck(String id, String mail) {
@@ -322,14 +309,6 @@ public class AccountDAO {
     	try {
     		con = DriverManager.getConnection(url,user,password);
     		
-    		//確認用
-    		System.out.println("名前：" + name);
-    		System.out.println("メール：" + mail);
-    		System.out.println("県：" + ken);
-    		System.out.println("アイコン：" + icon);
-    		System.out.println("自己紹介：" + introduction);
-    		System.out.println("ID：" + Id);
-    		
     		String sql = "UPDATE account ";
     		sql += "SET account_name = ?, "; //1
     		sql += "account_mail = ?, "; //2
@@ -349,7 +328,6 @@ public class AccountDAO {
     		
             // 更新を実行
             ps.executeUpdate();
-            System.out.println("更新を実行できているか");
     		
     		
     	}catch(Exception e) {
