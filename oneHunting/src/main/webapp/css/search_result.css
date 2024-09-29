@@ -39,6 +39,8 @@ html { font-size: 62.5%;
 		border: none;
 	/*	クリックした際に枠線をnone消す */
 		outline: none;
+	/* カーソルをポインタに */
+	cursor: pointer;
 }
 
 h1{
@@ -55,6 +57,10 @@ input {
 	top: 60%;
 	left: 44%;
 	text-decoration: underline;
+}
+
+input:hover {
+	background-color: #FFDD33;
 }
 
 script {
