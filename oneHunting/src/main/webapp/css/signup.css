@@ -27,7 +27,7 @@ html { font-size: 62.5%;
 	height: 740px;
 	width: 500px;	
 	display: block;
-	margin:0 auto;	
+	margin:0 auto;
 }
 
 .signup-container {
@@ -39,8 +39,9 @@ html { font-size: 62.5%;
 }
 
 .signup-container  img {
-	margin-bottom: 20px;
+/*	margin-bottom: 20px;*/
 	margin-left: 100px;
+	margin-top: 50px;
 }
 
 .err {

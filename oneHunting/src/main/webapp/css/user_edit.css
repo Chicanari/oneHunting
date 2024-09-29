@@ -43,7 +43,7 @@ html { font-size: 62.5%;
     flex-direction: column;  /*縦に配置 */
     align-items: center;  /*中央に揃える*/ 
     justify-content: center;  /*中央に揃える*/ 
-    height: 680px; /*高さをフレームに合わせる*/ 
+    height: 680px; /*高さをフレームに合わせる*/
     
 }
 
@@ -66,14 +66,47 @@ html { font-size: 62.5%;
     margin-bottom: 20px; /* 下部に余白を追加 */
 }
 
-/*input .register {*/
-/*		装飾を消し去る */
-/*	background: transparent;*/
-/*	border: none;*/
-/*	outline: none;*/
-/*}*/
-
 .icon-container input {
 	margin-top: 20px;
 }
 
+.user_edit-container p {
+	margin-bottom: 10px;
+}
+
+.picture {
+	border: none;
+	background: transparent;
+}
+
+.file-button {
+	position: relative;
+}
+
+.file-button .picture{
+	position: absolute;
+	bottom: 10px;
+	right: 130px; 
+}
+
+.register-button {
+	/*	 背景色を無色に */
+		background: transparent;
+	/*	枠線を消す */
+		border: none;
+	/*	クリックした際に枠線をnone消す */
+		outline: none;
+		width: 320px;
+		height: 41px;
+		background-color: #A27032;
+		color: #FFFF;
+		border-radius: 10px;
+}
+
+.register-button {
+	margin-left: 5px;
+}
+
+.err {
+	color: #FF0303;
+}

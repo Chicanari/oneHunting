@@ -61,18 +61,18 @@ if( loginID == null || login == false ) {
 	<%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
 	<form action="profile_edit" method="post" enctype="multipart/form-data">
 		
-		<%-- エラーメッセージ表示 --%>
-		<%=msg %>
-		
 		<div class="icon-container">
 			<%-- アイコンの画像を表示 --%>
 			<img src="/oneHunting/icon/<%=initialIcon %>" class="icon circle-image"  id="preview">
 		</div>
 		
-		<p>
+		<div class="file-button">
 		<input type="file" name="icon"  id="fileElem" multiple accept="image/*" onchange="previewFile(this);"  style="display:none" />
-		<button id="fileSelect" type="button" class="picture"><img src="image/picture.png" alt=""></button>
-		</p>
+		<button id="fileSelect" type="button" class="picture"><img src="image/icon_edit.png" alt=""></button> 
+		</div>
+		
+		<%-- エラーメッセージ表示 --%>
+		<p class="err"><%=msg %></p>
 		
 		<%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
 		<%-- ファイルをアップロードする --%>
@@ -84,9 +84,9 @@ if( loginID == null || login == false ) {
 		<%-- 画像プレビューの呼び出し --%>
 		<!-- <img id="preview" class="circle-image">  -->
 	
-		<p><b>名前</b><br><input type="text" name="name" value="<%=initialName %>"></p>
+		<p><b>名前</b><br><input type="text" name="name" value="<%=initialName %>" style="width:320px;" class="name"></p>
 		<p><b>ID</b><br><%=loginID %></p>
-		<p><b>メールアドレス</b><br><input type="text" name="mail" value="<%=initialMail %>"></p>
+		<p><b>メールアドレス</b><br><input type="text" name="mail" value="<%=initialMail %>" style="width:320px;" class="mail"></p>
 		
 		<p>
 		<b>県名</b><br>
@@ -101,9 +101,9 @@ if( loginID == null || login == false ) {
 		</p>
 		
 		
-		<p><b>自己紹介</b><br><textarea name="introduction" style="width:400px; height:100px;"><%=initialText %></textarea></p>
+		<p><b>自己紹介</b><br><textarea name="introduction" style="width:320px; height:100px;"><%=initialText %></textarea></p>
 		
-		<p class="register"><input type="submit" value="登録"></p>
+		<div class="register"><input type="submit" value="登録" class="register-button"></div>
 	</form>
 	
 	<%-- 画像プレビューを表示するためのスクリプト構文 --%>

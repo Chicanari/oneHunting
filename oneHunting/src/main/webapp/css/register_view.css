@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+*{
+  margin: 0;
+  background: #fff
+}
+.confetti canvas {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
