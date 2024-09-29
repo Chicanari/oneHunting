@@ -90,10 +90,21 @@ html { font-size: 62.5%;
 	height: 41px;
 	background-color: #A27032;
 	color: #FFF;
+	
+	/* カーソルをポインタに */
+	cursor: pointer;
+}
+
+.register:hover {
+	background-color: #D9B59B;
 }
 
 .return {
 	margin-left: 150px;
+}
+
+.return a:hover {
+	color: #FFFF;
 }
 
 .signup-container .return {
