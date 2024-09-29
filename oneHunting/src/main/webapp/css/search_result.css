@@ -56,3 +56,7 @@ input {
 	left: 44%;
 	text-decoration: underline;
 }
+
+script {
+	z-index: 5;
+}
