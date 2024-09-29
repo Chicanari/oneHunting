@@ -35,15 +35,12 @@ if( loginID == null || login == false ) {
 <meta name="viewport" content = "width=device-width, initial-scale=1.0">
 <title>登録完了</title>
 </head>
-<div class="confetti"><!--  -->
-<body>
 
-<canvas></canvas><!--  -->
+<body>
 
 
 <form action="chat" method="post"><input type="submit" value="メインチャットに戻る"></form>
 
-</div><!--  -->
 
 <!-- body直前でjQueryと自作のJSファイルの読み込み  -->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"
