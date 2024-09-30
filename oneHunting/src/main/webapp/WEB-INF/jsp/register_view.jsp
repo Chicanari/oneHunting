@@ -27,7 +27,7 @@ if( loginID == null || login == false ) {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <!-- CSSファイル  -->
-<link rel="stylesheet" type="text/css" href="css/search_result.css">
+<link rel="stylesheet" type="text/css" href="css/register_view.css">
 
 <title>Insert title here</title>
 </head>
@@ -45,6 +45,6 @@ if( loginID == null || login == false ) {
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"
 	integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
- <script src="js/search_result.js"></script>
+ <script src="js/register_view.js"></script>
 </body>
 </html>
