@@ -55,6 +55,13 @@ html {
 	  width: 60px;
 	  height: 33px;
 	  border-radius: 2px;
+	  
+	  /* カーソルをポインタに */
+	  cursor: pointer;
+}
+
+.edit_button:hover {
+	background-color: #D9B59B;
 }
 
 /* 画像を円形に表示する */
@@ -96,6 +103,11 @@ p.name {
 /*	   クリックした際に枠線をnone消す */
 	  outline: none;
 	  text-decoration: underline;
+	  cursor: pointer;
+}
+
+.return_button:hover {
+	color: #FFFF;
 }
 
 .register {

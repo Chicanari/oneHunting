@@ -174,10 +174,41 @@ section{
 	line-height: 6rem;
 }
 
+/*かかる時間　animation-duration: 1s;*/
+/*アニメーション回数　animation-iteration-count: infinite;*/
 .risu {
+	animation: risu 1s infinite;
+	  
 	margin-top: 200px;
 	width: 302px;
 	height: 226px;
+}
+
+@keyframes risu {
+  0%, 40% {
+    transform: skew(0deg, 0deg);
+  }
+  5% {
+    transform: skew(5deg, 5deg);
+  }
+  10% {
+    transform: skew(-4deg, -4deg);
+  }
+  15% {
+    transform: skew(3deg, 3deg);
+  }
+  20% {
+    transform: skew(-2deg, -2deg);
+  }
+  25% {
+    transform: skew(1deg, 1deg);
+  }
+  30% {
+    transform: skew(-0.6deg, -0.6deg);
+  }
+  35% {
+    transform: skew(0.3deg, 0.3deg);
+  }
 }
 
 .maindisplay {
@@ -379,4 +410,48 @@ footer {
 	vertical-align: top;
 }
 
+.donguri {
+	/*	かかる時間 animation-duration: 3s;*/
+	/*  変化する速度 animation-timing-function: ease-in-out;*/
+	/*アニメーション回数 animation-iteration-count: infinite;*/
+	/*アニメーション方向 animation-direction: alternate;*/
+	animation: oniku 3s ease-in-out infinite alternate; 
+	transition: 1.5s ease-in-out;
+	width: 20px;
+	height: 20px;
+	margin-top: 15px;
+}
+
+.oniku {
+/*	かかる時間 animation-duration: 3s;*/
+/*  変化する速度 animation-timing-function: ease-in-out;*/
+/*アニメーション回数 animation-iteration-count: infinite;*/
+/*アニメーション方向 animation-direction: alternate;*/
+  animation: oniku 3s ease-in-out infinite alternate; 
+  transition: 1.5s ease-in-out;
+  width: 30px;
+  height: 25px;
+  margin-top: 15px;
+}
+ 
+@keyframes oniku {
+  0% {
+    transform:translate(0, 0) rotate(-7deg);
+  }
+  50% {
+    transform:translate(0, -7px) rotate(0deg);
+  }
+  100% {
+    transform:translate(0, 0) rotate(7deg);
+  }
+}
+
+
+.kuma {
+	width: 300px;
+	height: 290px;
+	position: fixed;
+	top: 440px;
+	left: 30px;
+}
 
