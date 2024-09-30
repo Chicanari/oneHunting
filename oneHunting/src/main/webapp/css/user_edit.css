@@ -61,6 +61,13 @@ html { font-size: 62.5%;
 	height: 100px;
 }
 
+/* 画像を円形に表示する */
+.circle-image {
+    border-radius: 50%; /* 正円にする */
+    object-fit: cover; /* 画像の切り抜き方を指定 */
+}
+
+
 .icon-container {
     display: flex;
     justify-content: center; /* 横方向に中央配置 */

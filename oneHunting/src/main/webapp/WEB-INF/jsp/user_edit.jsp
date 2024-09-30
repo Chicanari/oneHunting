@@ -66,7 +66,9 @@ if( loginID == null || login == false ) {
 		
 		<div class="icon-container">
 			<%-- アイコンの画像を表示 --%>
-			<img src ="/oneHunting/icon/<%=initialIcon %>" class="icon circle-image" >
+
+			<img src="/oneHunting/icon/<%=initialIcon %>" class="icon circle-image"  id="preview">
+
 		</div>
 		
 		<p>
@@ -107,10 +109,13 @@ if( loginID == null || login == false ) {
 	<%-- 画像プレビューを表示するためのスクリプト構文 --%>
 	<script>
 	function previewFile(hoge){
+		
 		var fileData = new FileReader();
+		
 		fileData.onload = (function() {
 		document.getElementById('preview').src = fileData.result;
 		});
+		
 		fileData.readAsDataURL(hoge.files[0]);}
 	</script>
 	
