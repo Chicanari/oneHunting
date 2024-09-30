@@ -79,7 +79,7 @@ public class SignupServlet extends HttpServlet {
 				Boolean login = (Boolean)session.getAttribute("login");
 				
 				//登録完了にフォワードさせる
-				RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/search_result.jsp");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/register_view.jsp");
 				dispatcher.forward(request, response);
 				
 			}else {

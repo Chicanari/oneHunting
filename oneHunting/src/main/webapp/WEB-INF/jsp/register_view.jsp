@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%-- ログイン情報の取得　※ログインしてない場合はログイン画面へ移動する --%>
 <%
 
@@ -20,11 +21,12 @@ if( loginID == null || login == false ) {
 <html>
 <head>
 <meta charset="UTF-8">
-<title>登録完了</title>
+<title>Insert title here</title>
 </head>
 <body>
+<h1>登録完了しました</h1>
 
-<form action="chat" method="post"><input type="submit" value="メインチャットに戻る"></form>
+<form action="chat" method="get"><input type="submit" value="チャットをはじめる"></form>
 
 </body>
 </html>
