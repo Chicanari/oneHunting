@@ -70,6 +70,12 @@ if( loginID == null || login == false ) {
 
 		</div>
 		
+		
+		<%-- ファイルをアップロード enctype="multipart/form-data"を指定 --%>
+		<%-- onchangeタグによりファイルアップロードされた場合にプレビューを表示 --%>
+		<%-- acceptタグによりアップロードできるファイルを指定 --%>
+		<%-- (※アップロード時に表示されるファイルを指定するだけであり、指定外のファイルアップロードは可能) --%>
+		<%-- 画像プレビューの呼び出し --%>
 		<div class="file-button">
 		<input type="file" name="icon"  id="fileElem" multiple accept="image/*" onchange="previewFile(this);"  style="display:none" />
 		<button id="fileSelect" type="button" class="picture"><img src="image/icon_edit.png" alt=""></button> 
@@ -77,19 +83,6 @@ if( loginID == null || login == false ) {
 		
 		<%-- エラーメッセージ表示 --%>
 		<p class="err"><%=msg %></p>
-		
-		<p>
-		<%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
-		<%-- ファイルをアップロードする --%>
-		<%-- onchangeタグによりファイルアップロードされた場合にプレビューを表示する --%>
-		<%-- acceptタグによりアップロードできるファイルを指定 --%>
-		<%-- (※ただし、アップロード時に表示されるファイルを指定するだけであり、指定外のファイルアップロードは可能) --%>
-		<%-- 画像プレビューの呼び出し --%>
-		<input type="file" name="icon"  id="fileElem" multiple accept="image/*" onchange="previewFile(this);"  style="display:none" />
-		<button id="fileSelect" type="button" class="picture"><img src="image/picture.png" alt=""></button>
-		<input type="file" name="image" id="fileElem" multiple accept="image/*" style="display:none" />
-		<img id="preview" class="circle-image">
-		</p>
 	
 		<p><b>名前</b><br><input type="text" name="name" value="<%=initialName %>" style="width:320px;" class="name"></p>
 		<p><b>ID</b><br><%=loginID %></p>
