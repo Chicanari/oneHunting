@@ -31,6 +31,15 @@ html { font-size: 62.5%;
 	
 }
 
+/* 画像を円形に表示する */
+.circle-image {
+    width: 100px; /* 円の直径 */
+    height: 100px; /* 円の直径 */
+    border-radius: 50%; /* 正円にする */
+    object-fit: cover; /* 画像の切り抜き方を指定 */
+}
+
+
 .user_edit-container {
     position: absolute; /* 絶対位置に設定 */
     top: 30px; /* 上に配置 */
