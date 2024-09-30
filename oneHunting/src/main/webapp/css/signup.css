@@ -110,3 +110,11 @@ html { font-size: 62.5%;
 .signup-container .return {
 	margin-top: 10px;
 }
+
+/* 画像を円形に表示する */
+.circle-image {
+	width: 100px;
+	height: 100px;
+    border-radius: 50%; /* 正円にする */
+    object-fit: cover; /* 画像の切り抜き方を指定 */
+}

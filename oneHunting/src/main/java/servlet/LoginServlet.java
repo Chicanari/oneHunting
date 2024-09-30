@@ -36,8 +36,6 @@ public class LoginServlet extends HttpServlet {
 		//nullチェック
 		if(login == null) login = false;
 		
-		System.out.println(loginID + " " + login);
-		
 		//ログインIDが入っているか、ログインがtrueの時ログインしていると判断する
 		if( loginID != null || login == true ) {
 			//ログイン状態の時は、全体チャットに移動する
