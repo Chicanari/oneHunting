@@ -297,7 +297,7 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 		<div class="footer">
 		<%-- チャット投稿form --%>
 			<form action="chat" method="post" enctype="multipart/form-data">
-				<input type="text" name="comment" class="comment-box">
+				<input type="textarea" name="comment" class="comment-box"></textarea>
 		
 				<%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
 				<%-- ファイルをアップロードする --%>
@@ -307,7 +307,7 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 				<input type="file" name="image" id="fileElem" multiple accept="image/*" style="display:none" />
 				<button id="fileSelect" type="button" class="picture"><img src="image/picture.png" alt=""></button>
 		
-				<%-- 現在のチャットタイプから書き込むチャットタイプを分岐させる予定 --%>
+				<%-- 現在のチャットタイプから書き込むチャットタイプを分岐させる --%>
 				<button type="submit" name="chatType" value="chat_main" class="post"><img src="image/post.png" alt=""></button>
 			</form>
 		</div><!-- footer -->

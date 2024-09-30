@@ -145,11 +145,13 @@ public class ProfileEditServlet extends HttpServlet {
 		String introduction = request.getParameter("introduction");
 		
 		//確認用
+		/*
 		System.out.println("Name: " + name);
 		System.out.println("Mail: " + mail);
 		System.out.println("Ken: " + ken);
 		System.out.println("Introduction: " + introduction);
 		System.out.println("initialIcon " + initialIcon);
+		*/
 		
 		//入力値チェック
 		ProfileErr profileErr = new ProfileErr();
@@ -286,10 +288,12 @@ public class ProfileEditServlet extends HttpServlet {
 			request.setAttribute("msg", msg);
 				
 			//確認用
+			/*
 			String realPath = getServletContext().getRealPath("/");
 			System.out.println("リアルパス: " + realPath);
 			String actualPath = path + File.separator + iconName;
 			System.out.println("保存先パス: " + actualPath);
+			*/
 				
 			//プロフィール編集画面にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/user_profile.jsp");

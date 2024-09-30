@@ -117,17 +117,6 @@ public class ChatDAO {
 			ps.setInt(8, 0); // good_count
 			ps.setNull(9, java.sql.Types.OTHER); // good_id（nullをセット）
 			
-			/**
-			 * エラー確認用
-			 */
-			System.out.println("PostId: " + postId);
-			System.out.println("AccountId: " + accountId);
-			System.out.println("AccountName: " + accountName);
-			System.out.println("Icon: " + icon);
-			System.out.println("Time: " + time);
-			System.out.println("Text: " + text);
-			System.out.println("Image: " + image);
-    		
     		//INSERTの実行
     		inCunt = ps.executeUpdate();
     		
