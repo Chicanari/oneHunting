@@ -151,7 +151,6 @@ header
 main
 ================================================================= */
 section{
-/*    background-color: #FFFF;*/
 	margin-left: 40px;
 }
 
@@ -175,10 +174,41 @@ section{
 	line-height: 6rem;
 }
 
+/*かかる時間　animation-duration: 1s;*/
+/*アニメーション回数　animation-iteration-count: infinite;*/
 .risu {
+	animation: risu 1s infinite;
+	  
 	margin-top: 200px;
 	width: 302px;
 	height: 226px;
+}
+
+@keyframes risu {
+  0%, 40% {
+    transform: skew(0deg, 0deg);
+  }
+  5% {
+    transform: skew(5deg, 5deg);
+  }
+  10% {
+    transform: skew(-4deg, -4deg);
+  }
+  15% {
+    transform: skew(3deg, 3deg);
+  }
+  20% {
+    transform: skew(-2deg, -2deg);
+  }
+  25% {
+    transform: skew(1deg, 1deg);
+  }
+  30% {
+    transform: skew(-0.6deg, -0.6deg);
+  }
+  35% {
+    transform: skew(0.3deg, 0.3deg);
+  }
 }
 
 .maindisplay {
@@ -197,14 +227,40 @@ section{
     flex: 1; /* 残りのスペースを占める */
     display: flex;
     flex-direction: column; /* 縦に並べる */
-/*    gap: 20px;  要素間の間隔を指定 */
 	
 	height: 77vh;
 	overflow-y: scroll;
 }
 
-.main-container form {
-	margin-bottom: 40px; /*投稿間のスペース*/
+/*一つのポスト単位のブロック*/
+.post-box {
+	margin-bottom: 40px;
+	display: flex;
+	align-items: flex-start; /* アイコンとテキストの整列 */
+}
+
+.icon-container {
+    margin-right: 10px; /* アイコンとテキストの間のスペース */
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column; /* 縦並びにする */
+}
+
+
+/* 話題別チャットの中身が初期は隠れているように設定する */
+.hidden-content {
+    display: none; /* 初期状態は非表示 */
+    margin-top: 10px;
+}
+
+/* 画像を円形に表示する */
+.circle-image {
+    width: 60px; /* 円の直径 */
+    height: 60px; /* 円の直径 */
+    border-radius: 50%; /* 正円にする */
+    object-fit: cover; /* 画像の切り抜き方を指定 */
 }
 
 .main-container .main-container-item {
@@ -219,7 +275,7 @@ section{
 	color: #FFFF;
 	padding: 5px;
 	position: fixed;
-	top: 90px;
+	top: 90px; /* チャット種別バナーの固定位置　*/
 }
 
 .container::-webkit-scrollbar {
@@ -238,6 +294,7 @@ section{
     background: none;  /* 背景も消す */
     padding: 0;        /* 余白を消す */
     cursor: pointer;   /* ポインタを表示（クリックできることを示す） */
+	font-weight: bold;
 }
 
 
@@ -248,7 +305,6 @@ section{
 
 .get-time {
 	font-size: 1.6rem;
-	margin-left: 3px;
 	color: #A39584;
 }
 
@@ -289,17 +345,24 @@ section{
 .account-name,
 .account-ken {
     margin-right: 10px; /* テキスト要素間のスペース */
+
 }
+
+.get-account-infomation {
+	display: flex;
+	flex-direction: column; /* 縦並びにする */
+	margin:10px 0 0 10px; /* アイコンとの間隔を調整 */
+}
+
 
 .get-account-item {
 	display: flex; /* 縦並びにするためのフレックスボックス */
-    flex-direction: column; /* 縦に配置 */
+	margin: 50px 0 0 20px;
 }
 
 .get-account {
-/*	display: flex;*/
-/*	align-items: center;*/
-	margin:10px 0 10px 120px;
+	margin:10px 0 10px 220px;
+
 }
 
 /* ===============================================================
@@ -347,4 +410,48 @@ footer {
 	vertical-align: top;
 }
 
+.donguri {
+	/*	かかる時間 animation-duration: 3s;*/
+	/*  変化する速度 animation-timing-function: ease-in-out;*/
+	/*アニメーション回数 animation-iteration-count: infinite;*/
+	/*アニメーション方向 animation-direction: alternate;*/
+	animation: oniku 3s ease-in-out infinite alternate; 
+	transition: 1.5s ease-in-out;
+	width: 20px;
+	height: 20px;
+	margin-top: 15px;
+}
+
+.oniku {
+/*	かかる時間 animation-duration: 3s;*/
+/*  変化する速度 animation-timing-function: ease-in-out;*/
+/*アニメーション回数 animation-iteration-count: infinite;*/
+/*アニメーション方向 animation-direction: alternate;*/
+  animation: oniku 3s ease-in-out infinite alternate; 
+  transition: 1.5s ease-in-out;
+  width: 30px;
+  height: 25px;
+  margin-top: 15px;
+}
+ 
+@keyframes oniku {
+  0% {
+    transform:translate(0, 0) rotate(-7deg);
+  }
+  50% {
+    transform:translate(0, -7px) rotate(0deg);
+  }
+  100% {
+    transform:translate(0, 0) rotate(7deg);
+  }
+}
+
+
+.kuma {
+	width: 300px;
+	height: 290px;
+	position: fixed;
+	top: 440px;
+	left: 30px;
+}
 

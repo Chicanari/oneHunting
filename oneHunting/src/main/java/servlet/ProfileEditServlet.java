@@ -17,6 +17,7 @@ import javax.servlet.http.Part;
 
 import dao.AccountDAO;
 import dto.UserProfileDTO;
+import model.ProfileErr;
 
 /*
  * 
@@ -60,9 +61,34 @@ public class ProfileEditServlet extends HttpServlet {
 		 */
 		String accountId = (String)session.getAttribute("loginID");
 		
-		//アカウントIDから他の情報を取得するためのaccountDAOへの接続
+		/**
+		 * accountDAOのインスタンス宣言
+		 */
 		AccountDAO aDAO = new AccountDAO();
+		
+		/**
+		 * アカウントIDから他の情報を取得するためのaccountDAOへの接続
+		 */
 		UserProfileDTO upDTO = aDAO.profileView(accountId);
+		
+		/**
+		 * 初期値入力の為の変数設定
+		 * accountDAOから情報を取得する
+		 */
+		String initialName = upDTO.getAccountName();
+		String initialIcon = upDTO.getAccountIcon();
+		String initialMail = upDTO.getAccountMail();
+		String initialKen = upDTO.getAccountKen();
+		String initialText = upDTO.getAccountIntroduction();		
+		
+		/**
+		 * 初期値をリクエストスコープに保存
+		 */
+		request.setAttribute("initialName",initialName);
+		request.setAttribute("initialIcon",initialIcon);
+		request.setAttribute("initialMail",initialMail);
+		request.setAttribute("initialKen",initialKen);
+		request.setAttribute("initialText",initialText);
 		
 		//プロフィール編集画面にフォワードさせる
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/user_edit.jsp");
@@ -95,6 +121,21 @@ public class ProfileEditServlet extends HttpServlet {
 		AccountDAO aDAO = new AccountDAO();
 		
 		/**
+		 * アカウントIDから他の情報を取得するためのaccountDAOへの接続
+		 */
+		UserProfileDTO upDTO = aDAO.profileView(accountId);		
+		
+		/**
+		 * 初期値入力の為の変数設定
+		 * accountDAOから情報を取得する
+		 */
+		String initialName = upDTO.getAccountName();
+		String initialIcon = upDTO.getAccountIcon();
+		String initialMail = upDTO.getAccountMail();
+		String initialKen = upDTO.getAccountKen();
+		String initialText = upDTO.getAccountIntroduction();
+		
+		/**
 		 * プロフィール情報をリクエストスコープから取得
 		 *  名前・メール・県・自己紹介
 		 */
@@ -108,30 +149,20 @@ public class ProfileEditServlet extends HttpServlet {
 		System.out.println("Mail: " + mail);
 		System.out.println("Ken: " + ken);
 		System.out.println("Introduction: " + introduction);
+		System.out.println("initialIcon " + initialIcon);
 		
-		//名前に関するエラーチェック
-		if(name.length() == 0) {
-			msg += "名前を入力してください。<br>";
-		}else if(name.length() > 200) {
-			msg += "文字数が200字を超えています。<br>";
+		//入力値チェック
+		ProfileErr profileErr = new ProfileErr();
+		msg += profileErr.account_EditValueCheck(name,mail,ken,introduction);
+		
+		//mailの重複チェック
+		//※元々のmailと違う場合にのみ他の重複をチェックする
+		if(!mail.equals(initialMail)) {
+			msg += aDAO.mail_tyoufukuCheck(accountId,mail);
 		}
 		
-		//mailに関するエラーチェック
-		if(mail.length() == 0) {
-			msg += "メールアドレスを入力してください。<br>";
-		}else if(name.contains("@")) {
-			msg += "入力された文字列がメールアドレスではありません。<br>";
-		}
-		
-		//県に関するエラーチェック
-		if(ken.length() == 0) {
-			msg += "県を選択してください。<br>";
-		}
-		
-		//自己紹介文に関するエラーチェック
-		if(introduction.length() > 200) {
-			msg += "自己紹介の文字数が200字を超えています。<br>";
-		}
+		//エラーチェック
+		System.out.println("エラーメッセージ:" + msg);
 		
 		/**
 		 * iconで取得する画像のファイル名を取得するための変数宣言
@@ -158,11 +189,20 @@ public class ProfileEditServlet extends HttpServlet {
 	     *  4:適正な場合、ファイル名に固有名を追加する
 	     */
         if (originalIconName.isEmpty()) {
-        	// デフォルト画像を使用
-            iconName = "default_icon.png";
+        	// ファイルが入っていない場合、DBに登録されている元のファイル名を設定
+            iconName = initialIcon;
             // 画像ファイルかどうかのチェック
         } else if (part != null && !model.ProfileErr.isImageFile(part)) {
-
+    		
+    		/**
+    		 * 初期値をリクエストスコープに保存
+    		 */
+    		request.setAttribute("initialName",initialName);
+    		request.setAttribute("initialIcon",initialIcon);
+    		request.setAttribute("initialMail",initialMail);
+    		request.setAttribute("initialKen",initialKen);
+    		request.setAttribute("initialText",initialText);
+        	
             msg += "不正なファイルです。<br>";
  
             request.setAttribute("msg", msg);
@@ -192,19 +232,38 @@ public class ProfileEditServlet extends HttpServlet {
 	    }
 	    
 		//画像の中身が在る場合にのみ保存する
-		if(!(part == null)) {
+		if(part != null && part.getSize() > 0) {
 			/**
 			 * ファイルを指定されたフォルダに保存する
 			 */
 			part.write(path + File.separator + iconName);
 		}
 		
-		
-		// プロフィールを更新するDAOメソッドの呼び出し
+		/**
+		 * プロフィールを更新するDAOメソッドの呼び出し
+		 * ※エラーメッセージがない場合にのみ更新する
+		 */
 		if (!msg.isEmpty()) {
-			// エラーメッセージがある場合は何もしない
+			// エラーメッセージがある場合は更新処理をしない
+    		
+    		/**
+    		 * 初期値をリクエストスコープに保存
+    		 */
+    		request.setAttribute("initialName",initialName);
+    		request.setAttribute("initialIcon",initialIcon);
+    		request.setAttribute("initialMail",initialMail);
+    		request.setAttribute("initialKen",initialKen);
+    		request.setAttribute("initialText",initialText);
+			
+            request.setAttribute("msg", msg);
+            
+    		//プロフィール編集画面にフォワードさせる
+    		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/user_edit.jsp");
+    		dispatcher.forward(request, response);
 		} else {
+			//エラーメッセージがない場合に更新する
 			//仮引数はid,name,mail,ken,icon,introduction
+			//更新を反映するメソッド
 			boolean updateSuccess = aDAO.profileEdit(
 					accountId, 
 					name,
@@ -212,40 +271,30 @@ public class ProfileEditServlet extends HttpServlet {
 					ken,
 					iconName, 
 					introduction);
-			if (updateSuccess) {
-				msg = "プロフィールが更新されました。";
-			} else {
-				msg = "プロフィールの更新に失敗しました。";
+			
+			msg = "プロフィールが更新されました。";
 				
-	            request.setAttribute("msg", msg);
-	            
-	    		//プロフィール編集画面にフォワードさせる
-	    		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/user_edit.jsp");
-	    		dispatcher.forward(request, response);
-	    		return;
-			}
-		}
-		
-		//アカウント情報表示のためのviewを取得
-		UserProfileDTO userProfile = aDAO.profileView(accountId);
+			//アカウント情報表示のためのviewを取得
+			UserProfileDTO userProfile = aDAO.profileView(accountId);
+						
+			//上記変数をリクエストスコープへ格納
+			session.setAttribute("profile", userProfile);
 				
-		//上記変数をリクエストスコープへ格納
-		session.setAttribute("profile", userProfile);
-		
-		/**
-		* エラーメッセージのセット
-		*/
-		request.setAttribute("msg", msg);
-		
-		//確認用
-		String realPath = getServletContext().getRealPath("/");
-		System.out.println("リアルパス: " + realPath);
-		String actualPath = path + File.separator + iconName;
-		System.out.println("保存先パス: " + actualPath);
-		
-		//プロフィール編集画面にフォワードさせる
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/user_profile.jsp");
-		dispatcher.forward(request, response);
+			/**
+			* エラーメッセージのセット
+			*/
+			request.setAttribute("msg", msg);
+				
+			//確認用
+			String realPath = getServletContext().getRealPath("/");
+			System.out.println("リアルパス: " + realPath);
+			String actualPath = path + File.separator + iconName;
+			System.out.println("保存先パス: " + actualPath);
+				
+			//プロフィール編集画面にフォワードさせる
+			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/user_profile.jsp");
+			dispatcher.forward(request, response);
+		}		
 		
 	}
 

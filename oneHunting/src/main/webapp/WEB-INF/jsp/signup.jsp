@@ -27,11 +27,12 @@ if(message == null){
 <body>
 <img class="signup_frame" src="image/signup_frame.png" alt="">
 
-<%= message %>
 <div class="signup-container">
 	<form action="signup" method="post">
 	
 		<img src="icon/default_icon.png" width="100">
+		
+		<div class="err"><%= message %></div>
 	
 		<p class="name">名前<br>
 		<input type="text" name="name"></p>
@@ -53,11 +54,11 @@ if(message == null){
 		<input type="radio" name="ken" value="鹿児島県">鹿児島県
 		<input type="radio" name="ken" value="沖縄県">沖縄県
 		</div>
-		<input type="submit" value="登録">
+		<input type="submit" value="登録" class="register">
 		
 	</form>
 	
-	<a href="/oneHunting">戻る</a>
+	<p class="return"><a href="/oneHunting">戻る</a></p>
 </div>
 
 </body>

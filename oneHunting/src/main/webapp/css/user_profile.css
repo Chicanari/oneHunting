@@ -1,0 +1,120 @@
+@charset "UTF-8";
+
+body{
+		margin: 0;
+	    padding: 0;
+	    height: 100%;
+	    overflow: hidden;
+	    background-color: #FFEDE9;
+}
+
+* {
+	margin:0;
+	font-family: "Zen Maru Gothic", serif;
+	font-weight: 500;
+	font-style: normal;
+	line-height: 1.3;
+	color: #A27032;
+	font-size: 1.8rem;
+}
+
+html { 
+	font-size: 62.5%;
+	z-index: 1; /* 背景としての役割を持たせる */
+}
+
+.signup_frame {
+	position: relative;
+	height: 841px;
+	width: 460px;	
+	display: block;
+	margin:0 auto;	
+}
+
+.user_profile-container {
+	position: absolute; /* 絶対位置指定 */   
+    top:50px;
+	left:43%;
+    z-index: 10; /* signup_frameより上に表示 */
+    /* 他のスタイルも必要に応じて追加 */
+}
+
+.edit {
+	text-align: right;
+}
+
+.edit_button{
+/*	 背景色を無色に */
+	  background: transparent;
+/*	   枠線を消す */
+	  border: none;
+/*	   クリックした際に枠線をnone消す */
+	  outline: none;
+	  color: #FFF;
+	  background-color: #A27032;
+	  width: 60px;
+	  height: 33px;
+	  border-radius: 2px;
+	  
+	  /* カーソルをポインタに */
+	  cursor: pointer;
+}
+
+.edit_button:hover {
+	background-color: #D9B59B;
+}
+
+/* 画像を円形に表示する */
+.circle-image {
+    width: 60px; /* 円の直径 */
+    height: 60px; /* 円の直径 */
+    border-radius: 50%; /* 正円にする */
+    object-fit: cover; /* 画像の切り抜き方を指定 */
+}
+
+.icon {
+	text-align: center;
+	margin-top: 50px;
+}
+
+.icon img {
+	width: 100px;
+	height: 100px;
+}
+
+p.name {
+	margin-top: 30px;
+}
+
+.user_profile-container p {
+	margin-top: 20px;
+}
+
+.return {
+	margin-top: 30px;
+	text-align: center;
+}
+
+.return_button {
+/*	 背景色を無色に */
+	  background: transparent;
+/*	   枠線を消す */
+	  border: none;
+/*	   クリックした際に枠線をnone消す */
+	  outline: none;
+	  text-decoration: underline;
+	  cursor: pointer;
+}
+
+.return_button:hover {
+	color: #FFFF;
+}
+
+.register {
+/*	 背景色を無色に */
+	  background: transparent;
+/*	   枠線を消す */
+	  border: none;
+/*	   クリックした際に枠線をnone消す */
+	  outline: none;
+}

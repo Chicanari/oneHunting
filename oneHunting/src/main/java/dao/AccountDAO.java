@@ -69,63 +69,6 @@ public class AccountDAO {
     }
     
     
-    //try-with-サンプル　※コードの参考にしてください
-    public String sumpleLogin(String id,String pw) {
-    	
-    	
-    	/* nullチェック */
-    	//ID,PWがnullまたは空白だったときはエラーメッセージを返す
-		String errmessage = "";	
-		if (id == null || id.equals("")) errmessage += "IDが入力されていません<br>";
-		if (pw == null || pw.equals("")) errmessage += "PWが入力されていません";
-		if(!errmessage.isEmpty()) 	return errmessage;
-		
-		
-		/* SQL文の作成 */
-		//SQLでPWを取得
-		String sql = "SELECT pw FROM account WHERE user_id = ?;";
-		
-		
-		/* ResultSetで受け取るDB上のPWを格納する変数を宣言する */
-		String db_pw = "";	//ResultSet
-		
-		
-		/* SQL文の実行 */
-		//try-with-resourcesで書くとスッキリします
-		try(Connection con = DriverManager.getConnection(url,user,password);
-			PreparedStatement ps = con.prepareStatement(sql);				
-			ResultSet rs = ps.executeQuery()){
-			
-			//プレースホルダを設定
-			ps.setString(1, id );
-			
-			//SELECT文の実行
-			while(rs.next()) {
-			db_pw = rs.getString("pw");
-			}
-			
-			//ハッシュ化したPWと入力されたPWの一致を調べる
-			//※モデルインポートが面倒なのでコメントアウト
-			/*
-			pwHash ph = new pwHash();
-			if(ph.matchingPW(pw,db_pw)) {
-				return "LOGIN OK";
-			}else {
-				return "PWが違います";
-			}
-			*/
-			
-		} catch (SQLException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
-		
-		return errmessage;
-    	
-    	
-    }
-    
-    
     /**
      * アカウントをDBに追加するDAOメソッド
      */
@@ -148,9 +91,14 @@ public class AccountDAO {
 		/*5*/ sql += ",account_ken";
 		
 		/*6*/ sql += ",account_good_point";
+		/*7*/ sql += ",chat_main_icon";
 		
 		sql += ") VALUES ";
-		sql += "(?,?,?,?,?,?);";
+		sql += "(?,?,?,?,?,?,?);";
+		
+		//アイコンイメージを抽選する
+		String iconImage = iconLottery();
+		
 		//SQL文の実行
 		try(Connection con = DriverManager.getConnection(url,user,password);
 			PreparedStatement ps = con.prepareStatement(sql);				){
@@ -163,6 +111,7 @@ public class AccountDAO {
 			ps.setString(5, ken );
 			
 			ps.setInt(6, 0 );
+			ps.setString(7, iconImage );
 			
 			//INSERT文の実行
 			int rowsAffected = ps.executeUpdate();
@@ -185,6 +134,16 @@ public class AccountDAO {
 		}
 		
 		return "";
+    }
+    
+    private String iconLottery() {
+    	
+    	String[] iconimage = {};
+    	
+    	
+    	
+    	return "";
+    	
     }
     
     private String mailID_tyoufukuCheck(String id, String mail) {
@@ -220,7 +179,7 @@ public class AccountDAO {
 		
 		
 		/*
-    	 * account_mailの重複の確認 
+		 * account_mailの重複の確認 
     	 */
     	String mailSQL = "SELECT account_id FROM Account WHERE account_mail = ?;";
     	//SQL文の実行
@@ -248,6 +207,47 @@ public class AccountDAO {
 		return errMessage;
     	
     }
+    
+    
+    /**
+     * mail重複確認用のメソッド
+     * 
+     */
+    public String mail_tyoufukuCheck(String id, String mail) {
+    	
+    	//戻り値のメッセージ
+    	String errMessage = "";
+    	
+		/*
+		 * account_mailの重複の確認 
+    	 */
+    	String mailSQL = "SELECT account_id FROM Account WHERE account_mail = ?;";
+    	//SQL文の実行
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(mailSQL);				){
+			
+			//プレースホルダを設定
+			ps.setString(1, mail );
+			
+			//SELECT文の実行
+			try (ResultSet rs = ps.executeQuery()) {
+				
+				//リザルトセットの中にデータがある場合
+		        if (rs.next()) {
+		            // データが存在する場合の処理
+		            errMessage += "メールアドレスが既に存在します。<br>";
+		        }
+				
+            }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		
+		return errMessage;
+    	
+    }
+    
     
     /**
      * ログイン機能
