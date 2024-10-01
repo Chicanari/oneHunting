@@ -112,6 +112,7 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 			<form action="chat" method="get">
 			<div class="side-column">
 				
+				<img class="oniku" src="image/oniku.png" alt="">
 				<% if(ken.equals("福岡県")){ %>
 				<button type="submit" name="chatType" value="chat_fukuoka">福岡</button><br/>
 				<% }else if(ken.equals("佐賀県")){ %>
@@ -131,16 +132,22 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 				<% } %>
 				
 				
+				<img class="oniku" src="image/oniku.png" alt="">
 				<button type="submit" name="chatType" value="chat_main">全体チャット</button><br/>
 				
 				<button type="button" class="toggle-btn"><span style="font-size:1rem;">▼　</span>話題別チャット</button>
 				<div class="hidden-content">
     				<div class="chat-buttons">
+    				<img class="donguri" src="image/donguri.png" alt="">
 					<button type="submit" name="chatType" value="chat_shikaku">　狩猟資格</button><br/>
+					<img class="donguri" src="image/donguri.png" alt="">
 					<button type="submit" name="chatType" value="chat_seika">　成果報告</button><br/>
+					<img class="donguri" src="image/donguri.png" alt="">
 					<button type="submit" name="chatType" value="chat_item">　おすすめアイテム</button><br/>
 					</div><!-- chat-buttons -->
 				</div><!-- hidden-content -->
+				
+				<img class="kuma" src="image/kuma.png" alt="">
 				
 			</div><!-- side-column -->
 			</form>	
@@ -158,7 +165,7 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 					<%-- プロフィール	IDを取得し送信する --%>
 					<input type="hidden" id="postAccountId" name="postAccountId" value="<%= user.getAccountId() %>" />
 					<%-- アイコン --%>
-					<button type="submit" class="line-none"><p class="get-icon"><img src="/oneHunting/icon/<%= user.getAccountIcon() %>" width="60" height="60"></p><br> </button>
+					<button type="submit" class="line-none"><p class="get-icon"><img src="/oneHunting/icon/<%= user.getAccountIcon() %>"  class="circle-image"></p><br> </button>
 					<br>
 	
 					 <div class="get-account-infomation">
@@ -226,7 +233,7 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 				<div class="post-box">
 						<%-- アイコン --%>
 						<div class="icon-container">
-							<button type="submit" class="line-none"><img src="/oneHunting/icon/<%= record.getIcon() %>" width="60" height="60"><br></button>
+							<button type="submit" class="line-none"><img src="/oneHunting/icon/<%= record.getIcon() %>" class="circle-image"><br></button>
 							<br>
 						</div><!-- icon-container -->
 								
@@ -290,7 +297,7 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 		<div class="footer">
 		<%-- チャット投稿form --%>
 			<form action="chat" method="post" enctype="multipart/form-data">
-				<input type="text" name="comment" class="comment-box">
+				<input type="textarea" name="comment" class="comment-box"></textarea>
 		
 				<%-- ファイルをアップロード為、enctype="multipart/form-data"を指定 --%>
 				<%-- ファイルをアップロードする --%>
@@ -300,7 +307,7 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 				<input type="file" name="image" id="fileElem" multiple accept="image/*" style="display:none" />
 				<button id="fileSelect" type="button" class="picture"><img src="image/picture.png" alt=""></button>
 		
-				<%-- 現在のチャットタイプから書き込むチャットタイプを分岐させる予定 --%>
+				<%-- 現在のチャットタイプから書き込むチャットタイプを分岐させる --%>
 				<button type="submit" name="chatType" value="chat_main" class="post"><img src="image/post.png" alt=""></button>
 			</form>
 		</div><!-- footer -->

@@ -44,6 +44,7 @@ public class SignupServlet extends HttpServlet {
 		String pw = request.getParameter("pw");
 		String mail = request.getParameter("mail");
 		String ken = request.getParameter("ken");
+		String icon = request.getParameter("icon");
 		
 		//入力値チェック
 		ProfileErr profileErr = new ProfileErr();
@@ -62,7 +63,7 @@ public class SignupServlet extends HttpServlet {
 			//DAOの接続
 			AccountDAO accountDAO = new AccountDAO();
 			//登録完了・失敗メッセージの表示
-			message += accountDAO.userSignup(name,id,pw,mail,ken);
+			message += accountDAO.userSignup(name,id,pw,mail,ken,icon);
 			
 			//リクエストスコープに格納する
 			request.setAttribute("message", message);
@@ -76,11 +77,9 @@ public class SignupServlet extends HttpServlet {
 				
 				String loginID = (String)session.getAttribute("loginID");
 				Boolean login = (Boolean)session.getAttribute("login");
-				System.out.println("signup:"+loginID+" "+login);
 				
 				//登録完了にフォワードさせる
-				System.out.println("登録完了！"+message);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/search_result.jsp");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/register_view.jsp");
 				dispatcher.forward(request, response);
 				
 			}else {

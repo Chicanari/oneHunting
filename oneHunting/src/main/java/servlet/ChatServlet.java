@@ -49,6 +49,7 @@ public class ChatServlet extends HttpServlet {
 		 * sessionスコープ内のログインIDからアカウントIDを取得
 		 */
 		String accountId = (String)session.getAttribute("loginID");
+		
 		//アカウントIDから他の情報を取得するためのaccountDAOへの接続
 		AccountDAO aDAO = new AccountDAO();
 		UserProfileDTO upDTO = aDAO.profileView(accountId);
@@ -64,8 +65,6 @@ public class ChatServlet extends HttpServlet {
 		//左カラムから送られてきたチャット名を取得する
 		String chatType = request.getParameter("chatType");
 
-		System.out.println("ChatServlet chatType:"+chatType);
-				 
 		//上記がnullだった場合
 		if(chatType == null) {
 			
@@ -332,11 +331,11 @@ public class ChatServlet extends HttpServlet {
 			request.setAttribute("msg", msg);
 			
 			//確認用
-			System.out.println("kakikomi:"+chatType);
+			//System.out.println("kakikomi:"+chatType);
 			String realPath = getServletContext().getRealPath("/");
-			System.out.println("リアルパス: " + realPath);
+			//System.out.println("リアルパス: " + realPath);
 			String actualPath = path + File.separator + imageName;
-			System.out.println("保存先パス: " + actualPath);
+			//System.out.println("保存先パス: " + actualPath);
 			
 			//チャット画面にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");

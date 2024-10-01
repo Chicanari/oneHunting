@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ page import="java.util.Random" %>
 
+<%-- エラーメッセージ --%>
 <%
 
 request.setCharacterEncoding("UTF-8");
@@ -11,6 +14,17 @@ if(message == null){
 }
 
 %>
+
+<%-- アイコンイメージを抽選する --%>
+<%
+
+	String[] iconImages = {"anaguma.png","araiguma.png","inosisi.png","kogamo.png","shika.png"};
+	Random random = new Random();
+	int ranNum = random.nextInt(iconImages.length);
+	String iconImage = iconImages[ranNum];
+
+%>
+
 <!DOCTYPE html>
 <%-- 言語を日本語に指定 --%>
 <html lang="ja">
@@ -30,7 +44,8 @@ if(message == null){
 <div class="signup-container">
 	<form action="signup" method="post">
 	
-		<img src="icon/default_icon.png" width="100">
+		<img src="icon/<%= iconImage %>" class="circle-image">
+		<input type="hidden" name="icon" value="<%= iconImage %>">
 		
 		<div class="err"><%= message %></div>
 	
