@@ -37,7 +37,7 @@ public class UserSearchServlet extends HttpServlet {
 		AccountDAO accountDAO = new AccountDAO();
 		HttpSession session = request.getSession();
 		
-		//パラメータはname属性とあわせること
+		//検索ボタンを押されたときに、受け取った情報を格納する。
 		String searchQuery = request.getParameter("kensaku");
 		//空白検索時、表示なしにするためif文を追加
 		if (searchQuery == null || searchQuery.trim().isEmpty()) {

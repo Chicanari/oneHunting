@@ -69,67 +69,10 @@ public class AccountDAO {
     }
     
     
-    //try-with-サンプル　※コードの参考にしてください
-    public String sumpleLogin(String id,String pw) {
-    	
-    	
-    	/* nullチェック */
-    	//ID,PWがnullまたは空白だったときはエラーメッセージを返す
-		String errmessage = "";	
-		if (id == null || id.equals("")) errmessage += "IDが入力されていません<br>";
-		if (pw == null || pw.equals("")) errmessage += "PWが入力されていません";
-		if(!errmessage.isEmpty()) 	return errmessage;
-		
-		
-		/* SQL文の作成 */
-		//SQLでPWを取得
-		String sql = "SELECT pw FROM account WHERE user_id = ?;";
-		
-		
-		/* ResultSetで受け取るDB上のPWを格納する変数を宣言する */
-		String db_pw = "";	//ResultSet
-		
-		
-		/* SQL文の実行 */
-		//try-with-resourcesで書くとスッキリします
-		try(Connection con = DriverManager.getConnection(url,user,password);
-			PreparedStatement ps = con.prepareStatement(sql);				
-			ResultSet rs = ps.executeQuery()){
-			
-			//プレースホルダを設定
-			ps.setString(1, id );
-			
-			//SELECT文の実行
-			while(rs.next()) {
-			db_pw = rs.getString("pw");
-			}
-			
-			//ハッシュ化したPWと入力されたPWの一致を調べる
-			//※モデルインポートが面倒なのでコメントアウト
-			/*
-			pwHash ph = new pwHash();
-			if(ph.matchingPW(pw,db_pw)) {
-				return "LOGIN OK";
-			}else {
-				return "PWが違います";
-			}
-			*/
-			
-		} catch (SQLException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
-		
-		return errmessage;
-    	
-    	
-    }
-    
-    
     /**
      * アカウントをDBに追加するDAOメソッド
      */
-    public String userSignup(String name, String id, String pw, String mail, String ken) {
+    public String userSignup(String name, String id, String pw, String mail, String ken, String icon) {
     	
     	//既に登録があるか判定するためのString
     	String isRegistered = "";
@@ -148,9 +91,11 @@ public class AccountDAO {
 		/*5*/ sql += ",account_ken";
 		
 		/*6*/ sql += ",account_good_point";
+		/*7*/ sql += ",account_icon";
 		
 		sql += ") VALUES ";
-		sql += "(?,?,?,?,?,?);";
+		sql += "(?,?,?,?,?,?,?);";
+		
 		//SQL文の実行
 		try(Connection con = DriverManager.getConnection(url,user,password);
 			PreparedStatement ps = con.prepareStatement(sql);				){
@@ -163,6 +108,7 @@ public class AccountDAO {
 			ps.setString(5, ken );
 			
 			ps.setInt(6, 0 );
+			ps.setString(7, icon );
 			
 			//INSERT文の実行
 			int rowsAffected = ps.executeUpdate();
@@ -363,14 +309,6 @@ public class AccountDAO {
     	try {
     		con = DriverManager.getConnection(url,user,password);
     		
-    		//確認用
-    		System.out.println("名前：" + name);
-    		System.out.println("メール：" + mail);
-    		System.out.println("県：" + ken);
-    		System.out.println("アイコン：" + icon);
-    		System.out.println("自己紹介：" + introduction);
-    		System.out.println("ID：" + Id);
-    		
     		String sql = "UPDATE account ";
     		sql += "SET account_name = ?, "; //1
     		sql += "account_mail = ?, "; //2
@@ -390,7 +328,6 @@ public class AccountDAO {
     		
             // 更新を実行
             ps.executeUpdate();
-            System.out.println("更新を実行できているか");
     		
     		
     	}catch(Exception e) {
@@ -535,8 +472,8 @@ public class AccountDAO {
     		//SQL文で表示結果を操作
     		String sql = "SELECT account_id,account_icon, account_name, account_ken ";
     		sql += "FROM account ";
-    		sql += "WHERE account_id LIKE ? ";
-    		sql += "OR account_name LIKE ? ";
+    		sql += "WHERE account_id LIKE ? ";//1で格納
+    		sql += "OR account_name LIKE ? ";//2で格納
     		sql += "ORDER BY account_name, account_id";
     		
     		ps = con.prepareStatement(sql);
