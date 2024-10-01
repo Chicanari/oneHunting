@@ -34,13 +34,6 @@ public class ProfileViewServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
-		// Q:プロフィール表示の検索（SQL）に使う要素はなに？　１つ「　　」　
-		// テーブルに登録しているaccount_id
-		/**
-		 * Q:account_idはどうやって取ってくる？
-		 */
-		//セッションスコープスコープに保存しているログインID
-		
 		//セッションスコープの取得
 		HttpSession session = request.getSession();
 		
