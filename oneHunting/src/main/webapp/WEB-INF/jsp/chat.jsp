@@ -213,10 +213,10 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 						chatName = "全体チャット";
 				}
 				%>
-				<%=chatName %>
+				　<%=chatName %>
 			
 				<%-- エラーの表示 --%>
-				<%=msg %>
+				　　<%=msg %>
 			</div><!-- container-head -->
 	
 			<div class="main-container-item">
