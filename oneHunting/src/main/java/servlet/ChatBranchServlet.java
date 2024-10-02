@@ -3,7 +3,6 @@ package servlet;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +23,7 @@ public class ChatBranchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.sendRedirect("chat");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -66,11 +66,6 @@ public class ChatBranchServlet extends HttpServlet {
 			
 		}
 	
-		/**
-		* エラーメッセージ用の変数宣言
-		*/
-		String msg = "";
-		
         /**
          * chatDAOのインスタンス生成
          */
@@ -97,16 +92,10 @@ public class ChatBranchServlet extends HttpServlet {
 			session.setAttribute("chatType", chatType);
 			session.setAttribute("chatList", chatList); 
 			session.setAttribute("ken", ken); 
-			
-			/**
-			* エラーメッセージをリクエストスコープに保存
-			*/
-			request.setAttribute("msg", msg);
-			
 	        
-			//チャット画面にフォワードさせる
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
-			dispatcher.forward(request, response);
+			//チャット画面にリダイレクトさせる
+			response.sendRedirect("chat");
+			
 		
 		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック

@@ -35,6 +35,7 @@ String chatType = (String)session.getAttribute("chatType");
 String ken = (String)session.getAttribute("ken");
 //nullチェックしてデフォルト値を設定
 if (chatType == null)  chatType = "chat_main"; // デフォルトのチャットタイプを設定
+if (msg == null)  msg = ""; // デフォルトのチャットタイプを設定
 %>
 
 <%-- 検索機能に関する情報の取得 --%>

@@ -88,6 +88,7 @@ public class ChatServlet extends HttpServlet {
 			//チャット画面にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
 			dispatcher.forward(request, response);
+			
 		
 		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
