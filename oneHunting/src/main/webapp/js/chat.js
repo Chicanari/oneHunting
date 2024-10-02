@@ -9,11 +9,12 @@ window.onload = function() {
 /* いいねボタンを監視するメソッド　※DOM（Document Object Model）　指定したCSSセレクタに一致するすべての要素を取得する */
 document.querySelectorAll('.like-button').forEach(button => {
 	
-	/* いいねボタン（.like-button）が押された時、画面を遷移せずにいいねを増やす */
     button.addEventListener('click', function (event) {
 		
-		console.log("いいねが押されました");
         event.preventDefault(); // ページ遷移を防ぐ
+        
+        // ボタンを非活性化
+        this.disabled = true;
         
         // ボタンが押された時に、フォームデータを取得する
         const form = this.closest('form'); // ボタンの親フォームを取得
@@ -64,12 +65,16 @@ document.querySelectorAll('.like-button').forEach(button => {
                 this.textContent = '♡'; // ボタンのテキストを更新
             }
             
-            
+        })
+        .finally(() => {
+            // 処理が完了したらボタンを再び活性化
+            this.disabled = false;
         })
         .catch(error => {
             console.error('Error:', error);
         });
     });
+    
 });
 
 // 「話題別チャット」をクリックしたときの動作

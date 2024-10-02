@@ -163,7 +163,7 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 		     <form action="profile_view" method="post">
 		         <div class="get-account-item">
 					<%-- プロフィール	IDを取得し送信する --%>
-					<input type="hidden" id="postAccountId" name="postAccountId" value="<%= user.getAccountId() %>" />
+					<input type="hidden" name="postAccountId" value="<%= user.getAccountId() %>" />
 					<%-- アイコン --%>
 					<button type="submit" class="line-none"><p class="get-icon"><img src="/oneHunting/icon/<%= user.getAccountIcon() %>"  class="circle-image"></p><br> </button>
 					<br>
@@ -271,9 +271,9 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 						}
 							
 						if(isLike){ %>
-							<button type="button" name="like" value="minus" class="good-on like-button">♥</button>
+							<button type="button" id="disableButton" name="like" value="minus" class="good-on like-button">♥</button>
 						<% } else { %>
-							<button type="button" name="like" value="plus" class="good-off like-button">♡</button>
+							<button type="button" id="disableButton" name="like" value="plus" class="good-off like-button">♡</button>
 						<% } %>
 			
 			
