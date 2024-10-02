@@ -38,10 +38,10 @@ public class LoginServlet extends HttpServlet {
 		
 		//ログインIDが入っているか、ログインがtrueの時ログインしていると判断する
 		if( loginID != null || login == true ) {
-			//ログイン状態の時は、全体チャットに移動する
+			//ログイン状態の時は、全体チャットにリダイレクトさせる
 			response.sendRedirect("chat");
 		} else {
-			//ログアウト状態の時は、ログイン画面にフォワードさせる
+			//ログアウト状態の時は、ログイン画面にリダイレクトさせる
 			response.sendRedirect("/oneHunting");
 			
 		}

@@ -25,16 +25,17 @@ if( loginID == null || login == false ) {
 
 <%-- チャット画面に関する情報の取得 --%>
 <% 
-//チャット画面に表示する情報（ChatRecordDTO）をリクエストスコープから取得
+//チャット画面に表示する情報（ChatRecordDTO）をセッションスコープから取得
 List<ChatRecordDTO> chatList = (List<ChatRecordDTO>)session.getAttribute("chatList");
 //エラーメッセージ用変数読み込み
-String msg = (String)request.getAttribute("msg");
+String msg = (String)session.getAttribute("msg");
 //チャットタイプを判別するためのチャットタイプ変数呼び出し
 String chatType = (String)session.getAttribute("chatType");
 //所在県を判別するためのken変数呼び出し
 String ken = (String)session.getAttribute("ken");
 //nullチェックしてデフォルト値を設定
 if (chatType == null)  chatType = "chat_main"; // デフォルトのチャットタイプを設定
+if (msg == null)  msg = ""; // デフォルトのチャットタイプを設定
 %>
 
 <%-- 検索機能に関する情報の取得 --%>
@@ -109,7 +110,7 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 		
 	<div class="maindisplay">
 			<!-- 左カラム -->
-			<form action="chat" method="get">
+			<form action="chat-branch" method="post">
 			<div class="side-column">
 				
 				<img class="oniku" src="image/oniku.png" alt="">
@@ -163,7 +164,7 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 		     <form action="profile_view" method="post">
 		         <div class="get-account-item">
 					<%-- プロフィール	IDを取得し送信する --%>
-					<input type="hidden" id="postAccountId" name="postAccountId" value="<%= user.getAccountId() %>" />
+					<input type="hidden" name="postAccountId" value="<%= user.getAccountId() %>" />
 					<%-- アイコン --%>
 					<button type="submit" class="line-none"><p class="get-icon"><img src="/oneHunting/icon/<%= user.getAccountIcon() %>"  class="circle-image"></p><br> </button>
 					<br>
@@ -213,10 +214,10 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 						chatName = "全体チャット";
 				}
 				%>
-				<%=chatName %>
+				　<%=chatName %>
 			
 				<%-- エラーの表示 --%>
-				<%=msg %>
+				　　<%=msg %>
 			</div><!-- container-head -->
 	
 			<div class="main-container-item">
@@ -271,9 +272,9 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 						}
 							
 						if(isLike){ %>
-							<button type="button" name="like" value="minus" class="good-on like-button">♥</button>
+							<button type="button" id="disableButton" name="like" value="minus" class="good-on like-button">♥</button>
 						<% } else { %>
-							<button type="button" name="like" value="plus" class="good-off like-button">♡</button>
+							<button type="button" id="disableButton" name="like" value="plus" class="good-off like-button">♡</button>
 						<% } %>
 			
 			
