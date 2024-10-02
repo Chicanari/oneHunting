@@ -461,9 +461,11 @@ public class AccountDAO {
      */
     //あいまい検索で必要なaccountIdとaccountNameを仮引数searchQueryに指定
     public List<UserRecordDTO> userSearch(String searchQuery) {
+    	
     	Connection con = null;
     	PreparedStatement ps = null;
     	ResultSet rs = null;
+    	
     	List<UserRecordDTO> userRecords = new ArrayList<>();
     	
     	//tryでSQL文で操作

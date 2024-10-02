@@ -39,29 +39,19 @@ public class ChatServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		/**
-		 * HttpSessionのインスタンスの取得
-		 */
+		//HttpSessionのインスタンスの取得
 		HttpSession session = request.getSession();
 		
-		/**
-		 * sessionスコープ内のログインIDからアカウントIDを取得
-		 */
+		//sessionスコープ内のログインIDからアカウントIDを取得
 		String accountId = (String)session.getAttribute("loginID");
 		
 		//アカウントIDから他の情報を取得するためのaccountDAOへの接続
 		AccountDAO aDAO = new AccountDAO();
 		UserProfileDTO upDTO = aDAO.profileView(accountId);
+		
 		//県情報を取得
 		String ken = upDTO.getAccountKen();
 		
-		/**
-		 * 
-		 * 最後に見ていたチャットを表示する
-		 * 自動遷移時、メインチャットを表示する
-		 * 
-		 */	
 		//左カラムから送られてきたチャット名を取得する
 		String chatType = request.getParameter("chatType");
 
@@ -77,59 +67,41 @@ public class ChatServlet extends HttpServlet {
 			}
 			
 		}
-	
-		/**
-		 * 
-		 * 左カラムチャットより遷移するチャットを取得し返却する
-		 * 
-		 */	
-
-		
-		/**
-		* エラーメッセージ用の変数宣言
-		*/
-		String msg = "";
-		
-        /**
-         * chatDAOのインスタンス生成
-         */
+        
+        //chatDAOのインスタンス生成
 		ChatDAO cDAO = new ChatDAO();
 		
-		/**
-		 * チャットリストを取得
-		 */
+		//チャットリストを取得
 		List<ChatRecordDTO> chatList;
 		try {
-	        /**
-	         * chatDAOから表示用のメソッド呼び出し
-	         */
+			//chatDAOから表示用のメソッド呼び出し
 			chatList = cDAO.comment_view(chatType);
 			
-			/**
-			 * セッションスコープにインスタンスを保存
-			 */
+			//セッションスコープにインスタンスを保存
 			session.setAttribute("chatType",chatType);
 		
-			/**
-			 * チャットのコメント一覧・名前・県・エラー情報をセッションスコープに保存
-			 */	
+			//チャットのコメント一覧・名前・県情報をセッションスコープに保存
 			session.setAttribute("chatType", chatType);
 			session.setAttribute("chatList", chatList); 
 			session.setAttribute("ken", ken); 
-			session.setAttribute("msg", msg);
-				        
+			
 			//チャット画面にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
 			dispatcher.forward(request, response);
+			
 		
 		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}	
+
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
+		//チャットを投稿するためのメソッド
+		
 		/**
 		 * HttpSessionのインスタンスの取得
 		 */
