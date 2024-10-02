@@ -77,18 +77,32 @@ document.querySelectorAll('.like-button').forEach(button => {
     
 });
 
-// 「話題別チャット」をクリックしたときの動作
+/* 「話題別チャット」をクリックしたときの動作 */
 const toggleButton = document.querySelector('.toggle-btn');
 const hiddenContent = document.querySelector('.hidden-content');
 
-toggleButton.addEventListener('click', function() {
-    // hidden-contentの表示・非表示を切り替える
-    if (hiddenContent.style.display === "none" || hiddenContent.style.display === "") {
-        hiddenContent.style.display = "block"; // 表示
+// ページが読み込まれた時に、localStorageから状態を取得して表示を設定
+document.addEventListener('DOMContentLoaded', function() {
+    const isVisible = localStorage.getItem('hiddenContentVisible');
+    
+    if (isVisible === 'true') {
+        hiddenContent.style.display = 'block'; // 表示
     } else {
-        hiddenContent.style.display = "none"; // 非表示
+        hiddenContent.style.display = 'none'; // 非表示
     }
 });
+
+// ボタンクリック時に表示・非表示を切り替え、状態をlocalStorageに保存
+toggleButton.addEventListener('click', function() {
+    if (hiddenContent.style.display === "none" || hiddenContent.style.display === "") {
+        hiddenContent.style.display = "block"; // 表示
+        localStorage.setItem('hiddenContentVisible', 'true'); // 状態を保存
+    } else {
+        hiddenContent.style.display = "none"; // 非表示
+        localStorage.setItem('hiddenContentVisible', 'false'); // 状態を保存
+    }
+});
+
 
 
 /* hamburger */
