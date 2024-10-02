@@ -70,7 +70,7 @@ if( loginID == null || login == false ) {
 	<p>獲得ポイント</p>
 	<%= profile.getAccountGoodPoint() %>
 	
-	<div class="return"><form action="chat" method="get"><input type="submit" value="戻る" class="return_button"></form></div>
+	<div class="return"><form action="chat-branch" method="get"><input type="submit" value="戻る" class="return_button"></form></div>
 
 </div>
 
