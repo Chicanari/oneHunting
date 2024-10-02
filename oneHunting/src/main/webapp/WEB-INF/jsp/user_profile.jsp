@@ -66,7 +66,7 @@ if( loginID == null || login == false ) {
 	<p>県名</p>
 	<%= profile.getAccountKen() %>
 	<p>自己紹介</p>
-	<%= profile.getAccountIntroduction() %>
+	<p class="box"><%= profile.getAccountIntroduction() %></p>
 	<p>獲得ポイント</p>
 	<%= profile.getAccountGoodPoint() %>
 	
