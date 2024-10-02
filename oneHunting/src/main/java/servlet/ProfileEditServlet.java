@@ -179,7 +179,7 @@ public class ProfileEditServlet extends HttpServlet {
 		Part part = request.getPart("icon");
 		
 		/**
-		 * imageで取得する画像のファイル名を取得
+		 * iconで取得する画像のファイル名を取得
 		 */
 		originalIconName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 

@@ -111,18 +111,13 @@ public class ChatServlet extends HttpServlet {
 			session.setAttribute("chatType",chatType);
 		
 			/**
-			 * チャットのコメント一覧・名前・県情報をセッションスコープに保存
+			 * チャットのコメント一覧・名前・県・エラー情報をセッションスコープに保存
 			 */	
 			session.setAttribute("chatType", chatType);
 			session.setAttribute("chatList", chatList); 
 			session.setAttribute("ken", ken); 
-			
-			/**
-			* エラーメッセージをリクエストスコープに保存
-			*/
-			request.setAttribute("msg", msg);
-			
-	        
+			session.setAttribute("msg", msg);
+				        
 			//チャット画面にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
 			dispatcher.forward(request, response);
@@ -173,7 +168,7 @@ public class ChatServlet extends HttpServlet {
 		ChatDAO cDAO = new ChatDAO();
 				
         /**
-         * chatDAOから表示用のメソッド呼び出し
+         * chatRecordから表示用のリスト呼び出し
          * 現在の情報を取得したいのでセッションスコープから取り出す
          */
 		String chatType = (String)session.getAttribute("chatType");
@@ -204,16 +199,19 @@ public class ChatServlet extends HttpServlet {
 				 */
 				chatList = cDAO.comment_view(chatType); 
 				
+				 msg += "不正なファイルです。";
+				
 				/**
 				 * チャットのコメントと一覧をセッションスコープに保存
 				 */
 	            session.setAttribute("chatType", chatType);
 	            session.setAttribute("chatList", chatList); 
-	            msg += "不正なファイルです。";
-	 
-	            request.setAttribute("msg", msg);
-	            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
-	            dispatcher.forward(request, response);
+	            session.setAttribute("ken", ken); 
+	            session.setAttribute("msg", msg);
+	            
+				//チャット画面にフォワードさせる
+				RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
+				dispatcher.forward(request, response);
 	            return;
 	        }else {
 	            // UUIDを利用してユニークなファイル名を生成
@@ -245,22 +243,20 @@ public class ChatServlet extends HttpServlet {
 				 */
 				chatList = cDAO.comment_view(chatType); 
 				
+				//エラーメッセージの追加
+		    	msg += "文字が入力されていません。";
+				
 				/**
-				 * チャットのコメント一覧・名前・県情報をセッションスコープに保存
+				 * チャットのコメント一覧・名前・県・エラー情報をセッションスコープに保存
 				 */	
 				session.setAttribute("chatType", chatType);
 				session.setAttribute("chatList", chatList); 
 				session.setAttribute("ken", ken); 
-				
-				//エラーメッセージの追加
-		    	msg += "文字が入力されていません。";
-		    	
-		    	//エラーメッセージをリクエストスコープに保存
-		        request.setAttribute("msg",msg);
+		        session.setAttribute("msg",msg);
 		        
-		        //チャット画面にフォワード
-		        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
-		        dispatcher.forward(request, response);
+				//チャット画面にフォワードさせる
+				RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
+				dispatcher.forward(request, response);
 		        return;
 			}else if(text.length() > 200) {
 				/**
@@ -268,22 +264,20 @@ public class ChatServlet extends HttpServlet {
 				 */
 				chatList = cDAO.comment_view(chatType); 
 				
+				//エラーメッセージの追加
+		    	msg += "200字以内で入力してください。";
+				
 				/**
-				 * チャットのコメント一覧・名前・県情報をセッションスコープに保存
+				 * チャットのコメント一覧・名前・県・エラー情報をセッションスコープに保存
 				 */	
 				session.setAttribute("chatType", chatType);
 				session.setAttribute("chatList", chatList); 
 				session.setAttribute("ken", ken); 
-				
-				//エラーメッセージの追加
-		    	msg += "200字以内で入力してください。";
-		    	
-		    	//エラーメッセージをリクエストスコープに保存
-		        request.setAttribute("msg",msg);
+				session.setAttribute("msg",msg);
 		        
-		        //チャット画面にフォワード
-		        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
-		        dispatcher.forward(request, response);
+				//チャット画面にフォワードさせる
+				RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
+				dispatcher.forward(request, response);;
 		        return;
 			}
 			
@@ -319,16 +313,12 @@ public class ChatServlet extends HttpServlet {
 			}
 			
 			/**
-			 * チャットのコメント一覧・名前・県情報をセッションスコープに保存
+			 * チャットのコメント一覧・名前・県・エラー情報をセッションスコープに保存
 			 */	
 			session.setAttribute("chatType", chatType);
 			session.setAttribute("chatList", chatList); 
 			session.setAttribute("ken", ken); 
-			
-			/**
-			* エラーメッセージをリクエストスコープに保存
-			*/
-			request.setAttribute("msg", msg);
+			session.setAttribute("msg", msg);
 			
 			//確認用
 			//System.out.println("kakikomi:"+chatType);
@@ -337,9 +327,8 @@ public class ChatServlet extends HttpServlet {
 			String actualPath = path + File.separator + imageName;
 			//System.out.println("保存先パス: " + actualPath);
 			
-			//チャット画面にフォワードさせる
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
-			dispatcher.forward(request, response);
+			//チャット画面にリダイレクト
+			 response.sendRedirect("chat");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
