@@ -109,7 +109,7 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 		
 	<div class="maindisplay">
 			<!-- 左カラム -->
-			<form action="chat" method="get">
+			<form action="chat-branch" method="post">
 			<div class="side-column">
 				
 				<img class="oniku" src="image/oniku.png" alt="">
