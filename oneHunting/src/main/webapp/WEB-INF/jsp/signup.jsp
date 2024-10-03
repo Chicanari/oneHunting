@@ -50,11 +50,11 @@ if(message == null){
 		<div class="err"><%= message %></div>
 	
 		<p class="name">名前<br>
-		<input type="text" name="name"></p>
+		<input type="text" name="name" placeholder="2~12文字で入力してください。"></p>
 		<p class="id">ID<br>
-		<input type="text" name="id"></p>
+		<input type="text" name="id" placeholder="2~26文字で入力してください。"></p>
 		<p class="ps">パスワード<br>
-		<input type="password" name="pw">
+		<input type="password" name="pw" placeholder="6~72文字で入力してください。">
 		<p class="mail">メールアドレス<br>
 		<input type="text" name="mail"></p>
 		
