@@ -6,6 +6,7 @@
 <%--  --%>
 <%
 UserProfileDTO profile = (UserProfileDTO) session.getAttribute("profile");
+int pointNum = Integer.parseInt(profile.getAccountGoodPoint());
 
 %>
 
@@ -71,8 +72,26 @@ if( loginID == null || login == false ) {
 	<%= profile.getAccountGoodPoint() %>
 	<div class="return"><form action="chat-branch" method="get"><input type="submit" value="戻る" class="return_button"></form></div>
 
-	<button type="button" id="present" class="present shake"><img src="image/present.png" width="150"></button>
+	<%  if(loginID.equals(profile.getAccountId()) && pointNum>=200 ){ %>
+	<button type="button" id="present" class="present shake"><img src="image/present.png" width="150" class="shake-animation"></button>
+	
+	<!-- ポップアップの内容 -->
+    <div id="popup" class="popup hidden">
+        <div class="popup-content">
+        	<form action="coupon" method="">
+            <p><button id="close-popup" class="coupon"><img src="image/coupon.png"></button></p>
+            </form>
+            <p>クリックでお得なクーポンをGET!<br>
+            ※登録メールあてに<br>クーポンコードが届きます。</p>
+            <p><button id="close-popup">×</button></p>
+        </div>
+    </div>
+	
+	<% } %>
+	
 </div>
 
+<!-- body直前でJSの取り込み -->
+<script src="js/user_profile.js"></script>
 </body>
 </html>
