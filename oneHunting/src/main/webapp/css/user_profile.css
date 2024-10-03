@@ -23,6 +23,21 @@ html {
 	z-index: 1; /* 背景としての役割を持たせる */
 }
 
+/*
+.present {
+	
+	background: transparent;
+	border: none;
+	
+	position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(100%, 90%);
+    height: auto; 
+    
+}
+*/
+
 .signup_frame {
 	position: relative;
 	height: 841px;

@@ -39,62 +39,72 @@ public class ChatServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		//HttpSessionのインスタンスの取得
 		HttpSession session = request.getSession();
 		
-		//sessionスコープ内のログインIDからアカウントIDを取得
 		String accountId = (String)session.getAttribute("loginID");
-		
-		//アカウントIDから他の情報を取得するためのaccountDAOへの接続
-		AccountDAO aDAO = new AccountDAO();
-		UserProfileDTO upDTO = aDAO.profileView(accountId);
-		
-		//県情報を取得
-		String ken = upDTO.getAccountKen();
-		
-		//左カラムから送られてきたチャット名を取得する
-		String chatType = request.getParameter("chatType");
+		Boolean login = (Boolean)session.getAttribute("login");
 
-		//上記がnullだった場合
-		if(chatType == null) {
+		//nullチェック
+		if(login == null)	login = false;
+
+		//ログインIDが入っているか、ログインがtrueの時ログインしていると判断する
+		if( accountId == null || login == false ) {
+			System.out.println("遷移します。");
+			//ログアウト状態の時は、ログイン画面に移動する
+			response.sendRedirect("/oneHunting");
+		}else {
+			//sessionスコープ内のログインIDからアカウントIDを取得
+			//アカウントIDから他の情報を取得するためのaccountDAOへの接続
+			AccountDAO aDAO = new AccountDAO();
+			UserProfileDTO upDTO = aDAO.profileView(accountId);
 			
-			//セッションにチャットタイプが保存されている（既に遷移済みでないか）確認する
-			chatType = (String)session.getAttribute("chatType");
+			//県情報を取得
+			String ken = upDTO.getAccountKen();
 			
-			//入っていない場合はメインチャットへ遷移させる
+			//左カラムから送られてきたチャット名を取得する
+			String chatType = request.getParameter("chatType");
+
+			//上記がnullだった場合
 			if(chatType == null) {
-				chatType = "chat_main";
+				
+				//セッションにチャットタイプが保存されている（既に遷移済みでないか）確認する
+				chatType = (String)session.getAttribute("chatType");
+				
+				//入っていない場合はメインチャットへ遷移させる
+				if(chatType == null) {
+					chatType = "chat_main";
+				}
+				
 			}
+	        
+	        //chatDAOのインスタンス生成
+			ChatDAO cDAO = new ChatDAO();
 			
+			//チャットリストを取得
+			List<ChatRecordDTO> chatList;
+			try {
+				//chatDAOから表示用のメソッド呼び出し
+				chatList = cDAO.comment_view(chatType);
+				
+				//セッションスコープにインスタンスを保存
+				session.setAttribute("chatType",chatType);
+			
+				//チャットのコメント一覧・名前・県情報をセッションスコープに保存
+				session.setAttribute("chatType", chatType);
+				session.setAttribute("chatList", chatList); 
+				session.setAttribute("ken", ken); 
+				
+				//チャット画面にフォワードさせる
+				RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
+				dispatcher.forward(request, response);
+			
+			} catch (Exception e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}	
 		}
-        
-        //chatDAOのインスタンス生成
-		ChatDAO cDAO = new ChatDAO();
-		
-		//チャットリストを取得
-		List<ChatRecordDTO> chatList;
-		try {
-			//chatDAOから表示用のメソッド呼び出し
-			chatList = cDAO.comment_view(chatType);
-			
-			//セッションスコープにインスタンスを保存
-			session.setAttribute("chatType",chatType);
-		
-			//チャットのコメント一覧・名前・県情報をセッションスコープに保存
-			session.setAttribute("chatType", chatType);
-			session.setAttribute("chatList", chatList); 
-			session.setAttribute("ken", ken); 
-			
-			//チャット画面にフォワードさせる
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
-			dispatcher.forward(request, response);
-			
-		
-		} catch (Exception e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}	
-
 		
 	}
 
