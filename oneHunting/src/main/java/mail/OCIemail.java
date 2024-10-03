@@ -1,4 +1,5 @@
 package mail;
+import java.io.IOException;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -6,101 +7,92 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+
+@WebServlet("/signup")
+
+public class OCIemail extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		
+		//signup内からメール値の取得
+		HttpSession session = request.getSession();
+		String userEmail = (String) session.getAttribute("userEmail");	
+		
+		 // メール送信メソッドを呼び出す
+	    try {
+	        sendEmail(userEmail);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+		
+	}
  
-public class OCIemail {
- 
-    // Replace FROM with your "From" address.
-    // This address must be added to Approved Senders in the console.
-    static final String FROM = "<sender email address>";
-    static final String FROMNAME = "<sender name>";
- 
-    // Replace TO with a recipient address.
-    static final String TO = "<recipient email address>";
- 
-    // Replace smtp_username with your Oracle Cloud Infrastructure SMTP username generated in console.
-    static final String SMTP_USERNAME = "<username OCID from SMTP credentials>";
- 
-    // Replace smtp_password with your Oracle Cloud Infrastructure SMTP password generated in console.
-    static final String SMTP_PASSWORD = "<SMTP password>";
- 
-    // Oracle Cloud Infrastructure Email Delivery hostname.
-    static final String HOST = "<SMTP endpoint>";
- 
-    // The port you will connect to on the SMTP endpoint. Port 25 or 587 is allowed.
-    static final int PORT = 587;
- 
-       static final String SUBJECT = "<subject of your email>";
-       static final String BODY = String.join(
- 
-           System.getProperty("line.separator"),
-           "<h1>OCI Email Delivery test</h1>",
-           "<p>This email was sent with OCI Email Delivery using the ",
-           "<a href='Javamail'>https://github.com/javaee/javamail'>Javamail Package</a>",
-          " for <a href='Javahttps://www.java.com'>Java</a>."
- 
-       );
- 
-    public static void main(String[] args) throws Exception {
- 
-        // Create a Properties object to contain connection configuration information.
- 
-       Properties props = System.getProperties();
-       props.put("mail.transport.protocol", "smtp");
-       props.put("mail.smtp.port", PORT);
- 
-       //props.put("mail.smtp.ssl.enable", "true"); //the default value is false if not set
-       props.put("mail.smtp.auth", "true");
-       props.put("mail.smtp.auth.login.disable", "true");  //the default authorization order is "LOGIN PLAIN DIGEST-MD5 NTLM". 'LOGIN' must be disabled since Email Delivery authorizes as 'PLAIN'
-       props.put("mail.smtp.starttls.enable", "true");   //TLSv1.2 is required
-       props.put("mail.smtp.starttls.required", "true");  //Oracle Cloud Infrastructure required
- 
-        // Create a Session object to represent a mail session with the specified properties.
-       Session session = Session.getDefaultInstance(props);
- 
-        // Create a message with the specified information.
-        MimeMessage msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress(FROM,FROMNAME));
-        msg.setRecipient(Message.RecipientType.TO, new InternetAddress(TO));
-        msg.setSubject(SUBJECT);
-        msg.setContent(BODY,"text/html");
- 
-        // Create a transport.
-        Transport transport = session.getTransport();
-           
- 
-        // Send the message.
- 
-        try
-        {
- 
-            System.out.println("Sending Email now...standby...");
- 
- 
-            // Connect to OCI Email Delivery using the SMTP credentials specified.
-            transport.connect(HOST, SMTP_USERNAME, SMTP_PASSWORD);    
- 
-            // Send email.
-            transport.sendMessage(msg, msg.getAllRecipients());
-            System.out.println("Email sent!");
- 
-        }
- 
-        catch (Exception ex) {
- 
-            System.out.println("The email was not sent.");
-            System.out.println("Error message: " + ex.getMessage());
- 
-        }
- 
-        finally
- 
-        {
- 
-            // Close & terminate the connection.
-            transport.close();
- 
-        }
- 
-    }
+	private void sendEmail(String recipientEmail) throws Exception {
+		// Create a Properties object to contain connection configuration information.
+	    Properties props = System.getProperties();
+	    props.put("mail.transport.protocol", "smtp");
+	    props.put("mail.smtp.port", 587);
+	    props.put("mail.smtp.auth", "true");
+	    props.put("mail.smtp.starttls.enable", "true");
+	    props.put("mail.smtp.starttls.required", "true");
+	    
+	    //Create a Session object to represent a mail session with the specified properties.
+	    Session session = Session.getDefaultInstance(props);
+		
+	    
+	    // Create a message with the specified information.
+	    MimeMessage msg = new MimeMessage(session);
+	    msg.setFrom(new InternetAddress("oneHunting.teamB@gmail.com", "ひと狩り行こうぜ！"));
+	    msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail)); // userEmailをここに使用
+	    msg.setSubject("「ひと狩り行こうぜ！」にご登録ありがとうございます。");
+	    msg.setContent( "<h1>ご登録いただきありがとうございます！</h1>", "text/html");
+		
+	    // Create a transport.
+	    Transport transport = session.getTransport();
+		
+	 
+	    
+	        try
+	        {
+	 
+	            System.out.println("Sending Email now...standby...");
+	 
+	 
+	            // Connect to OCI Email Delivery using the SMTP credentials specified.
+	            transport.connect("smtp.gmail.com","oneHunting.teamB@gmail.com", "l n p i m p a x u b c r t u f y");    
+	 
+	            // Send email.
+	            transport.sendMessage(msg, msg.getAllRecipients());
+	            System.out.println("Email sent!");
+	 
+	        }
+	 
+	        catch (Exception ex) {
+	 
+	            System.out.println("The email was not sent.");
+	            System.out.println("Error message: " + ex.getMessage());
+	 
+	        }
+	 
+	        finally
+	 
+	        {
+	 
+	            // Close & terminate the connection.
+	            transport.close();
+	 
+	        }
+	 
+		
+	}
+    
  
 }

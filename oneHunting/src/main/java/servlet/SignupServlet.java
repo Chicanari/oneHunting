@@ -53,6 +53,16 @@ public class SignupServlet extends HttpServlet {
 		if(!message.equals("")) {
 			//リクエストスコープに格納する
 			request.setAttribute("message", message);
+			
+			
+			
+			// セッションスコープに(登録完了用のメールアドレスを格納)
+			HttpSession session = request.getSession();
+			session.setAttribute("userEmail", mail);
+			
+			
+			
+			
 			//エラーがあった場合は登録画面にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/signup.jsp");
 			dispatcher.forward(request, response);
