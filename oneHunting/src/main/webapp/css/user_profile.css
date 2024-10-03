@@ -23,7 +23,7 @@ html {
 	z-index: 1; /* 背景としての役割を持たせる */
 }
 
-/*
+
 .present {
 	
 	background: transparent;
@@ -36,7 +36,57 @@ html {
     height: auto; 
     
 }
-*/
+
+
+/*　回転アニメーション　*/
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* 通常は揺れない */
+.shake-animation {
+  display: inline-block; /* inline要素でも動作するように */
+  transition: transform 0.3s ease-in-out; /* スムーズな変化を追加 */
+  animation: none; /* 初期状態ではアニメーションなし */
+}
+
+/* ホバーされたときに一回だけ揺れる */
+.shake-animation:hover {
+  animation: shake 0.8s ease-in-out 1; /* 一回だけアニメーションする */
+}
+
+/* ポップアップのスタイル */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  padding: 20px;
+  background-color: #fff;
+  z-index: 1000;
+  display: none;
+}
+
+/* ポップアップのコンテンツ */
+.popup-content {
+  text-align: center;
+}
+
+/* ポップアップの表示を制御するクラス */
+.hidden {
+  display: none;
+}
+
+button {
+    background: none;  /* 背景をなしにする */
+    border: none;      /* 枠線をなしにする */
+}
+
 
 .signup_frame {
 	position: relative;
@@ -144,5 +194,5 @@ p.name {
 
 .box-84 {
 	width: 250px;
-	height: 120px;
+	height: 50px;
 }
