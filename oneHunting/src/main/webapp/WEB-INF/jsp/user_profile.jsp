@@ -66,12 +66,12 @@ if( loginID == null || login == false ) {
 	<p>県名</p>
 	<%= profile.getAccountKen() %>
 	<p>自己紹介</p>
-	<%= profile.getAccountIntroduction() %>
+	<p class="box"><%= profile.getAccountIntroduction() %></p>
 	<p>獲得ポイント</p>
 	<%= profile.getAccountGoodPoint() %>
-	
 	<div class="return"><form action="chat-branch" method="get"><input type="submit" value="戻る" class="return_button"></form></div>
 
+	<%-- <button type="button" id="present" class="present shake"><img src="image/present.png" width="150"></button> --%>
 </div>
 
 </body>

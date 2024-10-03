@@ -61,6 +61,7 @@ public class ProfileViewServlet extends HttpServlet {
 		//上記変数をリクエストスコープへ格納
 		session.setAttribute("profile", userProfile);
 		
+		
 		//ログイン画面にフォワードさせる
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/user_profile.jsp");
 		dispatcher.forward(request, response);
