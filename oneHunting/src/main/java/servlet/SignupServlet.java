@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.AccountDAO;
+import mail.SignupEmail;
 import model.ProfileErr;
 
 /*
@@ -69,6 +70,15 @@ public class SignupServlet extends HttpServlet {
 			request.setAttribute("message", message);
 			
 			if(message.equals("")) {
+				
+				//登録完了メールを飛ばす
+				SignupEmail se = new SignupEmail();
+				try {
+					se.sendSignupMail(mail, name, id, pw);
+				} catch (Exception e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
 				
 				//ログインさせる
 				HttpSession session = request.getSession();

@@ -67,7 +67,11 @@ if( loginID == null || login == false ) {
 	<p>県名</p>
 	<%= profile.getAccountKen() %>
 	<p>自己紹介</p>
-	<%= profile.getAccountIntroduction() %>
+	<% if(profile.getAccountIntroduction().length() > 84){ %>
+	<p class="box"><%= profile.getAccountIntroduction() %></p>
+	<% }else{ %>
+	<p  class="box-84"><%= profile.getAccountIntroduction() %></p>
+	<% } %>
 	<p>獲得ポイント</p>
 	<%= profile.getAccountGoodPoint() %>
 	<div class="return"><form action="chat-branch" method="get"><input type="submit" value="戻る" class="return_button"></form></div>

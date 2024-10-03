@@ -179,7 +179,7 @@ public class ProfileEditServlet extends HttpServlet {
 		Part part = request.getPart("icon");
 		
 		/**
-		 * imageで取得する画像のファイル名を取得
+		 * iconで取得する画像のファイル名を取得
 		 */
 		originalIconName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 
@@ -279,7 +279,7 @@ public class ProfileEditServlet extends HttpServlet {
 			//アカウント情報表示のためのviewを取得
 			UserProfileDTO userProfile = aDAO.profileView(accountId);
 						
-			//上記変数をリクエストスコープへ格納
+			//上記変数をセッションスコープへ格納
 			session.setAttribute("profile", userProfile);
 				
 			/**
@@ -294,6 +294,10 @@ public class ProfileEditServlet extends HttpServlet {
 			String actualPath = path + File.separator + iconName;
 			System.out.println("保存先パス: " + actualPath);
 			*/
+			
+			//変更後にメインチャットに飛ばすための処理
+			String chatType = "chat_main";
+			session.setAttribute("chatType", chatType);
 				
 			//プロフィール編集画面にフォワードさせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/user_profile.jsp");
