@@ -7,6 +7,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import dao.AccountDAO;
+import mail.PresentEmail;
 
 /*
  * 
@@ -29,8 +33,23 @@ public class CouponServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		//idを取得する
+		HttpSession session = request.getSession();
+		String accountId = (String) session.getAttribute("loginID");
 		
+		//メールアドレスを取得する
+		AccountDAO ad = new AccountDAO();
+		String mailaddress = ad.searchMail(accountId);
+		System.out.println(mailaddress);
 		
+		//クーポンメールを送信する
+		PresentEmail pe = new PresentEmail();
+		try {
+			pe.sendCouponMail(accountId,mailaddress);
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 			
 		//プロフィール画面にリダイレクトする
 		response.sendRedirect("profile_view");

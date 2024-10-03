@@ -672,6 +672,43 @@ public class AccountDAO {
     }
     
     
+    public String searchMail(String id) {
+    	
+		//SQLでPWを取得
+		String sql = "SELECT account_mail FROM account WHERE account_id = ?;";
+		
+		//戻り値のリストの宣言
+		String mailaddress = null;
+		
+		//SQL文の実行
+		try(Connection con = DriverManager.getConnection(url,user,password);
+			PreparedStatement ps = con.prepareStatement(sql);				){
+			
+			//プレースホルダを設定
+			ps.setString(1, id );
+			
+			//SELECT文の実行
+			try (ResultSet rs = ps.executeQuery()) {
+				//ResultSetの結果のメールアドレスを取得する
+				if(rs.next()) {
+					//idで検索し、一致するメールアドレスがあった場合はmailaddressに格納する
+					mailaddress = rs.getString("account_mail");
+				}else {
+					//一致するidがなかった場合はエラーメッセージを返す
+					return "登録がありません。";
+				}
+            }
+			
+			
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		
+		
+		return mailaddress;
+    	
+    }
 
 
 }

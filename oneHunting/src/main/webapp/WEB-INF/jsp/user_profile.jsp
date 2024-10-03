@@ -70,20 +70,21 @@ if( loginID == null || login == false ) {
 	<% if(profile.getAccountIntroduction().length() > 84){ %>
 	<p class="box"><%= profile.getAccountIntroduction() %></p>
 	<% }else{ %>
-	<p  class="box-84"><%= profile.getAccountIntroduction() %></p>
+	<p class="box-84"><%= profile.getAccountIntroduction() %></p>
 	<% } %>
 	<p>獲得ポイント</p>
 	<%= profile.getAccountGoodPoint() %>
 	<div class="return"><form action="chat-branch" method="get"><input type="submit" value="戻る" class="return_button"></form></div>
 
-	<%  if(loginID.equals(profile.getAccountId()) && pointNum>=200 ){ %>
+	<%-- デモのため１ポイント以上でプレゼントボックスが表示 --%>
+	<%  if(loginID.equals(profile.getAccountId()) && pointNum>1 ){ %>
 	<button type="button" id="present" class="present shake"><img src="image/present.png" width="150" class="shake-animation"></button>
 	
 	<!-- ポップアップの内容 -->
     <div id="popup" class="popup hidden">
         <div class="popup-content">
         	<form action="coupon" method="">
-            <p><button id="close-popup" class="coupon"><img src="image/coupon.png"></button></p>
+            <p><button id="send-coupon" class="coupon"><img src="image/coupon.png"></button></p>
             </form>
             <p>クリックでお得なクーポンをGET!<br>
             ※登録メールあてに<br>クーポンコードが届きます。</p>

@@ -12,3 +12,12 @@ presentBox.addEventListener('click', function() {
 closePopupButton.addEventListener('click', function() {
     popup.style.display = 'none'; // ポップアップを非表示
 });
+
+document.getElementById('send-coupon').addEventListener('click', function() {
+    // メッセージを表示
+    alert('メールを送信しました！');
+});
+
+document.getElementById('close-popup').addEventListener('click', function() {
+    document.getElementById('popup').classList.add('hidden'); // ポップアップを非表示にする
+});
