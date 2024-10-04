@@ -86,7 +86,8 @@ if( loginID == null || login == false ) {
         	<form action="coupon" method="">
             <p><button id="send-coupon" class="coupon"><img src="image/coupon.png"></button></p>
             </form>
-            <p>クーポンをクリック！！<br><br>
+
+            <p>クーポンをクリック！<br><br>
             ※登録メールあてに<br>クーポンコードが届きます。</p>
             <p><button id="close-popup">×</button></p>
         </div>
