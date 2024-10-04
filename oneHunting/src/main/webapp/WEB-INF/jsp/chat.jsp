@@ -94,10 +94,12 @@ if (searchResults == null) searchResults = new ArrayList<UserRecordDTO>();
 	         <div class="nav_item">
 	         
 		        <form action="profile_view" method="post">
+		        	<img class="donguri" src="image/donguri.png" alt="">
 					<input type="submit" value="プロフィール" class="profile_view">
 				</form>
 				
 				<form action="logout" method="post">
+					<img class="donguri" src="image/donguri.png" alt="">
 					<input type="submit" value="ログアウト" class="logout">
 				</form>
 				<img class="risu" src="image/risu.png" alt="">
