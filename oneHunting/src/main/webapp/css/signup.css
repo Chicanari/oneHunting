@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+input::placeholder {
+	color:#c0c0c0 !important;
+}
+
 body{
 		margin: 0;
 	    padding: 0;
@@ -37,7 +41,6 @@ html { font-size: 62.5%;
 	margin-top: 0px;
 	width: 500px;
 }
-
 .signup-container  img {
 /*	margin-bottom: 20px;*/
 	margin-left: 100px;

@@ -83,6 +83,7 @@ if( loginID == null || login == false ) {
 		
 		<%-- エラーメッセージ表示 --%>
 		<p class="err"><%=msg %></p>
+
 	
 		<p><b>名前</b><br><input type="text" name="name" value="<%=initialName %>" style="width:320px;" class="name"></p>
 		<p><b>ID</b><br><%=loginID %></p>
