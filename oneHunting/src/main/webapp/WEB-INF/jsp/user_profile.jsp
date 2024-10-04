@@ -77,7 +77,7 @@ if( loginID == null || login == false ) {
 	<div class="return"><form action="chat-branch" method="get"><input type="submit" value="戻る" class="return_button"></form></div>
 
 	<%-- デモのため１ポイント以上でプレゼントボックスが表示 --%>
-	<%  if(loginID.equals(profile.getAccountId()) && pointNum>1 ){ %>
+	<%  if(loginID.equals(profile.getAccountId()) && pointNum>=0 ){ %>
 	<button type="button" id="present" class="present shake"><img src="image/present.png" width="150" class="shake-animation"></button>
 	
 	<!-- ポップアップの内容 -->
@@ -86,7 +86,8 @@ if( loginID == null || login == false ) {
         	<form action="coupon" method="">
             <p><button id="send-coupon" class="coupon"><img src="image/coupon.png"></button></p>
             </form>
-            <p>クリックでお得なクーポンをGET!<br>
+
+            <p>クーポンをクリック！<br><br>
             ※登録メールあてに<br>クーポンコードが届きます。</p>
             <p><button id="close-popup">×</button></p>
         </div>
