@@ -263,7 +263,7 @@ public class ChatServlet extends HttpServlet {
 	         * chatDAOからチャット投稿用のメソッド呼び出し
 	         * 入力された情報をDBに書き込む。
 	         */
-			int inCunt = cDAO.comment_insert(chatType,accountId,accountName,icon,text,imageName);			
+			cDAO.comment_insert(chatType,accountId,accountName,icon,text,imageName);			
 			
 			/**
 			 * chatDAOから表示用のメソッド呼び出し
