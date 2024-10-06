@@ -52,8 +52,8 @@ public class AccountDAO {
 	
 	//接続情報
 	private final String url = "jdbc:postgresql://localhost:5432/onehunting";
-	private final String user = "postgres";
-	private final String password = "root";
+	private final String user = "onehunting";
+	private final String password = "oneHunting1007";
 		
 	// JDBCドライバの読み込みを一括で行うことが可能
 	// 各メソッドでJDBCドライバの読み込みが不要になります
