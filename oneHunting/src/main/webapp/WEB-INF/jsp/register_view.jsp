@@ -38,6 +38,7 @@ if( loginID == null || login == false ) {
 
 <form action="chat" method="get">
 <input type="submit" value="チャットをはじめる" class="chat-start"></form>
+<div class="sendmail">メールが送信されました！</div>
 
 <!-- Canvas Confettiを実行するためのスクリプト -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2/dist/confetti.browser.min.js"></script>

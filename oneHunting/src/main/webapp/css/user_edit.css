@@ -96,6 +96,7 @@ html { font-size: 62.5%;
 	position: absolute;
 	bottom: 10px;
 	right: 130px; 
+	cursor: pointer;
 }
 
 .register-button {

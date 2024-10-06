@@ -104,6 +104,7 @@ header
 	  outline: none;
 /*	   影を消す */
 	  box-shadow: none;
+	  cursor: pointer;
 }
 
 .search {
@@ -163,6 +164,7 @@ section{
 /*	影を消す */
 	box-shadow: none;
 	line-height: 4rem;
+	cursor: pointer;
 }
 
 .nav_item {

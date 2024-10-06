@@ -66,3 +66,24 @@ input:hover {
 script {
 	z-index: 5;
 }
+
+.sendmail {
+	z-index: 100;
+	position: absolute;
+	font-weight: bold;
+	color: #FF5C5C;
+	top: 70%;
+	left: 43%;
+	
+	animation: blink-slow 1s infinite;
+}
+
+@keyframes blink-slow {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
